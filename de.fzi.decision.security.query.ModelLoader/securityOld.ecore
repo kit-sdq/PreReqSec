@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="security" nsURI="http://www.fzi.de/pcm/security" nsPrefix="security">
+  <eClassifiers xsi:type="ecore:EClass" name="Container" eSuperTypes="../../de.uka.ipd.sdq.identifier/model/identifier.ecore#//Identifier">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="timeStamp" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains" upperBound="-1"
+        eType="#//Catalog" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="references" upperBound="-1"
+        eType="#//Catalog"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Catalog" abstract="true" eSuperTypes="../../de.uka.ipd.sdq.identifier/model/identifier.ecore#//Identifier">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="timeStamp" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="createdBy" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eSubpackages name="securityPatterns" nsURI="http://www.fzi.de/pcm/security/securityPatterns"
+      nsPrefix="securityPatterns">
+    <eClassifiers xsi:type="ecore:EClass" name="PatternCatalog" eSuperTypes="#//Catalog">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="securityPatterns" upperBound="-1"
+          eType="#//securityPatterns/SecurityPattern" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SecurityPattern" eSuperTypes="../../de.uka.ipd.sdq.identifier/model/identifier.ecore#//Identifier">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="stakeholder" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="status" lowerBound="1"
+          eType="#//securityPatterns/Status"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="prerequisites" upperBound="-1"
+          eType="#//securityPrerequisites/Prerequisite" eOpposite="#//securityPrerequisites/Prerequisite/securityPatterns"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="subSecurityPatterns"
+          lowerBound="1" upperBound="-1" eType="#//securityPatterns/SecurityPattern"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="Status">
+      <eLiterals name="VALID"/>
+      <eLiterals name="INVALID" value="1"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="securityPrerequisites" nsURI="http://www.fzi.de/pcm/security/securityPrerequisites"
+      nsPrefix="securityPrerequisites">
+    <eClassifiers xsi:type="ecore:EClass" name="PrerequisiteCatalog" eSuperTypes="#//Catalog">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="prerequisites" upperBound="-1"
+          eType="#//securityPrerequisites/Prerequisite" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Prerequisite" eSuperTypes="../../de.uka.ipd.sdq.identifier/model/identifier.ecore#//Identifier">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="status" lowerBound="1"
+          eType="#//securityPrerequisites/Status"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="statePositive" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+          defaultValueLiteral="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="securityPatterns" upperBound="-1"
+          eType="#//securityPatterns/SecurityPattern" eOpposite="#//securityPatterns/SecurityPattern/prerequisites"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="attacks" upperBound="-1"
+          eType="#//securityThreats/Attack" eOpposite="#//securityThreats/Attack/prerequisites"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="matches" upperBound="-1"
+          eType="#//securityPrerequisites/Prerequisite"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="timeStamp" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="Status">
+      <eLiterals name="VALID"/>
+      <eLiterals name="INVALID" value="1"/>
+      <eLiterals name="DEPRECATED" value="2"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="securityThreats" nsURI="http://www.fzi.de/pcm/security/securityThreats"
+      nsPrefix="securityThreats">
+    <eClassifiers xsi:type="ecore:EClass" name="ThreatCatalog" eSuperTypes="#//Catalog">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="attackers" upperBound="-1"
+          eType="#//securityThreats/AttackerClass" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="attackTypes" upperBound="-1"
+          eType="#//securityThreats/Attack" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="AttackerClass" eSuperTypes="../../de.uka.ipd.sdq.identifier/model/identifier.ecore#//Identifier">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="position" lowerBound="1"
+          eType="#//securityThreats/enums/Position"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="intention" lowerBound="1"
+          eType="#//securityThreats/enums/Intention"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="attackCapabilities" lowerBound="1"
+          upperBound="-1" eType="#//securityThreats/Attack" eOpposite="#//securityThreats/Attack/attacker"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="prerequisites" lowerBound="1"
+          upperBound="-1" eType="#//securityPrerequisites/Prerequisite"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="activity" lowerBound="1"
+          eType="#//securityThreats/enums/Activity"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="focus" lowerBound="1"
+          eType="#//securityThreats/enums/Focus"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="motivation" lowerBound="1"
+          eType="#//securityThreats/enums/Motivation"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="timeConstraints" lowerBound="1"
+          eType="#//securityThreats/enums/TimeConstraints"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="stealth" lowerBound="1"
+          eType="#//securityThreats/enums/Stealth"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Attack" eSuperTypes="../../de.uka.ipd.sdq.identifier/model/identifier.ecore#//Identifier">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="activity" lowerBound="1"
+          eType="#//securityThreats/enums/Activity"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="timeStamp" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="subAttacks" upperBound="-1"
+          eType="#//securityThreats/Attack"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="attacker" lowerBound="1"
+          upperBound="-1" eType="#//securityThreats/AttackerClass" eOpposite="#//securityThreats/AttackerClass/attackCapabilities"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="prerequisites" upperBound="-1"
+          eType="#//securityPrerequisites/Prerequisite" eOpposite="#//securityPrerequisites/Prerequisite/attacks"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="stealth" lowerBound="1"
+          eType="#//securityThreats/enums/Stealth"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="securityViolations" lowerBound="1"
+          upperBound="-1" eType="#//securityThreats/enums/SecurityViolation"/>
+    </eClassifiers>
+    <eSubpackages name="enums" nsURI="http://www.fzi.de/pcm/security/securityThreats/enums"
+        nsPrefix="enums">
+      <eClassifiers xsi:type="ecore:EEnum" name="Activity">
+        <eLiterals name="ACTIVE"/>
+        <eLiterals name="PASSIVE" value="1"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EEnum" name="Position">
+        <eLiterals name="INTERNAL" literal="INTERNAL"/>
+        <eLiterals name="EXTERNAL" value="1"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EEnum" name="Intention">
+        <eLiterals name="MALICIOUS"/>
+        <eLiterals name="NONMALICIOUS" value="1"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EEnum" name="Focus">
+        <eLiterals name="UNDEFINED"/>
+        <eLiterals name="DIRECTED" value="1"/>
+        <eLiterals name="RANDOM" value="2"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EEnum" name="Motivation">
+        <eLiterals name="UNDEFINED"/>
+        <eLiterals name="PERSONAL" value="1"/>
+        <eLiterals name="FINANCIAL" value="2"/>
+        <eLiterals name="POLITICAL" value="3"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EEnum" name="TimeConstraints">
+        <eLiterals name="UNDEFINED"/>
+        <eLiterals name="NONE" value="1"/>
+        <eLiterals name="SOFT" value="2"/>
+        <eLiterals name="HARD" value="3"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EEnum" name="Stealth">
+        <eLiterals name="NONSTEALTHY"/>
+        <eLiterals name="STEALTHY" value="1"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EEnum" name="SecurityViolation">
+        <eLiterals name="UNDEFINED"/>
+        <eLiterals name="CONFIDENTIALITY" value="1"/>
+        <eLiterals name="INTEGRITY" value="2" literal="INTEGRITY"/>
+        <eLiterals name="AVAILABILITY" value="3"/>
+        <eLiterals name="AUTHENTICATION" value="4"/>
+        <eLiterals name="NONREPUDIATION" value="5"/>
+      </eClassifiers>
+    </eSubpackages>
+  </eSubpackages>
+</ecore:EPackage>

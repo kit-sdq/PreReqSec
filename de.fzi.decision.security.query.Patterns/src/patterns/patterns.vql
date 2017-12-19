@@ -1,0 +1,18 @@
+package patterns
+
+import "http://www.fzi.de/decision/security"
+import "http://www.fzi.de/decision/security/securityPatterns"
+import "http://www.fzi.de/decision/security/securityPrerequisites"
+import "http://www.fzi.de/decision/security/securityThreats"
+
+//Patterns dont need to be defined in both directions, e.g. SP->PRE and PRE->SP, because the references are bidirectional.
+
+//ac<->atk<->pre<->sp
+pattern securityCatalog(attackerClass : Attacker, attack : Attack, prerequisite : Prerequisite, securityPattern : SecurityPattern)
+{	
+	Attacker.attacks(attackerClass, attack);
+	Attack.prerequisites(attack, prerequisite);
+	//Prerequisite.securityPatterns(prerequisite, securityPattern);
+	SecurityPattern.mitigatedPrerequisites(securityPattern, prerequisite);
+}
+

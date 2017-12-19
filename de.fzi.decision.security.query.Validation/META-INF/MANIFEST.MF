@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: QueryValidation
+Bundle-SymbolicName: de.fzi.decision.security.query.validation
+Bundle-Version: 1.0.0.qualifier
+Bundle-ClassPath: de.fzi.decision.security.query.validation
+Export-Package: validation
+Require-Bundle: de.fzi.decision.security;bundle-version="0.1.0"

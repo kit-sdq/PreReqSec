@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<security:Container xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:security="http://www.fzi.de/pcm/security" xmlns:securityPatterns="http://www.fzi.de/pcm/security/securityPatterns" xmlns:securityPrerequisites="http://www.fzi.de/pcm/security/securityPrerequisites" xmlns:securityThreats="http://www.fzi.de/pcm/security/securityThreats" id="_H6-LMCmaEeeSu70OAq_aAQ">
+  <contains xsi:type="securityPrerequisites:PrerequisiteCatalog" id="_IanUkCmaEeeSu70OAq_aAQ" name="PrerequisiteCatalog">
+    <prerequisites id="_r5I9YGDqEeeehqvqZrr5lA" name="InvalidPrerequisite" status="INVALID" securityPatterns="_vHoSoGDqEeeehqvqZrr5lA" attacks="_z4LQgWDqEeeehqvqZrr5lA"/>
+    <prerequisites id="_BLQroGD1EeeUof5JuK1r0g" name="ValidPrerequisite" securityPatterns="_vHoSoGDqEeeehqvqZrr5lA" attacks="_z4LQgWDqEeeehqvqZrr5lA"/>
+  </contains>
+  <contains xsi:type="securityPatterns:PatternCatalog" id="_JH54YCmaEeeSu70OAq_aAQ" name="PatternCatalog">
+    <securityPatterns id="_vHoSoGDqEeeehqvqZrr5lA" name="DummySecurityPattern" prerequisites="_r5I9YGDqEeeehqvqZrr5lA _BLQroGD1EeeUof5JuK1r0g"/>
+  </contains>
+  <contains xsi:type="securityThreats:ThreatCatalog" id="_JeNfkimaEeeSu70OAq_aAQ" name="ThreatCatalog">
+    <attackers id="_xIBdEGDqEeeehqvqZrr5lA" name="DummyAttackerClass" attackCapabilities="_z4LQgWDqEeeehqvqZrr5lA"/>
+    <attackTypes id="_z4LQgWDqEeeehqvqZrr5lA" name="DummyAttack" attacker="_xIBdEGDqEeeehqvqZrr5lA" prerequisites="_r5I9YGDqEeeehqvqZrr5lA _BLQroGD1EeeUof5JuK1r0g"/>
+  </contains>
+</security:Container>

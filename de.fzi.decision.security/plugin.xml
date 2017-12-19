@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated security -->
+      <package
+            uri="http://www.fzi.de/decision/security"
+            class="security.SecurityPackage"
+            genModel="model/security.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated security -->
+      <package
+            uri="http://www.fzi.de/decision/security/securityPatterns"
+            class="security.securityPatterns.SecurityPatternsPackage"
+            genModel="model/security.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated security -->
+      <package
+            uri="http://www.fzi.de/decision/security/securityPrerequisites"
+            class="security.securityPrerequisites.SecurityPrerequisitesPackage"
+            genModel="model/security.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated security -->
+      <package
+            uri="http://www.fzi.de/decision/security/securityThreats"
+            class="security.securityThreats.SecurityThreatsPackage"
+            genModel="model/security.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated security -->
+      <package
+            uri="http://www.fzi.de/decision/security/dynamicData"
+            class="security.dynamicData.DynamicDataPackage"
+            genModel="model/security.genmodel"/>
+   </extension>
+
+</plugin>

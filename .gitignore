@@ -1,0 +1,10 @@
+.settings/**
+
+.svn/
+
+*.edit/
+*.editor/
+*.tests/
+**/bin/
+**/src-gen/
+/.project

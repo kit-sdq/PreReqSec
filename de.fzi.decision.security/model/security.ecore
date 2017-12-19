@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="security" nsURI="http://www.fzi.de/decision/security" nsPrefix="security">
+  <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+    <details key="documentation" value=""/>
+  </eAnnotations>
+  <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NamedDescribedEntity" abstract="true"
+      interface="true" eSuperTypes="../../de.uka.ipd.sdq.identifier/model/identifier.ecore#//Identifier">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Container" eSuperTypes="#//NamedDescribedEntity">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains" upperBound="-1"
+        eType="#//Catalog" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="references" upperBound="-1"
+        eType="#//Catalog"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Catalog" abstract="true" eSuperTypes="#//NamedDescribedEntity">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value=""/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore"/>
+  </eClassifiers>
+  <eSubpackages name="securityPatterns" nsURI="http://www.fzi.de/decision/security/securityPatterns"
+      nsPrefix="securityPatterns">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value=""/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore"/>
+    <eClassifiers xsi:type="ecore:EClass" name="PatternCatalog" eSuperTypes="#//Catalog">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value=""/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="securityPatterns" upperBound="-1"
+          eType="#//securityPatterns/SecurityPattern" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SecurityPattern" eSuperTypes="#//NamedDescribedEntity">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value=""/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="mitigatedPrerequisites"
+          lowerBound="1" upperBound="-1" eType="#//securityPrerequisites/Prerequisite"
+          eOpposite="#//securityPrerequisites/Prerequisite/securityPatterns"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="roles" lowerBound="1"
+          upperBound="-1" eType="#//securityPatterns/Role" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Role" eSuperTypes="#//NamedDescribedEntity">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value=""/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="uses" upperBound="-1"
+          eType="#//securityPatterns/Role" eOpposite="#//securityPatterns/Role/usedBy"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="usedBy" upperBound="-1"
+          eType="#//securityPatterns/Role" eOpposite="#//securityPatterns/Role/uses"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="securityPrerequisites" nsURI="http://www.fzi.de/decision/security/securityPrerequisites"
+      nsPrefix="securityPrerequisites">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value=""/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore"/>
+    <eClassifiers xsi:type="ecore:EClass" name="PrerequisiteCatalog" eSuperTypes="#//Catalog">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value=""/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="prerequisites" upperBound="-1"
+          eType="#//securityPrerequisites/Prerequisite" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Prerequisite" eSuperTypes="#//NamedDescribedEntity">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value=""/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="subPrerequisites" upperBound="-1"
+          eType="#//securityPrerequisites/Prerequisite" eOpposite="#//securityPrerequisites/Prerequisite/superPrerequisites"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="superPrerequisites" upperBound="-1"
+          eType="#//securityPrerequisites/Prerequisite" eOpposite="#//securityPrerequisites/Prerequisite/subPrerequisites"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="attacks" upperBound="-1"
+          eType="#//securityThreats/Attack" eOpposite="#//securityThreats/Attack/prerequisites"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="securityPatterns" upperBound="-1"
+          eType="#//securityPatterns/SecurityPattern" eOpposite="#//securityPatterns/SecurityPattern/mitigatedPrerequisites"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="securityThreats" nsURI="http://www.fzi.de/decision/security/securityThreats"
+      nsPrefix="securityThreats">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value=""/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ThreatCatalog" eSuperTypes="#//dynamicData/DynamicDataCatalog">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value=""/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="attackers" upperBound="-1"
+          eType="#//securityThreats/Attacker" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="attacks" upperBound="-1"
+          eType="#//securityThreats/Attack" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Attacker">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value=""/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="attacks" lowerBound="1"
+          upperBound="-1" eType="#//securityThreats/Attack" eOpposite="#//securityThreats/Attack/attackers"/>
+      <eGenericSuperTypes eClassifier="#//dynamicData/DynamicDataEntity">
+        <eTypeArguments eClassifier="#//securityThreats/ThreatCatalog"/>
+      </eGenericSuperTypes>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Attack">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value=""/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="attackers" lowerBound="1"
+          upperBound="-1" eType="#//securityThreats/Attacker" eOpposite="#//securityThreats/Attacker/attacks"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="prerequisites" upperBound="-1"
+          eType="#//securityPrerequisites/Prerequisite" eOpposite="#//securityPrerequisites/Prerequisite/attacks"/>
+      <eGenericSuperTypes eClassifier="#//dynamicData/DynamicDataEntity">
+        <eTypeArguments eClassifier="#//securityThreats/ThreatCatalog"/>
+      </eGenericSuperTypes>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="dynamicData" nsURI="http://www.fzi.de/decision/security/dynamicData"
+      nsPrefix="dynamicData">
+    <eClassifiers xsi:type="ecore:EClass" name="DynamicDataEntity" abstract="true"
+        eSuperTypes="#//NamedDescribedEntity">
+      <eTypeParameters name="catalog"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="data" upperBound="-1"
+          containment="true">
+        <eGenericType eClassifier="#//dynamicData/DynamicDataEntry">
+          <eTypeArguments eTypeParameter="#//dynamicData/DynamicDataEntity/catalog"/>
+        </eGenericType>
+      </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DynamicDataEntry">
+      <eTypeParameters name="catalog"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="key">
+        <eGenericType eClassifier="#//dynamicData/DynamicDataKey">
+          <eTypeArguments eTypeParameter="#//dynamicData/DynamicDataEntry/catalog"/>
+        </eGenericType>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DynamicDataKey" eSuperTypes="#//NamedDescribedEntity">
+      <eTypeParameters name="catalog"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DynamicDataCatalog" abstract="true"
+        eSuperTypes="#//Catalog">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="dynamicDataKeys" upperBound="-1"
+          containment="true">
+        <eGenericType eClassifier="#//dynamicData/DynamicDataKey">
+          <eTypeArguments eClassifier="#//dynamicData/DynamicDataCatalog"/>
+        </eGenericType>
+      </eStructuralFeatures>
+    </eClassifiers>
+  </eSubpackages>
+</ecore:EPackage>
