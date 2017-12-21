@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:emfprofileapplication="http://www.modelversioning.org/emfprofile/application/1.1" xmlns:security="http://www.fzi.de/pcm/security" xmlns:securityPatterns="http://www.fzi.de/pcm/security/securityPatterns" xmlns:securityPrerequisites="http://www.fzi.de/pcm/security/securityPrerequisites" xmlns:securityThreats="http://www.fzi.de/pcm/security/securityThreats">
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:emfprofileapplication="http://www.modelversioning.org/emfprofile/application/1.1" xmlns:security="http://www.fzi.de/decision/security" xmlns:securityPatterns="http://www.fzi.de/decision/security/securityPatterns" xmlns:securityPrerequisites="http://www.fzi.de/decision/security/securityPrerequisites" xmlns:securityThreats="http://www.fzi.de/decision/security/securityThreats">
   <security:Container id="_gLjkkCvnEeeBFJawWlgBXg">
     <contains xsi:type="securityThreats:ThreatCatalog" id="_hLTxYivnEeeBFJawWlgBXg">
       <dynamicDataKeys id="_Pld-sOAmEee5FL2WPUSVkQ" name="Stealth"/>
+      <dynamicDataKeys id="_VOhMAOYzEeeBme-BIXdgRg" name="Position"/>
+      <dynamicDataKeys id="_a2EDUOYzEeeBme-BIXdgRg" name="Motivation"/>
+      <dynamicDataKeys id="_8Afn4OYzEeeBme-BIXdgRg" name="Focus"/>
+      <dynamicDataKeys id="_9KadUOYzEeeBme-BIXdgRg" name="TimeConstraints"/>
       <attackers id="_pCMgMGFnEeaenr5P40YdvQ" name="ProfessionalHacker" description="A professional hacker who has a high level of security knowledge and is able to carry out sophisticated attacks." attacks="_DPedQj1JEeaC77dVaP0Eeg _zbUWEj1KEeaVk-W-mW-puA _yZTNgT1MEeaVk-W-mW-puA _XL2vUj1NEeaVk-W-mW-puA _gEjY5T1OEeaVk-W-mW-puA">
-        <data key="_Pld-sOAmEee5FL2WPUSVkQ" value="STEALTH"/>
+        <data key="_Pld-sOAmEee5FL2WPUSVkQ" value="STEALTHY"/>
+        <data key="_VOhMAOYzEeeBme-BIXdgRg" value="EXTERNAL"/>
       </attackers>
-      <attackers id="_A2-kAGFoEeaenr5P40YdvQ" name="ScriptKiddie" description="A person with a low level of security knowledge who uses tools for his attacks which he or she does not understand." attacks="_DPedQj1JEeaC77dVaP0Eeg _zbUWEj1KEeaVk-W-mW-puA _yZTNgT1MEeaVk-W-mW-puA _XL2vUj1NEeaVk-W-mW-puA"/>
+      <attackers id="_A2-kAGFoEeaenr5P40YdvQ" name="ScriptKiddie" description="A person with a low level of security knowledge who uses tools for his attacks which he or she does not understand." attacks="_DPedQj1JEeaC77dVaP0Eeg _zbUWEj1KEeaVk-W-mW-puA _yZTNgT1MEeaVk-W-mW-puA _XL2vUj1NEeaVk-W-mW-puA">
+        <data key="_VOhMAOYzEeeBme-BIXdgRg" value="EXTERNAL"/>
+        <data key="_8Afn4OYzEeeBme-BIXdgRg" value="RANDOM"/>
+        <data key="_a2EDUOYzEeeBme-BIXdgRg" value="PERSONAL"/>
+        <data key="_9KadUOYzEeeBme-BIXdgRg" value="NONE"/>
+        <data key="_Pld-sOAmEee5FL2WPUSVkQ" value="STEALTHY"/>
+      </attackers>
       <attackers id="_ZiIPIGFoEeaenr5P40YdvQ" name="InternalAttacker" description="An attacker who is positioned inside the target system."/>
       <attackers id="_iPckkGFoEeaenr5P40YdvQ" name="Company" description="A whole company with a high level of financial resources and financially motivated goals." attacks="_DPedQj1JEeaC77dVaP0Eeg _zbUWEj1KEeaVk-W-mW-puA _yZTNgT1MEeaVk-W-mW-puA _XL2vUj1NEeaVk-W-mW-puA _gEjY5T1OEeaVk-W-mW-puA"/>
       <attackers id="_6mm8sGFoEeaenr5P40YdvQ" name="Government" description="The government in the form of an intelligence agency or police with nearly unlimited resources and information gathering as their main goal." attacks="_yZTNgT1MEeaVk-W-mW-puA _XL2vUj1NEeaVk-W-mW-puA _gEjY5T1OEeaVk-W-mW-puA"/>
