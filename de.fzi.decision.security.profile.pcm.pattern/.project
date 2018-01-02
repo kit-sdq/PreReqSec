@@ -3,6 +3,7 @@
 	<name>de.fzi.decision.security.profile.pcm.pattern</name>
 	<comment></comment>
 	<projects>
+		<project>de.fzi.decision.security</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
