@@ -1,7 +1,12 @@
 package de.fzi.decision.security.cdo.client.controller;
 
+import java.util.List;
+
 import org.eclipse.emf.cdo.eresource.CDOResource;
+import org.eclipse.emf.cdo.eresource.CDOResourceLeaf;
+import org.eclipse.emf.cdo.eresource.CDOResourceNode;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -12,6 +17,7 @@ import org.eclipse.ui.PlatformUI;
 
 import de.fzi.decision.security.cdo.client.connection.ServerConnection;
 import de.fzi.decision.security.cdo.client.model.ResourceManager;
+import de.fzi.decision.security.cdo.client.model.SecurityContainer;
 import de.fzi.decision.security.cdo.client.util.Constants;
 import de.fzi.decision.security.cdo.client.util.SecurityFileHandler;
 import de.fzi.decision.security.cdo.client.view.SecurityRepoView;
@@ -44,36 +50,45 @@ public class SecurityRepoController {
 	private void applyGlobalRepoState() {
 		CDOResource rootResource = loadRootResource();
 		this.resourceManager = new ResourceManager(this, rootResource);
+		createTempSecurityFileAndOpenEditor(rootResource);
 	}
 	
 	private CDOResource loadRootResource() {
-		CDOResource rootResource = connection.loadRootResource();
-		if (rootResource != null) {
-			if (!rootResource.getContents().isEmpty()) {
-				createTempSecurityFileAndOpenEditor(connection.loadRootResource());
-			} else {
-				rootResource.getContents().add(handleEmptyRepository());
-			}
+		String containerPath = Constants.RESOURCE_PATH;
+		List<String> containerNames = connection.getAllSecurityContainerNames();
+		if (!containerNames.isEmpty()) {
+			containerPath = "/" + handleNotEmptyRepository(containerNames);
 		} else {
-			//repository could not be loaded
+			handleEmptyRepository();
 		}
+		CDOResource rootResource = connection.loadResourceByPath(containerPath);
 		return rootResource;
 	}
 	
-	private void createTempSecurityFileAndOpenEditor(Resource root) {
-		String filePath = SecurityFileHandler.saveResourceIntoTemporaryProject(root);
-		view.openFileInEditor(filePath);
+	private String handleNotEmptyRepository(List<String> containerNames) {
+		if (containerNames.size() == 1) {
+			return containerNames.get(0);
+		} else {
+			return handleMultipleContainers(containerNames);
+		}
 	}
 	
-	private Container handleEmptyRepository() {
+	private String handleMultipleContainers(List<String> containerNames) {
+		return view.showContainerChooserDialogAndGetResult(containerNames);
+	}
+
+	private void handleEmptyRepository() {
 		URI modelURI = view.startModelSelection();
 		if (modelURI != null) {
 			Container rootContainer = SecurityFileHandler.getModelFromFile(modelURI);
 			connection.storeInitialResource(rootContainer);
-			createTempSecurityFileAndOpenEditor(SecurityFileHandler.getResourceFromFile(modelURI));
-			return rootContainer;
+			loadRootResource();
 		}
-		return null;
+	}
+	
+	private void createTempSecurityFileAndOpenEditor(CDOResource root) {
+		String filePath = SecurityFileHandler.saveResourceIntoTemporaryProject(root);
+		view.openFileInEditor(filePath);
 	}
 
 	public boolean isRepoLoaded() {

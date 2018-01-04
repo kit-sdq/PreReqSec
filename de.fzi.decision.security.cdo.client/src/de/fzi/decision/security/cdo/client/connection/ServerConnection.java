@@ -1,12 +1,17 @@
 package de.fzi.decision.security.cdo.client.connection;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.antlr.runtime.tree.TreeIterator;
+import org.eclipse.core.internal.runtime.Log;
 import org.eclipse.emf.cdo.CDOLock;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.CDOCommonView;
 import org.eclipse.emf.cdo.eresource.CDOResource;
+import org.eclipse.emf.cdo.eresource.CDOResourceLeaf;
+import org.eclipse.emf.cdo.eresource.CDOResourceNode;
 import org.eclipse.emf.cdo.net4j.CDONet4jSession;
 import org.eclipse.emf.cdo.net4j.CDONet4jSessionConfiguration;
 import org.eclipse.emf.cdo.net4j.CDONet4jUtil;
@@ -87,14 +92,28 @@ public class ServerConnection {
 		 host = null;
 	 }
 	 
-	 public CDOResource loadRootResource() {
+	 public CDOResource loadResourceByPath(String path) {
 		 if (session != null) {
 			 CDOTransaction transaction = session.openTransaction();
-			 CDOResource resource = transaction.getOrCreateResource(Constants.RESOURCE_PATH);
+			 CDOResource resource = transaction.getOrCreateResource(path);
 			 return resource;
 		 } else {
 			 return null;
 		 }
+	 }
+	 
+	 public List<String> getAllSecurityContainerNames() {
+		 List<String> containerNames = new ArrayList<>();
+		 if (session != null) {
+			 CDOTransaction transaction = session.openTransaction();
+			 CDOResource rootResource = transaction.getRootResource();
+			 for (EObject object : rootResource.getContents()) {
+				 CDOResourceNode node = (CDOResourceNode) object;
+				 containerNames.add(node.getName());
+			 }
+			 transaction.close();
+		 }
+		 return containerNames;
 	 }
 	 
 	 public void storeInitialResource(Container object) {

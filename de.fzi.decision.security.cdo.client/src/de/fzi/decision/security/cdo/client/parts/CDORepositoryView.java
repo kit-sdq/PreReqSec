@@ -3,6 +3,7 @@ package de.fzi.decision.security.cdo.client.parts;
 import java.io.File;
 import java.util.EventObject;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -30,6 +31,7 @@ import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.window.Window;
 import org.eclipse.net4j.util.lifecycle.LifecycleException;
 import org.eclipse.swt.SWT;
@@ -41,15 +43,18 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.FileDialog;
 
 import de.fzi.decision.security.cdo.client.controller.SecurityRepoController;
+import de.fzi.decision.security.cdo.client.util.Constants;
 import de.fzi.decision.security.cdo.client.util.SecurityFileHandler;
 import de.fzi.decision.security.cdo.client.view.SecurityRepoView;
 import de.fzi.decision.security.cdo.client.view.dialogs.RepoSettingsDialog;
 
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.eclipse.ui.dialogs.ResourceSelectionDialog;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.swt.layout.GridData;
@@ -129,6 +134,17 @@ public class CDORepositoryView implements SecurityRepoView{
 		    //TODO Do something if the file does not exist
 		}
 	}
+	
+	/*@Override
+	public void openResourceInEditor(String resPath) {
+		IEditorInput editorInput = new SecurityEditorInput(this, resPath);
+		IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+		try {
+			IDE.openEditor(page, editorInput, Constants.SECURITY_EDITOR_ID);
+		} catch (PartInitException e) {
+			e.printStackTrace();
+		}
+	}*/
 	
 	@Override
 	public void enableCommit() {
@@ -240,4 +256,22 @@ public class CDORepositoryView implements SecurityRepoView{
 		String msg = "Do you want to commit your local changes and override the global changes?";
 		return !(MessageDialog.openConfirm(parent.getShell(), title, msg));
 	}
+
+	@Override
+	public String showContainerChooserDialogAndGetResult(List<String> containers) {
+		String chosenName = null;
+		ElementListSelectionDialog dialog =
+			    new ElementListSelectionDialog(parent.getShell(), new LabelProvider());
+			dialog.setElements(containers.toArray());
+			dialog.setTitle("There are multiple security containers in the repository");
+			dialog.setMessage("Choose one of the security containers");
+			dialog.setMultipleSelection(false);
+			// user pressed cancel
+			if (dialog.open() == Window.OK) {
+				chosenName = dialog.getFirstResult().toString();
+			}
+			return chosenName;
+	}
+	
+	
 }
