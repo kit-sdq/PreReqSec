@@ -10,14 +10,14 @@ Require-Bundle: javax.inject,
  org.eclipse.e4.ui.di,
  org.eclipse.e4.ui.services,
  org.eclipse.e4.core.di.annotations,
- de.fzi.pcm.decision.security;bundle-version="0.1.0",
  org.eclipse.emf.cdo.net4j;bundle-version="4.1.500",
  org.eclipse.net4j.tcp;bundle-version="4.1.500",
  org.eclipse.core.filesystem;bundle-version="1.7.0",
- org.eclipse.core.resources;bundle-version="3.12.0"
+ org.eclipse.core.resources;bundle-version="3.12.0",
+ de.fzi.decision.security.ui;bundle-version="1.0.0",
+ de.fzi.decision.security;bundle-version="0.1.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Import-Package: de.fzi.decision.security.ui.main,
- javax.annotation;version="1.2.0",
+Import-Package: javax.annotation;version="1.2.0",
  org.eclipse.core.resources,
  org.eclipse.emf.edit.domain,
  org.eclipse.emf.edit.provider,
