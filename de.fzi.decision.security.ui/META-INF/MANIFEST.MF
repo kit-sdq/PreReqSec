@@ -3,7 +3,8 @@ Bundle-ManifestVersion: 2
 Bundle-Name: SecurityUI
 Bundle-SymbolicName: de.fzi.decision.security.ui;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-ClassPath: de.fzi.decision.security.ui,
+Bundle-ClassPath: .,
+ de.fzi.decision.security.ui,
  lib/swing2swt.jar,
  lib/slf4j-api-1.7.25.jar,
  lib/slf4j-simple-1.7.25.jar
