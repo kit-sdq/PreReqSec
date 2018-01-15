@@ -1,16 +1,10 @@
 package de.fzi.decision.security.cdo.client.connection;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.antlr.runtime.tree.TreeIterator;
-import org.eclipse.core.internal.runtime.Log;
-import org.eclipse.emf.cdo.CDOLock;
 import org.eclipse.emf.cdo.CDOObject;
-import org.eclipse.emf.cdo.common.CDOCommonView;
 import org.eclipse.emf.cdo.eresource.CDOResource;
-import org.eclipse.emf.cdo.eresource.CDOResourceLeaf;
 import org.eclipse.emf.cdo.eresource.CDOResourceNode;
 import org.eclipse.emf.cdo.net4j.CDONet4jSession;
 import org.eclipse.emf.cdo.net4j.CDONet4jSessionConfiguration;
@@ -18,22 +12,15 @@ import org.eclipse.emf.cdo.net4j.CDONet4jUtil;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.util.CDOUtil;
 import org.eclipse.emf.cdo.util.CommitException;
-import org.eclipse.emf.cdo.util.ConcurrentAccessException;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.net4j.connector.IConnector;
 import org.eclipse.net4j.util.container.IPluginContainer;
 import org.eclipse.net4j.util.lifecycle.ILifecycle;
 import org.eclipse.net4j.util.lifecycle.LifecycleEventAdapter;
 import org.eclipse.net4j.util.lifecycle.LifecycleException;
 
-import de.fzi.decision.security.cdo.client.model.SecurityContainer;
 import de.fzi.decision.security.cdo.client.util.Constants;
-import security.Catalog;
 import security.Container;
-import security.securityPatterns.PatternCatalog;
 
 public class ServerConnection {
 	
@@ -82,7 +69,7 @@ public class ServerConnection {
 	                connector.close();
 	            }
 	        });
-	 
+	        
 	        return session;
 	    }
 	
@@ -121,18 +108,13 @@ public class ServerConnection {
 			CDOTransaction transaction = session.openTransaction();
 			CDOResource cdoResource = transaction.getOrCreateResource(Constants.RESOURCE_PATH);
 			cdoResource.getContents().clear();
-			CDOObject cdoObject = CDOUtil.getCDOObject(object);
+			CDOObject cdoObject = CDOUtil.getCDOObject((EObject) object);
 			cdoResource.getContents().add(cdoObject);
 			transaction.commit();
 		} catch (CommitException e) {
 			e.printStackTrace();
 		}
 	 }
-
-	public void commitChanges(SecurityContainer localContainer) {
-		// TODO implement the commit correctly
-		storeInitialResource(localContainer.getSecurityContainer());
-	}
 	 
 	 
 

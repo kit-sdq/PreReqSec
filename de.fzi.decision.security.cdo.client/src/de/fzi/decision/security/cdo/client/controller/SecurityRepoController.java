@@ -3,22 +3,16 @@ package de.fzi.decision.security.cdo.client.controller;
 import java.util.List;
 
 import org.eclipse.emf.cdo.eresource.CDOResource;
-import org.eclipse.emf.cdo.eresource.CDOResourceLeaf;
-import org.eclipse.emf.cdo.eresource.CDOResourceNode;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.net4j.util.lifecycle.LifecycleException;
+import org.eclipse.ui.IViewReference;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
 import de.fzi.decision.security.cdo.client.connection.ServerConnection;
-import de.fzi.decision.security.cdo.client.model.ResourceManager;
-import de.fzi.decision.security.cdo.client.model.SecurityContainer;
 import de.fzi.decision.security.cdo.client.util.Constants;
+import de.fzi.decision.security.cdo.client.util.SecurityEditorInput;
 import de.fzi.decision.security.cdo.client.util.SecurityFileHandler;
 import de.fzi.decision.security.cdo.client.view.SecurityRepoView;
 import security.Container;
@@ -27,16 +21,15 @@ public class SecurityRepoController {
 	
 	private SecurityRepoView view;
 	private ServerConnection connection;
-	private ResourceManager resourceManager;
 	
 	public SecurityRepoController(SecurityRepoView view) {
 		this.view = view;
 	}
 	
 	public void connectToCDOServer(String host, String repoName) throws LifecycleException{
-		connection = ServerConnection.getInstance(host, repoName);
-		applyGlobalRepoState();
 		openCDOSessionsView();
+		connection = ServerConnection.getInstance(host, repoName);
+		loadResourceAndOpenEditor();
 	}
 	
 	private void openCDOSessionsView() {
@@ -46,11 +39,19 @@ public class SecurityRepoController {
 			e.printStackTrace();
 		}
 	}
+	
+	private void closeSessionsView() {
+		IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+		for (IViewReference viewRef : page.getViewReferences()) {
+			if (viewRef.getId().equals(Constants.SESSIONS_VIEW_ID)) {
+				page.hideView(viewRef);
+			}
+		}
+	}
 
-	private void applyGlobalRepoState() {
+	private void loadResourceAndOpenEditor() {
 		CDOResource rootResource = loadRootResource();
-		this.resourceManager = new ResourceManager(this, rootResource);
-		createTempSecurityFileAndOpenEditor(rootResource);
+		openResourceInEditor(rootResource);
 	}
 	
 	private CDOResource loadRootResource() {
@@ -86,9 +87,9 @@ public class SecurityRepoController {
 		}
 	}
 	
-	private void createTempSecurityFileAndOpenEditor(CDOResource root) {
-		String filePath = SecurityFileHandler.saveResourceIntoTemporaryProject(root);
-		view.openFileInEditor(filePath);
+	private void openResourceInEditor(CDOResource root) {
+		SecurityEditorInput editorInput = new SecurityEditorInput(root.getURI().toString());
+		view.openResourceInEditor(editorInput);
 	}
 
 	public boolean isRepoLoaded() {
@@ -100,32 +101,18 @@ public class SecurityRepoController {
 	}
 	
 	public void closeSession() {
-		//TODO: check unsaved changes
+		try {
+			view.closeSecurityEditorIfOpen();
+		} catch (PartInitException e) {
+			e.printStackTrace();
+		}
+		
+		closeSessionsView();
+		
 		if (connection != null) {
 			connection.closeSession();
 			connection = null;
 		}
-		SecurityFileHandler.deleteTemporaryProject();
-	}
-
-	public void notifyCommitNecessary() {
-		view.enableCommit();
-	}
-	
-	public boolean existLocalChanges() {
-		return resourceManager.isResourceModified();
-	}
-
-	public void commitChanges() {
-		if (resourceManager.getRootContainer().getRootResource().cdoConflict()) {
-			boolean discardLocalChanges = view.showCDOConflictDialog();
-			if (discardLocalChanges) {
-				applyGlobalRepoState();
-				return;
-			}
-		}
-		connection.commitChanges(resourceManager.getRootContainer());
-		resourceManager.setResourceModified(false);
 	}
 
 }

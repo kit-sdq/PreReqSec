@@ -22,7 +22,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
-import org.eclipse.emf.edit.ui.util.EditUIUtil;
 import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
@@ -37,7 +36,7 @@ import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.ui.views.properties.PropertySheetPage;
-
+import de.fzi.decision.security.cdo.client.util.SecurityEditorInput;
 import de.fzi.decision.security.ui.controllers.AppController;
 import de.fzi.decision.security.ui.models.impl.SecurityContainer;
 import de.fzi.decision.security.ui.views.impl.SecurityPatternView;
@@ -109,7 +108,9 @@ public class SecurityPatternEditorPart extends EditorPart {
 		setPartName(input.getName());
 		site.getPage().addPartListener(partListener);
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(resourceChangeListener, IResourceChangeEvent.POST_CHANGE);
-		initializeEditingDomain();
+		SecurityEditorInput editorInput = (SecurityEditorInput) input;
+		initializeEditingDomain(editorInput.getResourcePath());
+		//initializeEditingDomain();
 	}
 
 	@Override
@@ -118,7 +119,7 @@ public class SecurityPatternEditorPart extends EditorPart {
 		SecurityContainer model = new SecurityContainer(editingDomain);
 		controller = new AppController(view, model);
 		
-		URI uri = EditUIUtil.getURI(getEditorInput(), editingDomain.getResourceSet().getURIConverter());
+		URI uri = URI.createURI(((SecurityEditorInput)getEditorInput()).getResourcePath());
 		DelegateSelectionProvider delegateSelectionProvider = new DelegateSelectionProvider();
 		getSite().setSelectionProvider(delegateSelectionProvider);
 		
@@ -206,7 +207,7 @@ public class SecurityPatternEditorPart extends EditorPart {
 		super.dispose();
 	}
 	
-	private void initializeEditingDomain() {
+	private void initializeEditingDomain(String resourcePath) {
 		adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 		
 		BasicCommandStack commandStack = new BasicCommandStack();
@@ -224,7 +225,7 @@ public class SecurityPatternEditorPart extends EditorPart {
 		});
 
 		editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack, new HashMap<Resource, Boolean>());
-		
+		editingDomain.loadResource(resourcePath);
 		propertySheetPage = new ExtendedPropertySheetPage(editingDomain);
 		propertySheetPage.setPropertySourceProvider(new AdapterFactoryContentProvider(adapterFactory));
 	}

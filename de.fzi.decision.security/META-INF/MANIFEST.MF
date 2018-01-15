@@ -8,6 +8,7 @@ Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.emf.cdo;visibility:=reexport,
  org.palladiosimulator.commons;bundle-version="1.0.0",
  de.uka.ipd.sdq.pcm.stochasticexpressions;bundle-version="2.0.0",
  de.uka.ipd.sdq.identifier;bundle-version="2.1.0";visibility:=reexport,

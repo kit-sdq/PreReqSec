@@ -26,7 +26,7 @@ public class SecurityFileHandler {
 	public static final String tmp_project_name = "Temporary_Security_Model";
 	public static final String file_name = "tmp.security";
 	
-	public static String saveResourceIntoTemporaryProject(Resource resource) {
+	/*public static String saveResourceIntoTemporaryProject(Resource resource) {
 		try {
 			String folderPath = createProjectAndFolder(tmp_project_name);
 			URI fileURI = URI.createURI(folderPath + "/" + file_name);
@@ -37,9 +37,9 @@ public class SecurityFileHandler {
 			e.printStackTrace();
 		}
 		return null;
-	}
+	}*/
 	
-	public static void deleteTemporaryProject() {
+	/*public static void deleteTemporaryProject() {
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		IProject project = root.getProject(tmp_project_name);
 		if (project.exists()) {
@@ -50,7 +50,7 @@ public class SecurityFileHandler {
 			}
 			System.out.println("Temporary project deleted.");
 		}
-	}
+	}*/
 	
 	public static Container getModelFromFile(URI modelURI) {
 	    Resource resource = getResourceFromFile(modelURI);
@@ -64,7 +64,7 @@ public class SecurityFileHandler {
 	    return resource;
 	}
 	
-	private static String createProjectAndFolder(String name) throws CoreException {
+	/*private static String createProjectAndFolder(String name) throws CoreException {
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		IProject project = root.getProject(name);
 		if (!project.exists()) {
@@ -76,23 +76,21 @@ public class SecurityFileHandler {
 			modelFolder.create(false, true, null);
 		}
 		return modelFolder.getFullPath().toString();
-	}
+	}*/
 	
-	private static void saveResourceAsXMI(Resource resource, URI fileURI) {
+	/*private static void saveResourceAsXMI(Resource resource, URI fileURI) {
 		try {
 			Map<String, String> saveOptions = new HashMap<String, String>();
 			Resource xmiResource = new XMIResourceImpl(fileURI);
 			xmiResource.getContents().add(resource.getContents().get(0));
 			saveOptions.put(org.eclipse.emf.ecore.xmi.XMLResource.OPTION_ENCODING,"UTF-8");
 			xmiResource.save(saveOptions);
-			System.out.println("Xmi file created.");
 		} catch (IOException e) {
-			System.out.println("Error during creating Xmi.");
 			e.printStackTrace();
 		}
-	}
+	}*/
 
-	public static URI getTmpFileURI() {
+	/*public static URI getTmpFileURI() {
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		IProject project = root.getProject(tmp_project_name);
 		IFolder modelFolder = project.getFolder("Model");
@@ -101,6 +99,6 @@ public class SecurityFileHandler {
 			return URI.createURI(file.getLocationURI().toString());	
 		}
 		return null;		
-	}
+	}*/
 
 }

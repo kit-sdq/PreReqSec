@@ -3,6 +3,8 @@ package de.fzi.decision.security.ui.models.impl;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.fzi.decision.security.ui.models.ISecurityContainer;
 import security.Catalog;
@@ -17,6 +19,8 @@ import security.securityThreats.ThreatCatalog;
 public class SecurityContainer implements ISecurityContainer {
 	private Resource resource;
 	private AdapterFactoryEditingDomain editingDomain;
+	
+	private final Logger logger = LoggerFactory.getLogger(SecurityContainer.class);
 	
 	/**
 	 * Creates a new SecurityContainer with the specified editingDomain.
@@ -35,6 +39,9 @@ public class SecurityContainer implements ISecurityContainer {
 			resource = editingDomain.getResourceSet().getResource(uri, true);
 		} catch (Exception e) {
 			resource = editingDomain.getResourceSet().getResource(uri, false);
+		}
+		if (resource != null) {
+			logger.info("Resource found: " + resource.toString());
 		}
 	}
 	

@@ -1,42 +1,20 @@
 package de.fzi.decision.security.cdo.client.parts;
 
-import java.io.File;
-import java.util.EventObject;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-import javax.inject.Named;
 
-import org.eclipse.core.filesystem.EFS;
-import org.eclipse.core.filesystem.IFileStore;
-import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.di.Focus;
-import org.eclipse.e4.ui.services.IServiceConstants;
-import org.eclipse.emf.cdo.eresource.CDOResource;
-import org.eclipse.emf.common.command.BasicCommandStack;
-import org.eclipse.emf.common.command.CommandStackListener;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
-import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.jface.dialogs.ErrorDialog;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.window.Window;
 import org.eclipse.net4j.util.lifecycle.LifecycleException;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Composite;
@@ -44,19 +22,17 @@ import org.eclipse.swt.widgets.FileDialog;
 
 import de.fzi.decision.security.cdo.client.controller.SecurityRepoController;
 import de.fzi.decision.security.cdo.client.util.Constants;
-import de.fzi.decision.security.cdo.client.util.SecurityFileHandler;
+import de.fzi.decision.security.cdo.client.util.SecurityEditorInput;
 import de.fzi.decision.security.cdo.client.view.SecurityRepoView;
 import de.fzi.decision.security.cdo.client.view.dialogs.RepoSettingsDialog;
 
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
-import org.eclipse.ui.dialogs.ResourceSelectionDialog;
-import org.eclipse.ui.ide.IDE;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Label;
@@ -69,18 +45,19 @@ public class CDORepositoryView implements SecurityRepoView{
 	
 	private SecurityRepoController controller;
 	private Label lblHeading;
-	private Button btnCommit;
 	private Button btnOpenClose;
 	private Composite parent;
+	private SecurityEditorInput editorInput;
 
 	@PostConstruct
 	public void createPartControl(Composite parent) {
 		this.parent = parent;
 		parent.setLayout(new GridLayout(1, false));
-		parent.addDisposeListener(initDisposeListener());
 		
 		lblHeading = new Label(parent, SWT.NONE);
-		lblHeading.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		GridData gd_lblHeading = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
+		gd_lblHeading.minimumWidth = 250;
+		lblHeading.setLayoutData(gd_lblHeading);
 		lblHeading.setText("No session active");
 		
 		Composite composite = new Composite(parent, SWT.NONE);
@@ -92,11 +69,6 @@ public class CDORepositoryView implements SecurityRepoView{
 		btnOpenClose = new Button(composite, SWT.NONE);
 		btnOpenClose.setText("Open Session");
 		btnOpenClose.addSelectionListener(addOpenCloseSessionListener());
-		
-		btnCommit = new Button(composite, SWT.NONE);
-		btnCommit.setText("Commit Changes");
-		btnCommit.setEnabled(false);
-		btnCommit.addSelectionListener(addCommitSelectionListener());
 	}
 
 		@Focus
@@ -116,47 +88,31 @@ public class CDORepositoryView implements SecurityRepoView{
 		}
 		return null;
 	}
-	
+
 	@Override
-	public void openFileInEditor(String filePath) {
-		File fileToOpen = new File(filePath);
-		
-		if (fileToOpen.exists() && fileToOpen.isFile()) {
-		    IFileStore fileStore = EFS.getLocalFileSystem().getStore(fileToOpen.toURI());
+	public void openResourceInEditor(SecurityEditorInput editorInput) {
+		if (editorInput != null) {
+			this.editorInput = editorInput;
 		    IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-		 
 		    try {
-		        IDE.openEditorOnFileStore(page, fileStore );
+		        page.openEditor(editorInput, Constants.SECURITY_EDITOR_ID);
 		    } catch (PartInitException e ) {
 		        e.printStackTrace();
 		    }
-		} else {
-		    //TODO Do something if the file does not exist
 		}
 	}
 	
-	/*@Override
-	public void openResourceInEditor(String resPath) {
-		IEditorInput editorInput = new SecurityEditorInput(this, resPath);
-		IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-		try {
-			IDE.openEditor(page, editorInput, Constants.SECURITY_EDITOR_ID);
-		} catch (PartInitException e) {
-			e.printStackTrace();
-		}
-	}*/
-	
 	@Override
-	public void enableCommit() {
-		//run the command on ui thread
-		if (!parent.isDisposed()) {
-			parent.getDisplay().asyncExec(new Runnable() {
-
-				@Override
-				public void run() {
-					btnCommit.setEnabled(true);
+	public void closeSecurityEditorIfOpen() throws PartInitException {
+		if (editorInput != null) {
+			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+			List<IEditorReference> editorsToClose = new ArrayList<>();
+			for (IEditorReference editorReference : page.getEditorReferences()) {
+				if (editorReference.getEditorInput().equals(editorInput)) {
+					editorsToClose.add(editorReference);
 				}
-			});
+			}
+			page.closeEditors(editorsToClose.toArray(new IEditorReference[editorsToClose.size()]), true);
 		}
 	}
 	
@@ -170,21 +126,6 @@ public class CDORepositoryView implements SecurityRepoView{
 			return false;
 		}
 		return true;
-	}
-	
-	private SelectionListener addCommitSelectionListener() {
-		return new SelectionListener() {
-			
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				controller.commitChanges();
-				btnCommit.setEnabled(false);
-			}
-			
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
-		};
 	}
 	
 	private SelectionListener addOpenCloseSessionListener() {
@@ -231,31 +172,13 @@ public class CDORepositoryView implements SecurityRepoView{
 			}
 		};
 	}
-	
-	private DisposeListener initDisposeListener() {
-		return new DisposeListener() {
-			
-			@Override
-			public void widgetDisposed(DisposeEvent e) {
-				if (controller.existLocalChanges()) {
-					String title = "There are local changes in the model";
-					String msg = "Do you want to commit your local changes to the repository?";
-					boolean commitChanges = MessageDialog.openConfirm(parent.getShell(), title, msg);
-					if (commitChanges) {
-						controller.commitChanges();
-					}
-					SecurityFileHandler.deleteTemporaryProject();
-				}
-			}
-		};
-	}
 
-	@Override
+	/*@Override
 	public boolean showCDOConflictDialog() {
 		String title = "The local changes are conflicting with the global repository state";
 		String msg = "Do you want to commit your local changes and override the global changes?";
 		return !(MessageDialog.openConfirm(parent.getShell(), title, msg));
-	}
+	}*/
 
 	@Override
 	public String showContainerChooserDialogAndGetResult(List<String> containers) {

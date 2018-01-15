@@ -1,90 +1,144 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
-    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/de.fzi.decision.security/src-gen" editDirectory="/de.fzi.decision.security.edit/src-gen"
-    editorDirectory="/de.fzi.decision.security.editor/src-gen" modelPluginID="de.fzi.decision.security"
-    modelName="Security" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
-    testsDirectory="/de.fzi.decision.security.tests/src-gen" importerID="org.eclipse.emf.importer.ecore"
-    complianceLevel="8.0" copyrightFields="false" editPluginID="de.fzi.decision.security.edit"
-    editorPluginID="de.fzi.decision.security.editor" usedGenPackages="../../de.uka.ipd.sdq.identifier/model/identifier.genmodel#//identifier"
-    importOrganizing="true">
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/de.fzi.decision.security/src-gen" editDirectory="/de.fzi.decision.security.edit/src-gen" editorDirectory="/de.fzi.decision.security.editor/src-gen" modelPluginID="de.fzi.decision.security" modelName="Security" rootExtendsInterface="org.eclipse.emf.cdo.CDOObject" rootExtendsClass="org.eclipse.emf.internal.cdo.CDOObjectImpl" testsDirectory="/de.fzi.decision.security.tests/src-gen" importerID="org.eclipse.emf.importer.ecore" featureDelegation="Dynamic" complianceLevel="8.0" copyrightFields="false" providerRootExtendsClass="org.eclipse.emf.cdo.edit.CDOItemProviderAdapter" editPluginID="de.fzi.decision.security.edit" editorPluginID="de.fzi.decision.security.editor" importOrganizing="true">
   <foreignModel>security.ecore</foreignModel>
-  <genPackages prefix="Security" disposableProviderFactory="true" ecorePackage="security.ecore#/">
-    <genClasses image="false" ecoreClass="security.ecore#//NamedDescribedEntity">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute security.ecore#//NamedDescribedEntity/name"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute security.ecore#//NamedDescribedEntity/description"/>
+  <modelPluginVariables>CDO=org.eclipse.emf.cdo</modelPluginVariables>
+  <genPackages prefix="Security" disposableProviderFactory="true">
+    <ecorePackage href="security.ecore#/"/>
+    <genClasses image="false">
+      <ecoreClass href="security.ecore#//NamedDescribedEntity"/>
+      <genFeatures createChild="false">
+        <ecoreFeature xsi:type="ecore:EAttribute" href="security.ecore#//NamedDescribedEntity/name"/>
+      </genFeatures>
+      <genFeatures createChild="false">
+        <ecoreFeature xsi:type="ecore:EAttribute" href="security.ecore#//NamedDescribedEntity/description"/>
+      </genFeatures>
     </genClasses>
-    <genClasses ecoreClass="security.ecore#//Container">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference security.ecore#//Container/contains"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference security.ecore#//Container/references"/>
+    <genClasses>
+      <ecoreClass href="security.ecore#//Container"/>
+      <genFeatures property="None" children="true" createChild="true">
+        <ecoreFeature xsi:type="ecore:EReference" href="security.ecore#//Container/contains"/>
+      </genFeatures>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true">
+        <ecoreFeature xsi:type="ecore:EReference" href="security.ecore#//Container/references"/>
+      </genFeatures>
     </genClasses>
-    <genClasses image="false" ecoreClass="security.ecore#//Catalog"/>
-    <nestedGenPackages prefix="SecurityPatterns" basePackage="security" disposableProviderFactory="true"
-        ecorePackage="security.ecore#//securityPatterns">
-      <genClasses ecoreClass="security.ecore#//securityPatterns/PatternCatalog">
-        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference security.ecore#//securityPatterns/PatternCatalog/securityPatterns"/>
+    <genClasses image="false">
+      <ecoreClass href="security.ecore#//Catalog"/>
+    </genClasses>
+    <nestedGenPackages prefix="SecurityPatterns" basePackage="security" disposableProviderFactory="true">
+      <ecorePackage href="security.ecore#//securityPatterns"/>
+      <genClasses>
+        <ecoreClass href="security.ecore#//securityPatterns/PatternCatalog"/>
+        <genFeatures property="None" children="true" createChild="true">
+          <ecoreFeature xsi:type="ecore:EReference" href="security.ecore#//securityPatterns/PatternCatalog/securityPatterns"/>
+        </genFeatures>
       </genClasses>
-      <genClasses image="false" ecoreClass="security.ecore#//securityPatterns/SecurityPattern">
-        <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference security.ecore#//securityPatterns/SecurityPattern/mitigatedPrerequisites"/>
-        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference security.ecore#//securityPatterns/SecurityPattern/roles"/>
+      <genClasses image="false">
+        <ecoreClass href="security.ecore#//securityPatterns/SecurityPattern"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true">
+          <ecoreFeature xsi:type="ecore:EReference" href="security.ecore#//securityPatterns/SecurityPattern/mitigatedPrerequisites"/>
+        </genFeatures>
+        <genFeatures property="None" children="true" createChild="true">
+          <ecoreFeature xsi:type="ecore:EReference" href="security.ecore#//securityPatterns/SecurityPattern/roles"/>
+        </genFeatures>
       </genClasses>
-      <genClasses ecoreClass="security.ecore#//securityPatterns/Role">
-        <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference security.ecore#//securityPatterns/Role/uses"/>
-        <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference security.ecore#//securityPatterns/Role/usedBy"/>
-      </genClasses>
-    </nestedGenPackages>
-    <nestedGenPackages prefix="SecurityPrerequisites" basePackage="security" disposableProviderFactory="true"
-        ecorePackage="security.ecore#//securityPrerequisites">
-      <genClasses ecoreClass="security.ecore#//securityPrerequisites/PrerequisiteCatalog">
-        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference security.ecore#//securityPrerequisites/PrerequisiteCatalog/prerequisites"/>
-      </genClasses>
-      <genClasses image="false" ecoreClass="security.ecore#//securityPrerequisites/Prerequisite">
-        <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference security.ecore#//securityPrerequisites/Prerequisite/subPrerequisites"/>
-        <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference security.ecore#//securityPrerequisites/Prerequisite/superPrerequisites"/>
-        <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference security.ecore#//securityPrerequisites/Prerequisite/attacks"/>
-        <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference security.ecore#//securityPrerequisites/Prerequisite/securityPatterns"/>
+      <genClasses>
+        <ecoreClass href="security.ecore#//securityPatterns/Role"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true">
+          <ecoreFeature xsi:type="ecore:EReference" href="security.ecore#//securityPatterns/Role/uses"/>
+        </genFeatures>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true">
+          <ecoreFeature xsi:type="ecore:EReference" href="security.ecore#//securityPatterns/Role/usedBy"/>
+        </genFeatures>
       </genClasses>
     </nestedGenPackages>
-    <nestedGenPackages prefix="SecurityThreats" basePackage="security" disposableProviderFactory="true"
-        ecorePackage="security.ecore#//securityThreats">
-      <genClasses ecoreClass="security.ecore#//securityThreats/ThreatCatalog">
-        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference security.ecore#//securityThreats/ThreatCatalog/attackers"/>
-        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference security.ecore#//securityThreats/ThreatCatalog/attacks"/>
+    <nestedGenPackages prefix="SecurityPrerequisites" basePackage="security" disposableProviderFactory="true">
+      <ecorePackage href="security.ecore#//securityPrerequisites"/>
+      <genClasses>
+        <ecoreClass href="security.ecore#//securityPrerequisites/PrerequisiteCatalog"/>
+        <genFeatures property="None" children="true" createChild="true">
+          <ecoreFeature xsi:type="ecore:EReference" href="security.ecore#//securityPrerequisites/PrerequisiteCatalog/prerequisites"/>
+        </genFeatures>
       </genClasses>
-      <genClasses ecoreClass="security.ecore#//securityThreats/Attacker">
-        <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference security.ecore#//securityThreats/Attacker/attacks"/>
-      </genClasses>
-      <genClasses ecoreClass="security.ecore#//securityThreats/Attack">
-        <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference security.ecore#//securityThreats/Attack/attackers"/>
-        <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference security.ecore#//securityThreats/Attack/prerequisites"/>
+      <genClasses image="false">
+        <ecoreClass href="security.ecore#//securityPrerequisites/Prerequisite"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true">
+          <ecoreFeature xsi:type="ecore:EReference" href="security.ecore#//securityPrerequisites/Prerequisite/subPrerequisites"/>
+        </genFeatures>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true">
+          <ecoreFeature xsi:type="ecore:EReference" href="security.ecore#//securityPrerequisites/Prerequisite/superPrerequisites"/>
+        </genFeatures>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true">
+          <ecoreFeature xsi:type="ecore:EReference" href="security.ecore#//securityPrerequisites/Prerequisite/attacks"/>
+        </genFeatures>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true">
+          <ecoreFeature xsi:type="ecore:EReference" href="security.ecore#//securityPrerequisites/Prerequisite/securityPatterns"/>
+        </genFeatures>
       </genClasses>
     </nestedGenPackages>
-    <nestedGenPackages prefix="DynamicData" disposableProviderFactory="true" ecorePackage="security.ecore#//dynamicData">
-      <genClasses image="false" ecoreClass="security.ecore#//dynamicData/DynamicDataEntity">
-        <genTypeParameters ecoreTypeParameter="security.ecore#//dynamicData/DynamicDataEntity/catalog"/>
-        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference security.ecore#//dynamicData/DynamicDataEntity/data"/>
+    <nestedGenPackages prefix="SecurityThreats" basePackage="security" disposableProviderFactory="true">
+      <ecorePackage href="security.ecore#//securityThreats"/>
+      <genClasses>
+        <ecoreClass href="security.ecore#//securityThreats/ThreatCatalog"/>
+        <genFeatures property="None" children="true" createChild="true">
+          <ecoreFeature xsi:type="ecore:EReference" href="security.ecore#//securityThreats/ThreatCatalog/attackers"/>
+        </genFeatures>
+        <genFeatures property="None" children="true" createChild="true">
+          <ecoreFeature xsi:type="ecore:EReference" href="security.ecore#//securityThreats/ThreatCatalog/attacks"/>
+        </genFeatures>
       </genClasses>
-      <genClasses ecoreClass="security.ecore#//dynamicData/DynamicDataEntry">
-        <genTypeParameters ecoreTypeParameter="security.ecore#//dynamicData/DynamicDataEntry/catalog"/>
-        <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference security.ecore#//dynamicData/DynamicDataEntry/key"/>
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute security.ecore#//dynamicData/DynamicDataEntry/value"/>
+      <genClasses>
+        <ecoreClass href="security.ecore#//securityThreats/Attacker"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true">
+          <ecoreFeature xsi:type="ecore:EReference" href="security.ecore#//securityThreats/Attacker/attacks"/>
+        </genFeatures>
       </genClasses>
-      <genClasses ecoreClass="security.ecore#//dynamicData/DynamicDataKey">
-        <genTypeParameters ecoreTypeParameter="security.ecore#//dynamicData/DynamicDataKey/catalog"/>
+      <genClasses>
+        <ecoreClass href="security.ecore#//securityThreats/Attack"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true">
+          <ecoreFeature xsi:type="ecore:EReference" href="security.ecore#//securityThreats/Attack/attackers"/>
+        </genFeatures>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true">
+          <ecoreFeature xsi:type="ecore:EReference" href="security.ecore#//securityThreats/Attack/prerequisites"/>
+        </genFeatures>
       </genClasses>
-      <genClasses image="false" ecoreClass="security.ecore#//dynamicData/DynamicDataCatalog">
-        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference security.ecore#//dynamicData/DynamicDataCatalog/dynamicDataKeys"/>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="DynamicData" disposableProviderFactory="true">
+      <ecorePackage href="security.ecore#//dynamicData"/>
+      <genClasses image="false">
+        <genTypeParameters>
+          <ecoreTypeParameter href="security.ecore#//dynamicData/DynamicDataEntity/catalog"/>
+        </genTypeParameters>
+        <ecoreClass href="security.ecore#//dynamicData/DynamicDataEntity"/>
+        <genFeatures property="None" children="true" createChild="true">
+          <ecoreFeature xsi:type="ecore:EReference" href="security.ecore#//dynamicData/DynamicDataEntity/data"/>
+        </genFeatures>
+      </genClasses>
+      <genClasses>
+        <genTypeParameters>
+          <ecoreTypeParameter href="security.ecore#//dynamicData/DynamicDataEntry/catalog"/>
+        </genTypeParameters>
+        <ecoreClass href="security.ecore#//dynamicData/DynamicDataEntry"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true">
+          <ecoreFeature xsi:type="ecore:EReference" href="security.ecore#//dynamicData/DynamicDataEntry/key"/>
+        </genFeatures>
+        <genFeatures createChild="false">
+          <ecoreFeature xsi:type="ecore:EAttribute" href="security.ecore#//dynamicData/DynamicDataEntry/value"/>
+        </genFeatures>
+      </genClasses>
+      <genClasses>
+        <genTypeParameters>
+          <ecoreTypeParameter href="security.ecore#//dynamicData/DynamicDataKey/catalog"/>
+        </genTypeParameters>
+        <ecoreClass href="security.ecore#//dynamicData/DynamicDataKey"/>
+      </genClasses>
+      <genClasses image="false">
+        <ecoreClass href="security.ecore#//dynamicData/DynamicDataCatalog"/>
+        <genFeatures property="None" children="true" createChild="true">
+          <ecoreFeature xsi:type="ecore:EReference" href="security.ecore#//dynamicData/DynamicDataCatalog/dynamicDataKeys"/>
+        </genFeatures>
       </genClasses>
     </nestedGenPackages>
   </genPackages>
+  <usedGenPackages href="../../de.uka.ipd.sdq.identifier/model/identifier.genmodel#//identifier"/>
 </genmodel:GenModel>
