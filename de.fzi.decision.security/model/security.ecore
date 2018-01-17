@@ -80,10 +80,6 @@
         <details key="documentation" value=""/>
       </eAnnotations>
       <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="subPrerequisites" upperBound="-1"
-          eType="#//securityPrerequisites/Prerequisite" eOpposite="#//securityPrerequisites/Prerequisite/superPrerequisites"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="superPrerequisites" upperBound="-1"
-          eType="#//securityPrerequisites/Prerequisite" eOpposite="#//securityPrerequisites/Prerequisite/subPrerequisites"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="attacks" upperBound="-1"
           eType="#//securityThreats/Attack" eOpposite="#//securityThreats/Attack/prerequisites"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="securityPatterns" upperBound="-1"
