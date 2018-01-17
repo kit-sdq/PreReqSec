@@ -111,8 +111,8 @@
     </contains>
   </security:Container>
   <emfprofileapplication:ProfileApplication>
-    <importedProfiles nsURI="http://de.fzi.decision.security.profile.pcm.pattern/0.1.0" location="platform:/plugin/de.fzi.decision.security.profile.pcm.pattern/profile.emfprofile_diagram"/>
-    <importedProfiles nsURI="http://de.fzi.decision.security.profile.pcm.prerequisite/0.1.0" location="platform:/plugin/de.fzi.decision.security.profile.pcm.prerequisite/profile.emfprofile_diagram"/>
-    <importedProfiles nsURI="http://de.fzi.decision.security.profile.pcm.threat/0.1.0" location="platform:/plugin/de.fzi.decision.security.profile.pcm.threat/profile.emfprofile_diagram"/>
+    <importedProfiles nsURI="http://de.fzi.decision.security.profile.pcm.pattern/0.1.0" location="platform:/plugin/de.fzi.decision.security.profile.pcm.pattern/pattern.emfprofile_diagram"/>
+    <importedProfiles nsURI="http://de.fzi.decision.security.profile.pcm.prerequisite/0.1.0" location="platform:/plugin/de.fzi.decision.security.profile.pcm.prerequisite/prerequisite.emfprofile_diagram"/>
+    <importedProfiles nsURI="http://de.fzi.decision.security.profile.pcm.threat/0.1.0" location="platform:/plugin/de.fzi.decision.security.profile.pcm.threat/threat.emfprofile_diagram"/>
   </emfprofileapplication:ProfileApplication>
 </xmi:XMI>
