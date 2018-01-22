@@ -2,13 +2,9 @@ package de.fzi.decision.security.cdo.client.controller;
 
 import java.util.List;
 
-import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.net4j.util.lifecycle.LifecycleException;
-import org.eclipse.ui.IViewReference;
-import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
 
 import de.fzi.decision.security.cdo.client.connection.ServerConnection;
 import de.fzi.decision.security.cdo.client.util.Constants;
@@ -26,44 +22,25 @@ public class SecurityRepoController {
 		this.view = view;
 	}
 	
-	public void connectToCDOServer(String host, String repoName) throws LifecycleException{
-		openCDOSessionsView();
+	public void connectToCDOServer(String host, String repoName) throws LifecycleException {
 		connection = ServerConnection.getInstance(host, repoName);
 		loadResourceAndOpenEditor();
 	}
-	
-	private void openCDOSessionsView() {
-		try {
-			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(Constants.SESSIONS_VIEW_ID);
-		} catch (PartInitException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	private void closeSessionsView() {
-		IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-		for (IViewReference viewRef : page.getViewReferences()) {
-			if (viewRef.getId().equals(Constants.SESSIONS_VIEW_ID)) {
-				page.hideView(viewRef);
-			}
-		}
-	}
 
 	private void loadResourceAndOpenEditor() {
-		CDOResource rootResource = loadRootResource();
-		openResourceInEditor(rootResource);
+		String resPath = getResourcePath();
+		openResourceInEditor(resPath, connection.getHost(), connection.getRepoName());
 	}
 	
-	private CDOResource loadRootResource() {
-		String containerPath = Constants.RESOURCE_PATH;
+	private String getResourcePath() {
+		String resourcePath = Constants.RESOURCE_PATH;
 		List<String> containerNames = connection.getAllSecurityContainerNames();
 		if (!containerNames.isEmpty()) {
-			containerPath = "/" + handleNotEmptyRepository(containerNames);
+			resourcePath = "/" + handleNotEmptyRepository(containerNames);
 		} else {
-			handleEmptyRepository();
+			return handleEmptyRepository();
 		}
-		CDOResource rootResource = connection.loadResourceByPath(containerPath);
-		return rootResource;
+		return resourcePath;
 	}
 	
 	private String handleNotEmptyRepository(List<String> containerNames) {
@@ -78,17 +55,18 @@ public class SecurityRepoController {
 		return view.showContainerChooserDialogAndGetResult(containerNames);
 	}
 
-	private void handleEmptyRepository() {
+	private String handleEmptyRepository() {
 		URI modelURI = view.startModelSelection();
 		if (modelURI != null) {
 			Container rootContainer = SecurityFileHandler.getModelFromFile(modelURI);
 			connection.storeInitialResource(rootContainer);
-			loadRootResource();
+			return getResourcePath();
 		}
+		return null;
 	}
 	
-	private void openResourceInEditor(CDOResource root) {
-		SecurityEditorInput editorInput = new SecurityEditorInput(root.getURI().toString());
+	private void openResourceInEditor(String resPath, String host, String repoName) {
+		SecurityEditorInput editorInput = new SecurityEditorInput(resPath, host, repoName);
 		view.openResourceInEditor(editorInput);
 	}
 
@@ -106,8 +84,6 @@ public class SecurityRepoController {
 		} catch (PartInitException e) {
 			e.printStackTrace();
 		}
-		
-		closeSessionsView();
 		
 		if (connection != null) {
 			connection.closeSession();

@@ -77,16 +77,7 @@ public class ServerConnection {
 		 session.close();
 		 repoName = null;
 		 host = null;
-	 }
-	 
-	 public CDOResource loadResourceByPath(String path) {
-		 if (session != null) {
-			 CDOTransaction transaction = session.openTransaction();
-			 CDOResource resource = transaction.getOrCreateResource(path);
-			 return resource;
-		 } else {
-			 return null;
-		 }
+		 instance = null;
 	 }
 	 
 	 public List<String> getAllSecurityContainerNames() {
@@ -111,10 +102,19 @@ public class ServerConnection {
 			CDOObject cdoObject = CDOUtil.getCDOObject((EObject) object);
 			cdoResource.getContents().add(cdoObject);
 			transaction.commit();
+			transaction.close();
 		} catch (CommitException e) {
 			e.printStackTrace();
 		}
 	 }
+
+	public String getHost() {
+		return host;
+	}
+
+	public String getRepoName() {
+		return repoName;
+	}
 	 
 	 
 

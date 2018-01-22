@@ -2,17 +2,25 @@ package de.fzi.decision.security.cdo.client.util;
 
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.PlatformObject;
+import org.eclipse.emf.cdo.transaction.CDOTransaction;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.net4j.util.ObjectUtil;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IPersistableElement;
 
+import de.fzi.decision.security.cdo.client.connection.ServerConnection;
+
 public class SecurityEditorInput extends PlatformObject implements IEditorInput {
 	
 	private String resourcePath;
+	private String host;
+	private String repoName;
 	
-	public SecurityEditorInput(String resourcePath) {
+	public SecurityEditorInput(String resourcePath, String host, String repoName) {
 		this.resourcePath = resourcePath;
+		this.host = host;
+		this.repoName = repoName;
 	}
 	
 	public String getResourcePath() {
@@ -65,6 +73,11 @@ public class SecurityEditorInput extends PlatformObject implements IEditorInput 
 			}
 		}
 		return false;
+	}
+	
+	public CDOTransaction getTransaction(ResourceSet set) {
+		ServerConnection connection = ServerConnection.getInstance(host, repoName);
+		return connection.getSession().openTransaction(set);
 	}
 
 }
