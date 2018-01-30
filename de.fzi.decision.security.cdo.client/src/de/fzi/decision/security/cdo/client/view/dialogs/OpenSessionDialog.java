@@ -10,14 +10,14 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-public class RepoSettingsDialog extends TitleAreaDialog {
+public class OpenSessionDialog extends TitleAreaDialog {
 	
 	private Text hostText;
 	private Text repoText;
 	private String host;
 	private String repo;
 
-	public RepoSettingsDialog(Shell parentShell) {
+	public OpenSessionDialog(Shell parentShell) {
 		super(parentShell);
 	}
 	
@@ -49,6 +49,9 @@ public class RepoSettingsDialog extends TitleAreaDialog {
 
         hostText = new Text(container, SWT.BORDER);
         hostText.setLayoutData(dataHost);
+        //TODO: only for testing
+        hostText.setText("localhost");
+        //hostText.setMessage("The address of the host");
     }
 
     private void createRepoInput(Composite container) {
@@ -60,6 +63,9 @@ public class RepoSettingsDialog extends TitleAreaDialog {
         dataRepo.horizontalAlignment = GridData.FILL;
         repoText = new Text(container, SWT.BORDER);
         repoText.setLayoutData(dataRepo);
+        //TODO: only for testing
+        repoText.setText("repo1");
+        //repoText.setMessage("The name of the repository");
     }
     
     @Override

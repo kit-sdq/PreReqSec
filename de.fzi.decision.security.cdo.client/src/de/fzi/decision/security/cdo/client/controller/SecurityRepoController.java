@@ -1,24 +1,28 @@
 package de.fzi.decision.security.cdo.client.controller;
 
+import java.io.IOException;
 import java.util.List;
 
-import org.eclipse.emf.cdo.eresource.CDOResource;
+import org.eclipse.emf.cdo.session.CDOSessionInvalidationEvent;
+import org.eclipse.emf.cdo.util.CommitException;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.net4j.util.event.IEvent;
+import org.eclipse.net4j.util.event.IListener;
 import org.eclipse.net4j.util.lifecycle.LifecycleException;
-import org.eclipse.ui.IViewReference;
-import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.fzi.decision.security.cdo.client.connection.ServerConnection;
-import de.fzi.decision.security.cdo.client.util.Constants;
+import de.fzi.decision.security.cdo.client.util.SecurityContainerTableViewerModel;
 import de.fzi.decision.security.cdo.client.util.SecurityEditorInput;
 import de.fzi.decision.security.cdo.client.util.SecurityFileHandler;
 import de.fzi.decision.security.cdo.client.view.SecurityRepoView;
 import security.Container;
 
 public class SecurityRepoController {
-	
+
+	private final Logger logger = LoggerFactory.getLogger(SecurityRepoController.class);
 	private SecurityRepoView view;
 	private ServerConnection connection;
 	
@@ -26,69 +30,61 @@ public class SecurityRepoController {
 		this.view = view;
 	}
 	
-	public void connectToCDOServer(String host, String repoName) throws LifecycleException{
-		openCDOSessionsView();
-		connection = ServerConnection.getInstance(host, repoName);
-		loadResourceAndOpenEditor();
+	public void connectToCDOServer(String host, String repoName) throws LifecycleException {
+		connection = ServerConnection.getInstance(host, repoName, createPassiveUpdateListener());
+		refreshTableInput();
 	}
 	
-	private void openCDOSessionsView() {
-		try {
-			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(Constants.SESSIONS_VIEW_ID);
-		} catch (PartInitException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	private void closeSessionsView() {
-		IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-		for (IViewReference viewRef : page.getViewReferences()) {
-			if (viewRef.getId().equals(Constants.SESSIONS_VIEW_ID)) {
-				page.hideView(viewRef);
+	private IListener createPassiveUpdateListener() {
+		return new IListener() {
+					
+			@Override
+			public void notifyEvent(IEvent event) {
+				if (event instanceof CDOSessionInvalidationEvent) {
+					CDOSessionInvalidationEvent invalidationEvent = (CDOSessionInvalidationEvent) event;
+					long timestamp = invalidationEvent.getTimeStamp();
+					logger.info("CDOSessionInvalidationEvent occured at: " + timestamp);
+					//TODO: respond properly to that event (check for conflicts...)
+					refreshTableInput();
+				}
 			}
-		}
+		};
 	}
 
-	private void loadResourceAndOpenEditor() {
-		CDOResource rootResource = loadRootResource();
-		openResourceInEditor(rootResource);
-	}
-	
-	private CDOResource loadRootResource() {
-		String containerPath = Constants.RESOURCE_PATH;
+	private void refreshTableInput() {
 		List<String> containerNames = connection.getAllSecurityContainerNames();
-		if (!containerNames.isEmpty()) {
-			containerPath = "/" + handleNotEmptyRepository(containerNames);
-		} else {
-			handleEmptyRepository();
+		SecurityContainerTableViewerModel[] model = new SecurityContainerTableViewerModel[containerNames.size()];
+		for (int i = 0; i < containerNames.size(); i++) {
+			model[i] = new SecurityContainerTableViewerModel(containerNames.get(i));
 		}
-		CDOResource rootResource = connection.loadResourceByPath(containerPath);
-		return rootResource;
-	}
-	
-	private String handleNotEmptyRepository(List<String> containerNames) {
-		if (containerNames.size() == 1) {
-			return containerNames.get(0);
-		} else {
-			return handleMultipleContainers(containerNames);
-		}
-	}
-	
-	private String handleMultipleContainers(List<String> containerNames) {
-		return view.showContainerChooserDialogAndGetResult(containerNames);
+		view.setTableInput(model);
 	}
 
-	private void handleEmptyRepository() {
+	public void doLoadModel() throws IllegalArgumentException, CommitException {
 		URI modelURI = view.startModelSelection();
 		if (modelURI != null) {
 			Container rootContainer = SecurityFileHandler.getModelFromFile(modelURI);
-			connection.storeInitialResource(rootContainer);
-			loadRootResource();
+			String name = modelURI.lastSegment().substring(0, modelURI.lastSegment().indexOf('.'));
+			if (!checkIfNameAlreadyExists(name)) {
+				connection.storeNewResource(rootContainer, name);
+				refreshTableInput();
+			} else {
+				throw new IllegalArgumentException();
+			}
 		}
 	}
 	
-	private void openResourceInEditor(CDOResource root) {
-		SecurityEditorInput editorInput = new SecurityEditorInput(root.getURI().toString());
+	private boolean checkIfNameAlreadyExists(String name) {
+		for (String existingName : connection.getAllSecurityContainerNames()) {
+			if (existingName.equals(name)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public void openResourceInEditor(String resPath) {
+		SecurityEditorInput editorInput = new SecurityEditorInput(resPath, connection.getHost(), connection.getRepoName());
 		view.openResourceInEditor(editorInput);
 	}
 
@@ -102,17 +98,20 @@ public class SecurityRepoController {
 	
 	public void closeSession() {
 		try {
-			view.closeSecurityEditorIfOpen();
+			view.onSessionClosed();
 		} catch (PartInitException e) {
 			e.printStackTrace();
 		}
-		
-		closeSessionsView();
 		
 		if (connection != null) {
 			connection.closeSession();
 			connection = null;
 		}
+	}
+
+	public void deleteResource(String name) throws IOException {
+		connection.deleteResource(name);
+		refreshTableInput();
 	}
 
 }

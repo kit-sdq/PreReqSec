@@ -15,13 +15,18 @@ import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.emf.cdo.eresource.CDOResource;
+import org.eclipse.emf.cdo.transaction.CDOTransaction;
+import org.eclipse.emf.cdo.util.CommitException;
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.command.CommandStackListener;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
+import org.eclipse.emf.edit.ui.util.EditUIUtil;
 import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
@@ -53,6 +58,8 @@ public class SecurityPatternEditorPart extends EditorPart {
 	private Collection<Resource> savedResources = new ArrayList<Resource>();
 	
 	private AppController controller;
+	private CDOTransaction transaction;
+	private URI uri;
 	
 	private IPartListener partListener = new PartAdapter() {
 		@Override
@@ -108,10 +115,11 @@ public class SecurityPatternEditorPart extends EditorPart {
 		setPartName(input.getName());
 		site.getPage().addPartListener(partListener);
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(resourceChangeListener, IResourceChangeEvent.POST_CHANGE);
-		SecurityEditorInput editorInput = (SecurityEditorInput) input;
-		initializeEditingDomain(editorInput.getResourcePath());
-		//initializeEditingDomain();
+		initializeEditingDomain(input);
+		
 	}
+	
+	
 
 	@Override
 	public void createPartControl(Composite parent) {
@@ -119,7 +127,6 @@ public class SecurityPatternEditorPart extends EditorPart {
 		SecurityContainer model = new SecurityContainer(editingDomain);
 		controller = new AppController(view, model);
 		
-		URI uri = URI.createURI(((SecurityEditorInput)getEditorInput()).getResourcePath());
 		DelegateSelectionProvider delegateSelectionProvider = new DelegateSelectionProvider();
 		getSite().setSelectionProvider(delegateSelectionProvider);
 		
@@ -156,6 +163,7 @@ public class SecurityPatternEditorPart extends EditorPart {
 					if (notEmpty && writeAllowed) {
 						try {
 							long timeStamp = resource.getTimeStamp();
+							//TODO catch LocalCommitConflictException
 							resource.save(saveOptions);
 							if (resource.getTimeStamp() != timeStamp) {
 								savedResources.add(resource);
@@ -174,6 +182,13 @@ public class SecurityPatternEditorPart extends EditorPart {
 			firePropertyChange(PROP_DIRTY);
 			controller.runAnalysis();
 		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			transaction.commit();
+		} catch (CommitException e) {
+			//TODO handle that
 			e.printStackTrace();
 		}
 	}
@@ -204,10 +219,14 @@ public class SecurityPatternEditorPart extends EditorPart {
 		adapterFactory.dispose();
 		propertySheetPage.dispose();
 		getSite().getPage().removePartListener(partListener);
+		if (transaction != null) {
+			transaction.close();
+			transaction = null;
+		}
 		super.dispose();
 	}
 	
-	private void initializeEditingDomain(String resourcePath) {
+	private void initializeEditingDomain(IEditorInput editorInput) {
 		adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 		
 		BasicCommandStack commandStack = new BasicCommandStack();
@@ -225,9 +244,29 @@ public class SecurityPatternEditorPart extends EditorPart {
 		});
 
 		editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack, new HashMap<Resource, Boolean>());
-		editingDomain.loadResource(resourcePath);
+		if (checkIfCDOInput(editorInput)) {
+			SecurityEditorInput securityInput = (SecurityEditorInput) editorInput;
+			handleCDOInput(securityInput, editingDomain);
+		} else {
+			uri = EditUIUtil.getURI(getEditorInput(), editingDomain.getResourceSet().getURIConverter());
+		}
 		propertySheetPage = new ExtendedPropertySheetPage(editingDomain);
 		propertySheetPage.setPropertySourceProvider(new AdapterFactoryContentProvider(adapterFactory));
+	}
+	
+	private boolean checkIfCDOInput(IEditorInput input) {
+		if (input instanceof SecurityEditorInput) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	private void handleCDOInput(SecurityEditorInput input, AdapterFactoryEditingDomain editingDomain) {
+		ResourceSet set = editingDomain.getResourceSet();
+		transaction = input.getTransaction(set);
+		CDOResource resource = transaction.getResource(input.getResourcePath());
+		uri = resource.getURI();
 	}
 	
 	private void handleActivate() {

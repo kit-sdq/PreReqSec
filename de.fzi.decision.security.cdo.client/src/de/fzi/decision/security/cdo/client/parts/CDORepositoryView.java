@@ -1,20 +1,27 @@
 package de.fzi.decision.security.cdo.client.parts;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.e4.ui.di.Focus;
+import org.eclipse.emf.cdo.util.CommitException;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.window.Window;
 import org.eclipse.net4j.util.lifecycle.LifecycleException;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Composite;
@@ -22,11 +29,13 @@ import org.eclipse.swt.widgets.FileDialog;
 
 import de.fzi.decision.security.cdo.client.controller.SecurityRepoController;
 import de.fzi.decision.security.cdo.client.util.Constants;
+import de.fzi.decision.security.cdo.client.util.SecurityContainerTableViewerModel;
 import de.fzi.decision.security.cdo.client.util.SecurityEditorInput;
 import de.fzi.decision.security.cdo.client.view.SecurityRepoView;
-import de.fzi.decision.security.cdo.client.view.dialogs.RepoSettingsDialog;
+import de.fzi.decision.security.cdo.client.view.dialogs.OpenSessionDialog;
 
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbenchPage;
@@ -36,6 +45,10 @@ import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
 
 /**
  * @author matthias endlichhofer
@@ -45,35 +58,199 @@ public class CDORepositoryView implements SecurityRepoView{
 	
 	private SecurityRepoController controller;
 	private Label lblHeading;
-	private Button btnOpenClose;
+	private Button btnSession;
 	private Composite parent;
-	private SecurityEditorInput editorInput;
+	private TableViewer tableViewer;
+	private Table table;
+	private Composite controlComposite;
+	private Button deleteButton;
+	private Button openButton;
+	private SecurityContainerTableViewerModel selectedData;
 
 	@PostConstruct
 	public void createPartControl(Composite parent) {
 		this.parent = parent;
 		parent.setLayout(new GridLayout(1, false));
 		
+		createHeading();
+		createTableViewer();
+		createControlComposite();
+		createSessionButton();
+		setVisibilityOfContainerComposite(false);
+		
+		controller = new SecurityRepoController(this);
+	}
+
+	private void createHeading() {
 		lblHeading = new Label(parent, SWT.NONE);
 		GridData gd_lblHeading = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_lblHeading.minimumWidth = 250;
 		lblHeading.setLayoutData(gd_lblHeading);
 		lblHeading.setText("No session active");
+	}
+
+	private void createTableViewer() {
+		tableViewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);
+		tableViewer.setContentProvider(ArrayContentProvider.getInstance());
+		createColumns();
 		
+		table = tableViewer.getTable();
+		table.setHeaderVisible(false);
+		table.setLinesVisible(false);
+		addTableSelectionListener();
+		
+		GridData gridData = new GridData();
+        gridData.verticalAlignment = GridData.FILL;
+        gridData.horizontalSpan = 2;
+        gridData.grabExcessHorizontalSpace = true;
+        gridData.grabExcessVerticalSpace = true;
+        gridData.horizontalAlignment = GridData.FILL;
+        tableViewer.getControl().setLayoutData(gridData);
+	}
+	
+	private void createColumns() {	
+		createContainerNameColumn();	
+	}
+
+
+	private void createContainerNameColumn() {
+		TableViewerColumn colContainerName = new TableViewerColumn(tableViewer, SWT.NONE);
+		colContainerName.getColumn().setWidth(500);
+		colContainerName.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+				SecurityContainerTableViewerModel model = (SecurityContainerTableViewerModel) element;
+				return model.getName();
+			}
+		});
+	}
+	
+	private void addTableSelectionListener() {
+		table.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				TableItem item = (TableItem) e.item;
+				if (item != null) {
+					selectedData = (SecurityContainerTableViewerModel) item.getData();
+					setButtonsEnabled(true);
+				} else {
+					selectedData = null;
+					setButtonsEnabled(false);
+				}
+			}
+		});
+		
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
+				if (selectedData != null) {
+					controller.openResourceInEditor("/" + selectedData.getName());
+				}
+			}
+		});
+	}
+	
+	private void createControlComposite() {
+		controlComposite = new Composite(parent, SWT.BORDER_SOLID);
+		RowLayout layout = new RowLayout(SWT.HORIZONTAL);
+		layout.fill = true;
+		layout.marginBottom = 5;
+		layout.marginTop = 5;
+		controlComposite.setLayout(layout);
+		createOpenEditorButton();
+		createDeleteButton();
+		createLoadButton();
+	}
+	
+	private void createOpenEditorButton() {
+		openButton = new Button(controlComposite, SWT.PUSH);
+		
+		openButton.setEnabled(false);
+		openButton.setText("Open");
+		openButton.computeSize(SWT.DEFAULT, table.getItemHeight());
+		openButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (selectedData != null) {
+					String path = "/" + selectedData.getName();
+					controller.openResourceInEditor(path);
+				}
+			}
+		});
+	}
+	
+	private void createDeleteButton() {
+		deleteButton = new Button(controlComposite, SWT.PUSH);
+		deleteButton.setEnabled(false);
+		deleteButton.setText("Delete");
+		deleteButton.computeSize(SWT.DEFAULT, table.getItemHeight());
+		deleteButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (selectedData != null) {
+					if (doubleCheckDeletionIntention(selectedData.getName())) {
+						String name = selectedData.getName();
+						deleteResource(name);
+					}
+				}
+			}
+		});
+	}
+	
+	private boolean doubleCheckDeletionIntention(String name) {
+		String title = "Deletion of " + name;
+		String msg = "Do you really want to delete the container " + name + "?";
+		return MessageDialog.openConfirm(parent.getShell(), title, msg);
+	}
+	
+	private void deleteResource(String name) {
+		try {
+			controller.deleteResource(name);
+		} catch (IOException e) {
+			e.printStackTrace();
+			MessageDialog.openInformation(parent.getShell(), "Resource could not be deletetd", e.getMessage());
+		}
+	}
+	
+	private void createLoadButton() {
+		Button loadButton = new Button(controlComposite, SWT.PUSH);
+		loadButton.setEnabled(true);
+		loadButton.setText("Load Security Model");
+		loadButton.computeSize(SWT.DEFAULT, table.getItemHeight());
+		loadButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				try {
+					controller.doLoadModel();
+				} catch (CommitException e1) {
+					e1.printStackTrace();
+					MessageDialog.openInformation(parent.getShell(), "Resource could not be committed", e1.getMessage());
+				} catch (IllegalArgumentException e2) {
+					MessageDialog.openInformation(parent.getShell(), "Resource could not be loaded", 
+							"The selected container name already exists in the repository.");
+				}
+			}
+		});
+	}
+	
+	private void createSessionButton() {
 		Composite composite = new Composite(parent, SWT.NONE);
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
 		
-		controller = new SecurityRepoController(this);
-		
-		btnOpenClose = new Button(composite, SWT.NONE);
-		btnOpenClose.setText("Open Session");
-		btnOpenClose.addSelectionListener(addOpenCloseSessionListener());
+		btnSession = new Button(composite, SWT.NONE);
+		btnSession.setText("Open Session");
+		btnSession.addSelectionListener(addOpenCloseSessionListener());
+	}
+	
+	private void setButtonsEnabled(boolean enabled) {
+		openButton.setEnabled(enabled);
+		deleteButton.setEnabled(enabled);
 	}
 
-		@Focus
+	@Focus
 	public void setFocus() {
-		//TODO
+		//not important
 	}	
 	
 	@Override
@@ -92,7 +269,6 @@ public class CDORepositoryView implements SecurityRepoView{
 	@Override
 	public void openResourceInEditor(SecurityEditorInput editorInput) {
 		if (editorInput != null) {
-			this.editorInput = editorInput;
 		    IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 		    try {
 		        page.openEditor(editorInput, Constants.SECURITY_EDITOR_ID);
@@ -102,18 +278,23 @@ public class CDORepositoryView implements SecurityRepoView{
 		}
 	}
 	
-	@Override
-	public void closeSecurityEditorIfOpen() throws PartInitException {
-		if (editorInput != null) {
-			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-			List<IEditorReference> editorsToClose = new ArrayList<>();
-			for (IEditorReference editorReference : page.getEditorReferences()) {
-				if (editorReference.getEditorInput().equals(editorInput)) {
-					editorsToClose.add(editorReference);
-				}
+	private void closeAllOpenSecurityEditors() throws PartInitException {
+		IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+		List<IEditorReference> editorsToClose = new ArrayList<>();
+		for (IEditorReference editorReference : page.getEditorReferences()) {
+			if (editorReference.getEditorInput() instanceof SecurityEditorInput) {
+				editorsToClose.add(editorReference);
 			}
-			page.closeEditors(editorsToClose.toArray(new IEditorReference[editorsToClose.size()]), true);
 		}
+		page.closeEditors(editorsToClose.toArray(new IEditorReference[editorsToClose.size()]), true);
+	}
+	
+	@Override
+	public void onSessionClosed() throws PartInitException {
+		closeAllOpenSecurityEditors();
+		selectedData = null;
+		setButtonsEnabled(false);
+		setVisibilityOfContainerComposite(false);
 	}
 	
 	private boolean connectToServer(String host, String repoName) {
@@ -129,20 +310,20 @@ public class CDORepositoryView implements SecurityRepoView{
 	}
 	
 	private SelectionListener addOpenCloseSessionListener() {
-		return new SelectionListener() {
+		return new SelectionAdapter() {
 			
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (!controller.isRepoLoaded()) {
-					String repoName = showRepoLoadDialog();
+					String repoName = showOpenSessionDialog();
 					if (repoName != null) {
 						lblHeading.setText("Session active: [" + repoName + "]");
-						btnOpenClose.setText("Close Session");
+						btnSession.setText("Close Session");
 					}
 				} else {
 					closeCurrentSession();
 					lblHeading.setText("No session active");
-					btnOpenClose.setText("Open Session");
+					btnSession.setText("Open Session");
 				}
 				
 			}
@@ -151,12 +332,12 @@ public class CDORepositoryView implements SecurityRepoView{
 				controller.closeSession();
 			}
 
-			private String showRepoLoadDialog() {
-				RepoSettingsDialog settingsDialog = new RepoSettingsDialog(parent.getShell());
-				settingsDialog.create();
-				if (settingsDialog.open() == Window.OK) {
-					String host = settingsDialog.getHost();
-					String repoName = settingsDialog.getRepoName();
+			private String showOpenSessionDialog() {
+				OpenSessionDialog openSessionDialog = new OpenSessionDialog(parent.getShell());
+				openSessionDialog.create();
+				if (openSessionDialog.open() == Window.OK) {
+					String host = openSessionDialog.getHost();
+					String repoName = openSessionDialog.getRepoName();
 					boolean connected = connectToServer(host, repoName);
 					if (connected) {
 						return repoName;
@@ -164,21 +345,13 @@ public class CDORepositoryView implements SecurityRepoView{
 				}
 				return null;
 			}
-
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
 		};
 	}
-
-	/*@Override
-	public boolean showCDOConflictDialog() {
-		String title = "The local changes are conflicting with the global repository state";
-		String msg = "Do you want to commit your local changes and override the global changes?";
-		return !(MessageDialog.openConfirm(parent.getShell(), title, msg));
-	}*/
+	
+	private void setVisibilityOfContainerComposite(boolean visible) {
+		table.setVisible(visible);
+		controlComposite.setVisible(visible);
+	}
 
 	@Override
 	public String showContainerChooserDialogAndGetResult(List<String> containers) {
@@ -196,5 +369,17 @@ public class CDORepositoryView implements SecurityRepoView{
 			return chosenName;
 	}
 	
+	public void setTableInput(SecurityContainerTableViewerModel[] model) {
+		parent.getDisplay().asyncExec(new Runnable() {
+			
+			@Override
+			public void run() {
+				setVisibilityOfContainerComposite(true);
+				table.clearAll();
+				tableViewer.setInput(model);
+				tableViewer.refresh();
+			}
+		});
+	}
 	
 }
