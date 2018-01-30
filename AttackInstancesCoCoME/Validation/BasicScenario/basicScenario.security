@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:emfprofileapplication="http://www.modelversioning.org/emfprofile/application/1.1" xmlns:security="http://www.fzi.de/decision/security" xmlns:securityPatterns="http://www.fzi.de/decision/security/securityPatterns" xmlns:securityPrerequisites="http://www.fzi.de/decision/security/securityPrerequisites" xmlns:securityThreats="http://www.fzi.de/decision/security/securityThreats">
-  <security:Container id="_gLjkkCvnEeeBFJawWlgBXg">
-    <contains xsi:type="securityThreats:ThreatCatalog" id="_hLTxYivnEeeBFJawWlgBXg">
+  <security:Container id="_gLjkkCvnEeeBFJawWlgBXg" name="CoCoME Default Collection">
+    <contains xsi:type="securityThreats:ThreatCatalog" id="_hLTxYivnEeeBFJawWlgBXg" name=" ">
       <dynamicDataKeys id="_Pld-sOAmEee5FL2WPUSVkQ" name="Stealth"/>
       <dynamicDataKeys id="_VOhMAOYzEeeBme-BIXdgRg" name="Position"/>
       <dynamicDataKeys id="_a2EDUOYzEeeBme-BIXdgRg" name="Motivation"/>
@@ -93,7 +93,7 @@
         <data key="_Wd69MAXWEeiln5uSIv6U2g" value="AUTHENTICATION"/>
       </attacks>
     </contains>
-    <contains xsi:type="securityPatterns:PatternCatalog" id="_gwSCQCvnEeeBFJawWlgBXg" name="" description="This catalog contains a selection of security patterns.">
+    <contains xsi:type="securityPatterns:PatternCatalog" id="_gwSCQCvnEeeBFJawWlgBXg" name=" " description="This catalog contains a selection of security patterns.">
       <securityPatterns id="_IVr20C60Eeee4Ma0GzGF8w" name="Authenticator" description="The authenticator veryfies the identity of the user. To do so It receives provided autentication information from the user, compares it with expected authentication information and, on equality, creates and returns a proof of identity to the user." mitigatedPrerequisites="_QCwv8HJPEeeUDOga6FjiIA _Z2AysHJPEeeUDOga6FjiIB _Z2AysHJPEeeUDOga6FjiIC _Z2AysHJPEeeUDOga6FjiIA _HcBuMHJQEeeUDOga6FjiIA _kp2D0HrCEeelLYMz0yOLCw _l2BjEHrCEeelLYMz0yOLCw _CibCIYDOEeep_vGoYB1cZA _9CkUkJGfEeeo7s_vdwbkdQ _9YMmUJGfEeeo7s_vdwbkdQ _9wt0AJGfEeeo7s_vdwbkdQ _i3-fcJItEeeXW53tAuXZPA _jM18MJItEeeXW53tAuXZPA _kJhm4JItEeeXW53tAuXZPA _khlhkJItEeeXW53tAuXZPA _k4ZfEJItEeeXW53tAuXZPA _lYmpIJItEeeXW53tAuXZPA _l3I_QJItEeeXW53tAuXZPA _nM6fYJItEeeXW53tAuXZPA _biC3AAXZEeiln5uSIv6U2g">
         <roles id="_6ntp8DEvEeejp9Ll7O-qTg" name="Authenticator" description="Component checking a clients claim of identity by comparing provided identifaction information with expected one. Hands out proof of identification in case of equality." uses="_435fEDPVEeedIemevWrvFg" usedBy="_XuOBEDPYEeedIemevWrvFg"/>
         <roles id="_435fEDPVEeedIemevWrvFg" name="Authentication Information" description="Information required to establish the identity of users." usedBy="_6ntp8DEvEeejp9Ll7O-qTg"/>
@@ -111,7 +111,7 @@
         <roles id="_MS0ZwDEwEeejp9Ll7O-qTg" name="Internal Interface" description="Interface facing the trusted partition of the network." usedBy="_nnMFgDODEeedIemevWrvFg"/>
       </securityPatterns>
     </contains>
-    <contains xsi:type="securityPrerequisites:PrerequisiteCatalog" id="_heSXwSvnEeeBFJawWlgBXg">
+    <contains xsi:type="securityPrerequisites:PrerequisiteCatalog" id="_heSXwSvnEeeBFJawWlgBXg" name=" ">
       <prerequisites id="_WZhQQj1JEeaC77dVaP0Eeg" name="WebApplication" description="The system is a web application." attacks="_DPedQj1JEeaC77dVaP0Eeg _zbUWEj1KEeaVk-W-mW-puA _XL2vUj1NEeaVk-W-mW-puA _gEjY5T1OEeaVk-W-mW-puA"/>
       <prerequisites id="_Myt4qD1KEeaVk-W-mW-puA" name="HTTPUsage" description="The system uses HTTP to fulfill its tasks as a web server." attacks="_DPedQj1JEeaC77dVaP0Eeg _gEjY5T1OEeaVk-W-mW-puA"/>
       <prerequisites id="_GBmUuD1LEeaVk-W-mW-puA" name="TCPUsage" description="The system uses TCP as a transport protocol to enable the use of HTTP and fulfill its tasks as a web server." attacks="_zbUWEj1KEeaVk-W-mW-puA"/>
