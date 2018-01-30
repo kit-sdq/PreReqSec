@@ -7,6 +7,9 @@
       <dynamicDataKeys id="_a2EDUOYzEeeBme-BIXdgRg" name="Motivation"/>
       <dynamicDataKeys id="_8Afn4OYzEeeBme-BIXdgRg" name="Focus"/>
       <dynamicDataKeys id="_9KadUOYzEeeBme-BIXdgRg" name="TimeConstraints"/>
+      <dynamicDataKeys id="_hEPjAAXTEeiln5uSIv6U2g" name="Activity"/>
+      <dynamicDataKeys id="__aER8AXTEeiln5uSIv6U2g" name="Intention" description=""/>
+      <dynamicDataKeys id="_Wd69MAXWEeiln5uSIv6U2g" name="SecurityViolation"/>
       <attackers id="_pCMgMGFnEeaenr5P40YdvQ" name="ProfessionalHacker" description="A professional hacker who has a high level of security knowledge and is able to carry out sophisticated attacks." attacks="_DPedQj1JEeaC77dVaP0Eeg _zbUWEj1KEeaVk-W-mW-puA _yZTNgT1MEeaVk-W-mW-puA _XL2vUj1NEeaVk-W-mW-puA _gEjY5T1OEeaVk-W-mW-puA">
         <data key="_Pld-sOAmEee5FL2WPUSVkQ" value="STEALTHY"/>
         <data key="_VOhMAOYzEeeBme-BIXdgRg" value="EXTERNAL"/>
@@ -18,27 +21,85 @@
         <data key="_9KadUOYzEeeBme-BIXdgRg" value="NONE"/>
         <data key="_Pld-sOAmEee5FL2WPUSVkQ" value="STEALTHY"/>
       </attackers>
-      <attackers id="_ZiIPIGFoEeaenr5P40YdvQ" name="InternalAttacker" description="An attacker who is positioned inside the target system."/>
-      <attackers id="_iPckkGFoEeaenr5P40YdvQ" name="Company" description="A whole company with a high level of financial resources and financially motivated goals." attacks="_DPedQj1JEeaC77dVaP0Eeg _zbUWEj1KEeaVk-W-mW-puA _yZTNgT1MEeaVk-W-mW-puA _XL2vUj1NEeaVk-W-mW-puA _gEjY5T1OEeaVk-W-mW-puA"/>
-      <attackers id="_6mm8sGFoEeaenr5P40YdvQ" name="Government" description="The government in the form of an intelligence agency or police with nearly unlimited resources and information gathering as their main goal." attacks="_yZTNgT1MEeaVk-W-mW-puA _XL2vUj1NEeaVk-W-mW-puA _gEjY5T1OEeaVk-W-mW-puA"/>
-      <attackers id="_gzjY4GFpEeaenr5P40YdvQ" name="Terrorists" description="The main goal is to create damage at the target system." attacks="_DPedQj1JEeaC77dVaP0Eeg _zbUWEj1KEeaVk-W-mW-puA _yZTNgT1MEeaVk-W-mW-puA _XL2vUj1NEeaVk-W-mW-puA _gEjY5T1OEeaVk-W-mW-puA"/>
-      <attackers id="_r5aTAGFpEeaenr5P40YdvQ" name="CuriousEmployee" description="Insider at the target system with the goal of simple information gathering."/>
-      <attackers id="_4K5SwGFpEeaenr5P40YdvQ" name="CuriousUser" description="User of the target system with the goal of simple information gathering."/>
-      <attackers id="_CZhp8GFqEeaenr5P40YdvQ" name="OrdinaryEmployee" description="Insider at the target system who is mislead into executing malicious actions."/>
-      <attackers id="_R5xEsGFqEeaenr5P40YdvQ" name="OrdinaryUser" description="An ordinary user of the target system who is mislead into malicious actions." attacks="_DPedQj1JEeaC77dVaP0Eeg _zbUWEj1KEeaVk-W-mW-puA"/>
-      <attacks id="_DPedQj1JEeaC77dVaP0Eeg" name="HTTPFlooding" description="The attacker issues an enormous amount of HTTP requests to produce a denial of service at the web server (the exploitation of bugs does not play a role), often described simply as DDoS." attackers="_pCMgMGFnEeaenr5P40YdvQ _A2-kAGFoEeaenr5P40YdvQ _iPckkGFoEeaenr5P40YdvQ _gzjY4GFpEeaenr5P40YdvQ _R5xEsGFqEeaenr5P40YdvQ" prerequisites="_WZhQQj1JEeaC77dVaP0Eeg _Myt4qD1KEeaVk-W-mW-puA _ZS2W0FqLEee3Y7MWUzYKLA _hlpTcFqLEee3Y7MWUzYKLA _9CVoYHCgEeeuUeOpptM-yQ _CibCIYDOEeep_vGoYB1cZA _9CkUkJGfEeeo7s_vdwbkdQ _9YMmUJGfEeeo7s_vdwbkdQ _9wt0AJGfEeeo7s_vdwbkdQ"/>
-      <attacks id="_zbUWEj1KEeaVk-W-mW-puA" name="TCPSYNFlooding" description="The attacker opens lots of TCP connections with the server, but suppresses the final ACK of the handshake procedure, so that every connection stays half-open and uses resources of the server to finally produce a denial of service." attackers="_pCMgMGFnEeaenr5P40YdvQ _A2-kAGFoEeaenr5P40YdvQ _iPckkGFoEeaenr5P40YdvQ _gzjY4GFpEeaenr5P40YdvQ _R5xEsGFqEeaenr5P40YdvQ" prerequisites="_WZhQQj1JEeaC77dVaP0Eeg _GBmUuD1LEeaVk-W-mW-puA"/>
-      <attacks id="_yZTNgT1MEeaVk-W-mW-puA" name="SQLInjection" description="The attacker injects malicious SQL code in parameters that are passed into SQL commands unchecked which leads to the execution of malicious SQL commands." attackers="_pCMgMGFnEeaenr5P40YdvQ _A2-kAGFoEeaenr5P40YdvQ _iPckkGFoEeaenr5P40YdvQ _6mm8sGFoEeaenr5P40YdvQ _gzjY4GFpEeaenr5P40YdvQ" prerequisites="_BvpFYT1NEeaVk-W-mW-puA _K3GZKD1NEeaVk-W-mW-puA _yuXHgFpBEeeDStyR4vdK8Q _XrUGAFpDEeeDStyR4vdK8Q _HrR9AHChEeeuUeOpptM-yQ _IdkgIHCiEeeuUeOpptM-yQ _VpQeUHCiEeeuUeOpptM-yQ _CibCIYDOEeep_vGoYB1cZA _9CkUkJGfEeeo7s_vdwbkdQ _9YMmUJGfEeeo7s_vdwbkdQ _9wt0AJGfEeeo7s_vdwbkdQ _WybeoJQJEeetdbBECRggAA"/>
-      <attacks id="_XL2vUj1NEeaVk-W-mW-puA" name="PersistentCrossSiteScripting" description="The attacker passes malicious code to the system that is persisted (e.g. in the database), later the the system passes the malicious code to a user where it is executed in the browser." attackers="_pCMgMGFnEeaenr5P40YdvQ _iPckkGFoEeaenr5P40YdvQ _6mm8sGFoEeaenr5P40YdvQ _gzjY4GFpEeaenr5P40YdvQ _A2-kAGFoEeaenr5P40YdvQ" prerequisites="_WZhQQj1JEeaC77dVaP0Eeg _M0bySGSOEeaBdfha1Hk-SA _YGJIMFpAEeeDStyR4vdK8Q _yuXHgFpBEeeDStyR4vdK8Q _7HVqYHCXEeeuUeOpptM-yQ _VpQeUHCiEeeuUeOpptM-yQ _P9jo0HHsEee3t9O1wS03ow _t-jVcYDNEeep_vGoYB1cZA _CibCIYDOEeep_vGoYB1cZA _BvpFYT1NEeaVk-W-mW-puA _HrR9AHChEeeuUeOpptM-yQ _9CkUkJGfEeeo7s_vdwbkdQ _9YMmUJGfEeeo7s_vdwbkdQ _9wt0AJGfEeeo7s_vdwbkdQ"/>
-      <attacks id="_gEjY5T1OEeaVk-W-mW-puA" name="CrossSiteRequestForgery" description="The attacker misleads a user of a web application who is logged in to open a link that contains a malicious command which is then executed with the rights of the user." attackers="_pCMgMGFnEeaenr5P40YdvQ _iPckkGFoEeaenr5P40YdvQ _6mm8sGFoEeaenr5P40YdvQ _gzjY4GFpEeaenr5P40YdvQ" prerequisites="_WZhQQj1JEeaC77dVaP0Eeg _Myt4qD1KEeaVk-W-mW-puA _uZh6Yj1OEeaVk-W-mW-puA _w4tQsmfOEeat05QRYoj_vQ _nOF1wHCcEeeuUeOpptM-yQ _3Qf3gHCeEeeuUeOpptM-yQ _Iv2DQHCfEeeuUeOpptM-yQ _BvpFYT1NEeaVk-W-mW-puA _M0bySGSOEeaBdfha1Hk-SA _YGJIMFpAEeeDStyR4vdK8Q _yuXHgFpBEeeDStyR4vdK8Q _7HVqYHCXEeeuUeOpptM-yQ _HrR9AHChEeeuUeOpptM-yQ _VpQeUHCiEeeuUeOpptM-yQ _P9jo0HHsEee3t9O1wS03ow _t-jVcYDNEeep_vGoYB1cZA _CibCIYDOEeep_vGoYB1cZA _9CkUkJGfEeeo7s_vdwbkdQ _9YMmUJGfEeeo7s_vdwbkdQ _9wt0AJGfEeeo7s_vdwbkdQ _i3-fcJItEeeXW53tAuXZPA _jM18MJItEeeXW53tAuXZPA _kJhm4JItEeeXW53tAuXZPA _khlhkJItEeeXW53tAuXZPA _k4ZfEJItEeeXW53tAuXZPA _lYmpIJItEeeXW53tAuXZPA _l3I_QJItEeeXW53tAuXZPA _nM6fYJItEeeXW53tAuXZPA"/>
+      <attackers id="_ZiIPIGFoEeaenr5P40YdvQ" name="InternalAttacker" description="An attacker who is positioned inside the target system.">
+        <data key="_8Afn4OYzEeeBme-BIXdgRg" value="DIRECTED"/>
+        <data key="_Pld-sOAmEee5FL2WPUSVkQ" value="STEALTHY"/>
+      </attackers>
+      <attackers id="_iPckkGFoEeaenr5P40YdvQ" name="Company" description="A whole company with a high level of financial resources and financially motivated goals." attacks="_DPedQj1JEeaC77dVaP0Eeg _zbUWEj1KEeaVk-W-mW-puA _yZTNgT1MEeaVk-W-mW-puA _XL2vUj1NEeaVk-W-mW-puA _gEjY5T1OEeaVk-W-mW-puA">
+        <data key="_VOhMAOYzEeeBme-BIXdgRg" value="EXTERNAL"/>
+        <data key="_8Afn4OYzEeeBme-BIXdgRg" value="DIRECTED"/>
+        <data key="_a2EDUOYzEeeBme-BIXdgRg" value="FINANCIAL"/>
+        <data key="_9KadUOYzEeeBme-BIXdgRg" value="SOFT"/>
+        <data key="_Pld-sOAmEee5FL2WPUSVkQ" value="STEALTHY"/>
+      </attackers>
+      <attackers id="_6mm8sGFoEeaenr5P40YdvQ" name="Government" description="The government in the form of an intelligence agency or police with nearly unlimited resources and information gathering as their main goal." attacks="_yZTNgT1MEeaVk-W-mW-puA _XL2vUj1NEeaVk-W-mW-puA _gEjY5T1OEeaVk-W-mW-puA">
+        <data key="_VOhMAOYzEeeBme-BIXdgRg" value="EXTERNAL"/>
+        <data key="_8Afn4OYzEeeBme-BIXdgRg" value="DIRECTED"/>
+        <data key="_a2EDUOYzEeeBme-BIXdgRg" value="POLITICAL"/>
+        <data key="_9KadUOYzEeeBme-BIXdgRg" value="SOFT"/>
+        <data key="_Pld-sOAmEee5FL2WPUSVkQ" value="STEALTHY"/>
+      </attackers>
+      <attackers id="_gzjY4GFpEeaenr5P40YdvQ" name="Terrorists" description="The main goal is to create damage at the target system." attacks="_DPedQj1JEeaC77dVaP0Eeg _zbUWEj1KEeaVk-W-mW-puA _yZTNgT1MEeaVk-W-mW-puA _XL2vUj1NEeaVk-W-mW-puA _gEjY5T1OEeaVk-W-mW-puA">
+        <data key="_VOhMAOYzEeeBme-BIXdgRg" value="EXTERNAL"/>
+        <data key="_a2EDUOYzEeeBme-BIXdgRg" value="POLITICAL"/>
+      </attackers>
+      <attackers id="_r5aTAGFpEeaenr5P40YdvQ" name="CuriousEmployee" description="Insider at the target system with the goal of simple information gathering.">
+        <data key="_hEPjAAXTEeiln5uSIv6U2g" value="PASSIVE"/>
+        <data key="_8Afn4OYzEeeBme-BIXdgRg" value="DIRECTED"/>
+        <data key="_a2EDUOYzEeeBme-BIXdgRg" value="PERSONAL"/>
+        <data key="_9KadUOYzEeeBme-BIXdgRg" value="NONE"/>
+        <data key="_Pld-sOAmEee5FL2WPUSVkQ" value="STEALTHY"/>
+      </attackers>
+      <attackers id="_4K5SwGFpEeaenr5P40YdvQ" name="CuriousUser" description="User of the target system with the goal of simple information gathering.">
+        <data key="_VOhMAOYzEeeBme-BIXdgRg" value="EXTERNAL"/>
+        <data key="_8Afn4OYzEeeBme-BIXdgRg" value="RANDOM"/>
+        <data key="_a2EDUOYzEeeBme-BIXdgRg" value="PERSONAL"/>
+        <data key="_9KadUOYzEeeBme-BIXdgRg" value="NONE"/>
+        <data key="_Pld-sOAmEee5FL2WPUSVkQ" value="STEALTHY"/>
+      </attackers>
+      <attackers id="_CZhp8GFqEeaenr5P40YdvQ" name="OrdinaryEmployee" description="Insider at the target system who is mislead into executing malicious actions.">
+        <data key="__aER8AXTEeiln5uSIv6U2g" value="NONMALICIOUS"/>
+        <data key="_8Afn4OYzEeeBme-BIXdgRg" value="DIRECTED"/>
+        <data key="_9KadUOYzEeeBme-BIXdgRg" value="NONE"/>
+      </attackers>
+      <attackers id="_R5xEsGFqEeaenr5P40YdvQ" name="OrdinaryUser" description="An ordinary user of the target system who is mislead into malicious actions." attacks="_DPedQj1JEeaC77dVaP0Eeg _zbUWEj1KEeaVk-W-mW-puA">
+        <data key="_VOhMAOYzEeeBme-BIXdgRg" value="EXTERNAL"/>
+        <data key="__aER8AXTEeiln5uSIv6U2g" value="NONMALICIOUS"/>
+        <data key="_8Afn4OYzEeeBme-BIXdgRg" value="DIRECTED"/>
+        <data key="_9KadUOYzEeeBme-BIXdgRg" value="NONE"/>
+      </attackers>
+      <attacks id="_DPedQj1JEeaC77dVaP0Eeg" name="HTTPFlooding" description="The attacker issues an enormous amount of HTTP requests to produce a denial of service at the web server (the exploitation of bugs does not play a role), often described simply as DDoS." attackers="_pCMgMGFnEeaenr5P40YdvQ _A2-kAGFoEeaenr5P40YdvQ _iPckkGFoEeaenr5P40YdvQ _gzjY4GFpEeaenr5P40YdvQ _R5xEsGFqEeaenr5P40YdvQ" prerequisites="_WZhQQj1JEeaC77dVaP0Eeg _Myt4qD1KEeaVk-W-mW-puA _ZS2W0FqLEee3Y7MWUzYKLA _hlpTcFqLEee3Y7MWUzYKLA _9CVoYHCgEeeuUeOpptM-yQ _CibCIYDOEeep_vGoYB1cZA _9CkUkJGfEeeo7s_vdwbkdQ _9YMmUJGfEeeo7s_vdwbkdQ _9wt0AJGfEeeo7s_vdwbkdQ">
+        <data key="_Pld-sOAmEee5FL2WPUSVkQ" value="STEALTHY"/>
+        <data key="_Wd69MAXWEeiln5uSIv6U2g" value="AVAILABILITY"/>
+      </attacks>
+      <attacks id="_zbUWEj1KEeaVk-W-mW-puA" name="TCPSYNFlooding" description="The attacker opens lots of TCP connections with the server, but suppresses the final ACK of the handshake procedure, so that every connection stays half-open and uses resources of the server to finally produce a denial of service." attackers="_pCMgMGFnEeaenr5P40YdvQ _A2-kAGFoEeaenr5P40YdvQ _iPckkGFoEeaenr5P40YdvQ _gzjY4GFpEeaenr5P40YdvQ _R5xEsGFqEeaenr5P40YdvQ" prerequisites="_WZhQQj1JEeaC77dVaP0Eeg _GBmUuD1LEeaVk-W-mW-puA">
+        <data key="_Pld-sOAmEee5FL2WPUSVkQ" value="STEALTHY"/>
+        <data key="_Wd69MAXWEeiln5uSIv6U2g" value="AVAILABILITY"/>
+      </attacks>
+      <attacks id="_yZTNgT1MEeaVk-W-mW-puA" name="SQLInjection" description="The attacker injects malicious SQL code in parameters that are passed into SQL commands unchecked which leads to the execution of malicious SQL commands." attackers="_pCMgMGFnEeaenr5P40YdvQ _A2-kAGFoEeaenr5P40YdvQ _iPckkGFoEeaenr5P40YdvQ _6mm8sGFoEeaenr5P40YdvQ _gzjY4GFpEeaenr5P40YdvQ" prerequisites="_BvpFYT1NEeaVk-W-mW-puA _K3GZKD1NEeaVk-W-mW-puA _yuXHgFpBEeeDStyR4vdK8Q _XrUGAFpDEeeDStyR4vdK8Q _HrR9AHChEeeuUeOpptM-yQ _IdkgIHCiEeeuUeOpptM-yQ _VpQeUHCiEeeuUeOpptM-yQ _CibCIYDOEeep_vGoYB1cZA _9CkUkJGfEeeo7s_vdwbkdQ _9YMmUJGfEeeo7s_vdwbkdQ _9wt0AJGfEeeo7s_vdwbkdQ _WybeoJQJEeetdbBECRggAA">
+        <data key="_Pld-sOAmEee5FL2WPUSVkQ" value="STEALTHY"/>
+        <data key="_Wd69MAXWEeiln5uSIv6U2g" value="CONFIDENTIALITY"/>
+        <data key="_Wd69MAXWEeiln5uSIv6U2g" value="INTEGRITY"/>
+        <data key="_Wd69MAXWEeiln5uSIv6U2g" value="NONREPUDIATION"/>
+      </attacks>
+      <attacks id="_XL2vUj1NEeaVk-W-mW-puA" name="PersistentCrossSiteScripting" description="The attacker passes malicious code to the system that is persisted (e.g. in the database), later the the system passes the malicious code to a user where it is executed in the browser." attackers="_pCMgMGFnEeaenr5P40YdvQ _iPckkGFoEeaenr5P40YdvQ _6mm8sGFoEeaenr5P40YdvQ _gzjY4GFpEeaenr5P40YdvQ _A2-kAGFoEeaenr5P40YdvQ" prerequisites="_WZhQQj1JEeaC77dVaP0Eeg _M0bySGSOEeaBdfha1Hk-SA _YGJIMFpAEeeDStyR4vdK8Q _yuXHgFpBEeeDStyR4vdK8Q _7HVqYHCXEeeuUeOpptM-yQ _VpQeUHCiEeeuUeOpptM-yQ _P9jo0HHsEee3t9O1wS03ow _t-jVcYDNEeep_vGoYB1cZA _CibCIYDOEeep_vGoYB1cZA _BvpFYT1NEeaVk-W-mW-puA _HrR9AHChEeeuUeOpptM-yQ _9CkUkJGfEeeo7s_vdwbkdQ _9YMmUJGfEeeo7s_vdwbkdQ _9wt0AJGfEeeo7s_vdwbkdQ">
+        <data key="_Pld-sOAmEee5FL2WPUSVkQ" value="STEALTHY"/>
+        <data key="_Wd69MAXWEeiln5uSIv6U2g" value="AUTHENTICATION"/>
+        <data key="_Wd69MAXWEeiln5uSIv6U2g" value="CONFIDENTIALITY"/>
+        <data key="_Wd69MAXWEeiln5uSIv6U2g" value="INTEGRITY"/>
+      </attacks>
+      <attacks id="_gEjY5T1OEeaVk-W-mW-puA" name="CrossSiteRequestForgery" description="The attacker misleads a user of a web application who is logged in to open a link that contains a malicious command which is then executed with the rights of the user." attackers="_pCMgMGFnEeaenr5P40YdvQ _iPckkGFoEeaenr5P40YdvQ _6mm8sGFoEeaenr5P40YdvQ _gzjY4GFpEeaenr5P40YdvQ" prerequisites="_WZhQQj1JEeaC77dVaP0Eeg _Myt4qD1KEeaVk-W-mW-puA _uZh6Yj1OEeaVk-W-mW-puA _w4tQsmfOEeat05QRYoj_vQ _nOF1wHCcEeeuUeOpptM-yQ _3Qf3gHCeEeeuUeOpptM-yQ _Iv2DQHCfEeeuUeOpptM-yQ _BvpFYT1NEeaVk-W-mW-puA _M0bySGSOEeaBdfha1Hk-SA _YGJIMFpAEeeDStyR4vdK8Q _yuXHgFpBEeeDStyR4vdK8Q _7HVqYHCXEeeuUeOpptM-yQ _HrR9AHChEeeuUeOpptM-yQ _VpQeUHCiEeeuUeOpptM-yQ _P9jo0HHsEee3t9O1wS03ow _t-jVcYDNEeep_vGoYB1cZA _CibCIYDOEeep_vGoYB1cZA _9CkUkJGfEeeo7s_vdwbkdQ _9YMmUJGfEeeo7s_vdwbkdQ _9wt0AJGfEeeo7s_vdwbkdQ _i3-fcJItEeeXW53tAuXZPA _jM18MJItEeeXW53tAuXZPA _kJhm4JItEeeXW53tAuXZPA _khlhkJItEeeXW53tAuXZPA _k4ZfEJItEeeXW53tAuXZPA _lYmpIJItEeeXW53tAuXZPA _l3I_QJItEeeXW53tAuXZPA _nM6fYJItEeeXW53tAuXZPA">
+        <data key="_Pld-sOAmEee5FL2WPUSVkQ" value="STEALTHY"/>
+        <data key="_Wd69MAXWEeiln5uSIv6U2g" value="AUTHENTICATION"/>
+      </attacks>
     </contains>
     <contains xsi:type="securityPatterns:PatternCatalog" id="_gwSCQCvnEeeBFJawWlgBXg" name="" description="This catalog contains a selection of security patterns.">
-      <securityPatterns id="_IVr20C60Eeee4Ma0GzGF8w" name="Authenticator" description="The authenticator veryfies the identity of the user. To do so It receives provided autentication information from the user, compares it with expected authentication information and, on equality, creates and returns a proof of identity to the user." mitigatedPrerequisites="_QCwv8HJPEeeUDOga6FjiIA _Z2AysHJPEeeUDOga6FjiIB _Z2AysHJPEeeUDOga6FjiIC _Z2AysHJPEeeUDOga6FjiIA _HcBuMHJQEeeUDOga6FjiIA _kp2D0HrCEeelLYMz0yOLCw _l2BjEHrCEeelLYMz0yOLCw _CibCIYDOEeep_vGoYB1cZA _9CkUkJGfEeeo7s_vdwbkdQ _9YMmUJGfEeeo7s_vdwbkdQ _9wt0AJGfEeeo7s_vdwbkdQ _i3-fcJItEeeXW53tAuXZPA _jM18MJItEeeXW53tAuXZPA _kJhm4JItEeeXW53tAuXZPA _khlhkJItEeeXW53tAuXZPA _k4ZfEJItEeeXW53tAuXZPA _lYmpIJItEeeXW53tAuXZPA _l3I_QJItEeeXW53tAuXZPA _nM6fYJItEeeXW53tAuXZPA">
+      <securityPatterns id="_IVr20C60Eeee4Ma0GzGF8w" name="Authenticator" description="The authenticator veryfies the identity of the user. To do so It receives provided autentication information from the user, compares it with expected authentication information and, on equality, creates and returns a proof of identity to the user." mitigatedPrerequisites="_QCwv8HJPEeeUDOga6FjiIA _Z2AysHJPEeeUDOga6FjiIB _Z2AysHJPEeeUDOga6FjiIC _Z2AysHJPEeeUDOga6FjiIA _HcBuMHJQEeeUDOga6FjiIA _kp2D0HrCEeelLYMz0yOLCw _l2BjEHrCEeelLYMz0yOLCw _CibCIYDOEeep_vGoYB1cZA _9CkUkJGfEeeo7s_vdwbkdQ _9YMmUJGfEeeo7s_vdwbkdQ _9wt0AJGfEeeo7s_vdwbkdQ _i3-fcJItEeeXW53tAuXZPA _jM18MJItEeeXW53tAuXZPA _kJhm4JItEeeXW53tAuXZPA _khlhkJItEeeXW53tAuXZPA _k4ZfEJItEeeXW53tAuXZPA _lYmpIJItEeeXW53tAuXZPA _l3I_QJItEeeXW53tAuXZPA _nM6fYJItEeeXW53tAuXZPA _biC3AAXZEeiln5uSIv6U2g">
         <roles id="_6ntp8DEvEeejp9Ll7O-qTg" name="Authenticator" description="Component checking a clients claim of identity by comparing provided identifaction information with expected one. Hands out proof of identification in case of equality." uses="_435fEDPVEeedIemevWrvFg" usedBy="_XuOBEDPYEeedIemevWrvFg"/>
         <roles id="_435fEDPVEeedIemevWrvFg" name="Authentication Information" description="Information required to establish the identity of users." usedBy="_6ntp8DEvEeejp9Ll7O-qTg"/>
         <roles id="_XuOBEDPYEeedIemevWrvFg" name="Proof of Identity" description="Created by the authenticator, may be used to proof identy without repeated identification through authenticator." uses="_6ntp8DEvEeejp9Ll7O-qTg"/>
       </securityPatterns>
-      <securityPatterns id="_K7yWYC60Eeee4Ma0GzGF8w" name="Role-Based Access Control" description="Role base access control allows giving allowing and denying access for groups of users. Users have the rights that are the union of the rights of the groups they belong to.">
+      <securityPatterns id="_K7yWYC60Eeee4Ma0GzGF8w" name="Role-Based Access Control" description="Role base access control allows giving allowing and denying access for groups of users. Users have the rights that are the union of the rights of the groups they belong to." mitigatedPrerequisites="_biC3AAXZEeiln5uSIv6U2g">
         <roles id="_p8ZRQDExEeejp9Ll7O-qTg" name="Protected Interface" description="Interface that may only be accessed by roles with corresponding rights." uses="_y5o5EDExEeejp9Ll7O-qTg"/>
         <roles id="_y5o5EDExEeejp9Ll7O-qTg" name="Authorizator" description="Component looking up a users roles and that roles' rights and granting or denying access accordingly." uses="_5P6eoDExEeejp9Ll7O-qTg _tGYhADExEeejp9Ll7O-qTg" usedBy="_p8ZRQDExEeejp9Ll7O-qTg"/>
         <roles id="_5P6eoDExEeejp9Ll7O-qTg" name="User Role Mapping" description="Information about which roles a user belongs to." usedBy="_y5o5EDExEeejp9Ll7O-qTg"/>
@@ -108,6 +169,7 @@
       <prerequisites id="_l3I_QJItEeeXW53tAuXZPA" name="SessionIDRotation" description="Rotation of Session-IDs with every login" attacks="_gEjY5T1OEeaVk-W-mW-puA" securityPatterns="_IVr20C60Eeee4Ma0GzGF8w"/>
       <prerequisites id="_nM6fYJItEeeXW53tAuXZPA" name="SessionIDSigned" description="Session-IDs are signed" attacks="_gEjY5T1OEeaVk-W-mW-puA" securityPatterns="_IVr20C60Eeee4Ma0GzGF8w"/>
       <prerequisites id="_WybeoJQJEeetdbBECRggAA" name="UntrustedInputForCommands" description="untrusted input is used for construction of commands" attacks="_yZTNgT1MEeaVk-W-mW-puA"/>
+      <prerequisites id="_biC3AAXZEeiln5uSIv6U2g" name="AnonymousAccess" securityPatterns="_IVr20C60Eeee4Ma0GzGF8w _K7yWYC60Eeee4Ma0GzGF8w"/>
     </contains>
   </security:Container>
   <emfprofileapplication:ProfileApplication>
