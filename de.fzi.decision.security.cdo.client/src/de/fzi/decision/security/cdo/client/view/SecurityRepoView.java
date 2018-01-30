@@ -5,6 +5,7 @@ import java.util.List;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.ui.PartInitException;
 
+import de.fzi.decision.security.cdo.client.util.SecurityContainerTableViewerModel;
 import de.fzi.decision.security.cdo.client.util.SecurityEditorInput;
 
 public interface SecurityRepoView {
@@ -17,7 +18,9 @@ public interface SecurityRepoView {
 	
 	public abstract String showContainerChooserDialogAndGetResult(List<String> containers);
 
-	public abstract void closeSecurityEditorIfOpen() throws PartInitException;
+	public abstract void onSessionClosed() throws PartInitException;
+	
+	public abstract void setTableInput(SecurityContainerTableViewerModel[] model);
 	
 
 }

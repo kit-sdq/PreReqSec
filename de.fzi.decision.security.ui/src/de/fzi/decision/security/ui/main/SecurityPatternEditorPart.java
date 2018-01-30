@@ -162,6 +162,7 @@ public class SecurityPatternEditorPart extends EditorPart {
 					if (notEmpty && writeAllowed) {
 						try {
 							long timeStamp = resource.getTimeStamp();
+							//TODO catch LocalCommitConflictException
 							resource.save(saveOptions);
 							if (resource.getTimeStamp() != timeStamp) {
 								savedResources.add(resource);

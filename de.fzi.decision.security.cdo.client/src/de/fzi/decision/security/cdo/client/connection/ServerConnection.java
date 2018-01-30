@@ -1,5 +1,6 @@
 package de.fzi.decision.security.cdo.client.connection;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,22 +13,25 @@ import org.eclipse.emf.cdo.net4j.CDONet4jUtil;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.util.CDOUtil;
 import org.eclipse.emf.cdo.util.CommitException;
+import org.eclipse.emf.cdo.util.ConcurrentAccessException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.net4j.connector.IConnector;
 import org.eclipse.net4j.util.container.IPluginContainer;
+import org.eclipse.net4j.util.event.IListener;
 import org.eclipse.net4j.util.lifecycle.ILifecycle;
 import org.eclipse.net4j.util.lifecycle.LifecycleEventAdapter;
 import org.eclipse.net4j.util.lifecycle.LifecycleException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import de.fzi.decision.security.cdo.client.util.Constants;
 import security.Container;
 
 public class ServerConnection {
-	
+
+	//private final Logger logger = LoggerFactory.getLogger(ServerConnection.class);
 	private static ServerConnection instance;
 	private static String host;
 	private static String repoName;
-	
 	private CDONet4jSession session;
 	
 	private ServerConnection(String host, String repoName) throws LifecycleException {
@@ -42,6 +46,12 @@ public class ServerConnection {
 		} else if (!host.equals(ServerConnection.host) || !repoName.equals(ServerConnection.repoName)) {
 			instance = new ServerConnection(host, repoName);
 		}
+		return instance;
+	}
+	
+	public static ServerConnection getInstance(String host, String repoName, IListener listener) throws LifecycleException {
+		instance = getInstance(host, repoName);
+		instance.session.addListener(listener);
 		return instance;
 	}
 	
@@ -94,18 +104,14 @@ public class ServerConnection {
 		 return containerNames;
 	 }
 	 
-	 public void storeInitialResource(Container object) {
-		try {
-			CDOTransaction transaction = session.openTransaction();
-			CDOResource cdoResource = transaction.getOrCreateResource(Constants.RESOURCE_PATH);
-			cdoResource.getContents().clear();
-			CDOObject cdoObject = CDOUtil.getCDOObject((EObject) object);
-			cdoResource.getContents().add(cdoObject);
-			transaction.commit();
-			transaction.close();
-		} catch (CommitException e) {
-			e.printStackTrace();
-		}
+	 public void storeNewResource(Container object, String name) throws CommitException {
+		CDOTransaction transaction = session.openTransaction();
+		CDOResource cdoResource = transaction.getOrCreateResource("/" + name);
+		cdoResource.getContents().clear();
+		CDOObject cdoObject = CDOUtil.getCDOObject((EObject) object);
+		cdoResource.getContents().add(cdoObject);
+		transaction.commit();
+		transaction.close();
 	 }
 
 	public String getHost() {
@@ -114,6 +120,18 @@ public class ServerConnection {
 
 	public String getRepoName() {
 		return repoName;
+	}
+
+	public void deleteResource(String name) throws IOException {
+		try {
+			CDOTransaction transaction = session.openTransaction();
+			CDOResource cdoResource = transaction.getResource("/" + name);
+			cdoResource.delete(null);
+			transaction.commit();
+			transaction.close();
+		} catch (CommitException e) {
+			e.printStackTrace();
+		}
 	}
 	 
 	 

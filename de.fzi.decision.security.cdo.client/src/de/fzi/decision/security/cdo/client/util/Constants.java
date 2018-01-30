@@ -3,7 +3,6 @@ package de.fzi.decision.security.cdo.client.util;
 public class Constants {
 
 	public static final String REPO_NAME = "Security";
-	public static final String RESOURCE_PATH = "/SecurityContainer";
 	public static final String LOCAL_HOST = "localhost";
 	
 	public static final String SESSIONS_VIEW_ID = "org.eclipse.emf.cdo.ui.CDOSessionsView";
