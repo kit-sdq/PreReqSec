@@ -135,7 +135,7 @@
     </edges>
   </notation:Diagram>
   <emfprofile:Profile xmi:id="_5cHmMAZqEeiNl5js7KHJSw" name="SecurityThreatPcmProfile" nsURI="de.fzi.decision.security.profiles.pcm.threat" nsPrefix="threatprofile">
-    <eClassifiers xmi:type="emfprofile:Stereotype" xmi:id="_Lo3YkAZtEeiNl5js7KHJSw" name="SystemEntryPoint">
+    <eClassifiers xmi:type="emfprofile:Stereotype" xmi:id="_Lo3YkAZtEeiNl5js7KHJSw" name="AttackEntryPoint">
       <eSuperTypes xmi:type="ecore:EClass" href="http://www.modelversioning.org/emfprofile/application/1.1#//StereotypeApplication"/>
       <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_ib-kAAZtEeiNl5js7KHJSw" name="attacks" upperBound="-1">
         <eType xmi:type="ecore:EClass" href="http://www.fzi.de/decision/security#//securityThreats/Attack"/>
@@ -144,7 +144,7 @@
         <target xmi:type="ecore:EClass" href="http://palladiosimulator.org/PalladioComponentModel/5.2#//core/composition/AssemblyContext"/>
       </extensions>
     </eClassifiers>
-    <eClassifiers xmi:type="emfprofile:Stereotype" xmi:id="_OKkgUAZtEeiNl5js7KHJSw" name="SystemPath">
+    <eClassifiers xmi:type="emfprofile:Stereotype" xmi:id="_OKkgUAZtEeiNl5js7KHJSw" name="AttackPath">
       <eSuperTypes xmi:type="ecore:EClass" href="http://www.modelversioning.org/emfprofile/application/1.1#//StereotypeApplication"/>
       <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_jEf8kAZtEeiNl5js7KHJSw" name="attacks" upperBound="-1">
         <eType xmi:type="ecore:EClass" href="http://www.fzi.de/decision/security#//securityThreats/Attack"/>
@@ -153,7 +153,7 @@
         <target xmi:type="ecore:EClass" href="http://palladiosimulator.org/PalladioComponentModel/5.2#//core/composition/AssemblyContext"/>
       </extensions>
     </eClassifiers>
-    <eClassifiers xmi:type="emfprofile:Stereotype" xmi:id="_PQm7UAZtEeiNl5js7KHJSw" name="SystemTarget">
+    <eClassifiers xmi:type="emfprofile:Stereotype" xmi:id="_PQm7UAZtEeiNl5js7KHJSw" name="AttackTarget">
       <eSuperTypes xmi:type="ecore:EClass" href="http://www.modelversioning.org/emfprofile/application/1.1#//StereotypeApplication"/>
       <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_jlDr8AZtEeiNl5js7KHJSw" name="attacks" upperBound="-1">
         <eType xmi:type="ecore:EClass" href="http://www.fzi.de/decision/security#//securityThreats/Attack"/>
