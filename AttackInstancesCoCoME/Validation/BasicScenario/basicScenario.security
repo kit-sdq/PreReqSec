@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:emfprofileapplication="http://www.modelversioning.org/emfprofile/application/1.1" xmlns:patternprofile="de.fzi.decision.security.profiles.pcm.pattern" xmlns:security="http://www.fzi.de/decision/security" xmlns:securityPatterns="http://www.fzi.de/decision/security/securityPatterns" xmlns:securityPrerequisites="http://www.fzi.de/decision/security/securityPrerequisites" xmlns:securityThreats="http://www.fzi.de/decision/security/securityThreats">
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:emfprofileapplication="http://www.modelversioning.org/emfprofile/application/1.1" xmlns:security="http://www.fzi.de/decision/security" xmlns:securityPatterns="http://www.fzi.de/decision/security/securityPatterns" xmlns:securityPrerequisites="http://www.fzi.de/decision/security/securityPrerequisites" xmlns:securityThreats="http://www.fzi.de/decision/security/securityThreats">
   <security:Container id="_gLjkkCvnEeeBFJawWlgBXg" name="CoCoME Default Collection">
     <contains xsi:type="securityThreats:ThreatCatalog" id="_hLTxYivnEeeBFJawWlgBXg" name=" ">
       <dynamicDataKeys id="_Pld-sOAmEee5FL2WPUSVkQ" name="Stealth"/>
@@ -172,18 +172,4 @@
       <prerequisites id="_biC3AAXZEeiln5uSIv6U2g" name="AnonymousAccess" securityPatterns="_IVr20C60Eeee4Ma0GzGF8w _K7yWYC60Eeee4Ma0GzGF8w"/>
     </contains>
   </security:Container>
-  <emfprofileapplication:ProfileApplication>
-    <stereotypeApplications xsi:type="patternprofile:AssemblyRole" appliedTo="_6ntp8DEvEeejp9Ll7O-qTg">
-      <extension href="../../../de.fzi.decision.security.profiles.pcm/pattern.emfprofile_diagram#_7yRd4AZtEeiNl5js7KHJSw"/>
-    </stereotypeApplications>
-    <stereotypeApplications xsi:type="patternprofile:AssemblyRole" appliedTo="_435fEDPVEeedIemevWrvFg">
-      <extension href="../../../de.fzi.decision.security.profiles.pcm/pattern.emfprofile_diagram#_7yRd4AZtEeiNl5js7KHJSw"/>
-    </stereotypeApplications>
-    <stereotypeApplications xsi:type="patternprofile:AssemblyRole" appliedTo="_XuOBEDPYEeedIemevWrvFg">
-      <extension href="../../../de.fzi.decision.security.profiles.pcm/pattern.emfprofile_diagram#_7yRd4AZtEeiNl5js7KHJSw"/>
-    </stereotypeApplications>
-    <importedProfiles nsURI="de.fzi.decision.security.profiles.pcm.pattern" location="platform:/resource/de.fzi.decision.security.profiles.pcm/pattern.emfprofile_diagram"/>
-    <importedProfiles nsURI="de.fzi.decision.security.profiles.pcm.prerequisite" location="platform:/resource/de.fzi.decision.security.profiles.pcm/prereq.emfprofile_diagram"/>
-    <importedProfiles nsURI="de.fzi.decision.security.profiles.pcm.threat" location="platform:/resource/de.fzi.decision.security.profiles.pcm/threat.emfprofile_diagram"/>
-  </emfprofileapplication:ProfileApplication>
 </xmi:XMI>

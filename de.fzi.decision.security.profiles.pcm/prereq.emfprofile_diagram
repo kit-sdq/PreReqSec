@@ -17,7 +17,7 @@
       <styles xmi:type="notation:DescriptionStyle" xmi:id="_DTnIYQZuEeiNl5js7KHJSw"/>
       <styles xmi:type="notation:FontStyle" xmi:id="_DTnIYgZuEeiNl5js7KHJSw" fontName="Segoe UI"/>
       <element xmi:type="ecore:EClass" href="http://www.fzi.de/decision/security#//securityPrerequisites/Prerequisite"/>
-      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_DTnIYwZuEeiNl5js7KHJSw" x="285" y="105"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_DTnIYwZuEeiNl5js7KHJSw" x="285" y="375"/>
     </children>
     <children xmi:type="notation:Node" xmi:id="_EVPkgQZuEeiNl5js7KHJSw" type="2006" element="_EVPkgAZuEeiNl5js7KHJSw">
       <children xmi:type="notation:DecorationNode" xmi:id="_EVPkhQZuEeiNl5js7KHJSw" type="5008"/>
@@ -45,18 +45,19 @@
       <styles xmi:type="notation:DescriptionStyle" xmi:id="_IC0pgQZuEeiNl5js7KHJSw"/>
       <styles xmi:type="notation:FontStyle" xmi:id="_IC0pggZuEeiNl5js7KHJSw" fontName="Segoe UI"/>
       <element xmi:type="ecore:EClass" href="http://palladiosimulator.org/PalladioComponentModel/5.2#//core/composition/AssemblyContext"/>
-      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_IC0pgwZuEeiNl5js7KHJSw" x="270" y="360"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_IC0pgwZuEeiNl5js7KHJSw" x="270" y="105"/>
     </children>
     <styles xmi:type="notation:DiagramStyle" xmi:id="_zDLcQQZsEeiNl5js7KHJSw"/>
-    <edges xmi:type="notation:Edge" xmi:id="_JJXa0AZuEeiNl5js7KHJSw" type="4005" element="_JJWzwAZuEeiNl5js7KHJSw" source="_EVPkgQZuEeiNl5js7KHJSw" target="_DTnIYAZuEeiNl5js7KHJSw">
+    <edges xmi:type="notation:Edge" xmi:id="_JJXa0AZuEeiNl5js7KHJSw" type="4005" element="_JJWzwAZuEeiNl5js7KHJSw" source="_EVPkgQZuEeiNl5js7KHJSw" target="_IC0pgAZuEeiNl5js7KHJSw">
       <children xmi:type="notation:DecorationNode" xmi:id="_JJXa1AZuEeiNl5js7KHJSw" type="6004">
         <layoutConstraint xmi:type="notation:Location" xmi:id="_JJXa1QZuEeiNl5js7KHJSw" x="-13" y="20"/>
       </children>
       <styles xmi:type="notation:RoutingStyle" xmi:id="_JJXa0QZuEeiNl5js7KHJSw"/>
       <styles xmi:type="notation:FontStyle" xmi:id="_JJXa0gZuEeiNl5js7KHJSw" fontName="Segoe UI"/>
       <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_JJXa0wZuEeiNl5js7KHJSw" points="[2, -26, 5, 112]$[2, -160, 5, -22]"/>
+      <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_hd8bYAaiEeiTKPuuKAgLyA" id="(0.4485294117647059,0.8478260869565217)"/>
     </edges>
-    <edges xmi:type="notation:Edge" xmi:id="_KMo1sQZuEeiNl5js7KHJSw" type="4003" element="_KMoOoAZuEeiNl5js7KHJSw" source="_EVPkgQZuEeiNl5js7KHJSw" target="_IC0pgAZuEeiNl5js7KHJSw">
+    <edges xmi:type="notation:Edge" xmi:id="_KMo1sQZuEeiNl5js7KHJSw" type="4003" element="_KMoOoAZuEeiNl5js7KHJSw" source="_EVPkgQZuEeiNl5js7KHJSw" target="_DTnIYAZuEeiNl5js7KHJSw">
       <children xmi:type="notation:DecorationNode" xmi:id="_KMpcwAZuEeiNl5js7KHJSw" type="6001">
         <layoutConstraint xmi:type="notation:Location" xmi:id="_KMpcwQZuEeiNl5js7KHJSw" x="-10" y="-60"/>
       </children>
@@ -67,17 +68,16 @@
       <styles xmi:type="notation:FontStyle" xmi:id="_KMo1swZuEeiNl5js7KHJSw" fontName="Segoe UI"/>
       <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_KMo1tAZuEeiNl5js7KHJSw" points="[-3, 0, 0, -105]$[-3, 69, 0, -36]"/>
       <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_KMrR8AZuEeiNl5js7KHJSw" id="(0.5310734463276836,0.9629629629629629)"/>
-      <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_KMrR8QZuEeiNl5js7KHJSw" id="(0.5073529411764706,0.15217391304347827)"/>
     </edges>
   </notation:Diagram>
   <emfprofile:Profile xmi:id="_5cHmMAZqEeiNl5js7KHJSw" name="SecurityPrerequisitePcmProfile" nsURI="de.fzi.decision.security.profiles.pcm.prerequisite" nsPrefix="prerequisiteprofile">
     <eClassifiers xmi:type="emfprofile:Stereotype" xmi:id="_EVPkgAZuEeiNl5js7KHJSw" name="ComponentPrerequisite">
       <eSuperTypes xmi:type="ecore:EClass" href="http://www.modelversioning.org/emfprofile/application/1.1#//StereotypeApplication"/>
-      <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_KMoOoAZuEeiNl5js7KHJSw" name="assemblyContext" lowerBound="1">
-        <eType xmi:type="ecore:EClass" href="http://palladiosimulator.org/PalladioComponentModel/5.2#//core/composition/AssemblyContext"/>
+      <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_KMoOoAZuEeiNl5js7KHJSw" name="prerequisites" upperBound="-1">
+        <eType xmi:type="ecore:EClass" href="http://www.fzi.de/decision/security#//securityPrerequisites/Prerequisite"/>
       </eStructuralFeatures>
       <extensions xmi:type="emfprofile:Extension" xmi:id="_JJWzwAZuEeiNl5js7KHJSw">
-        <target xmi:type="ecore:EClass" href="http://www.fzi.de/decision/security#//securityPrerequisites/Prerequisite"/>
+        <target xmi:type="ecore:EClass" href="http://palladiosimulator.org/PalladioComponentModel/5.2#//core/composition/AssemblyContext"/>
       </extensions>
     </eClassifiers>
   </emfprofile:Profile>
