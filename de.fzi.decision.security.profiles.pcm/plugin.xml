@@ -10,6 +10,8 @@
      <import plugin="org.modelversioning.emfprofile.registry" version="1.0.0" match="greaterOrEqual" export="true"/>
   </requires>
   <extension point="org.modelversioning.emfprofile.profile">
-     <profile profile_resource="profile.emfprofile_diagram"/>
+     <profile profile_resource="pattern.emfprofile_diagram"/>
+     <profile profile_resource="threat.emfprofile_diagram"/>
+     <profile profile_resource="prereq.emfprofile_diagram"/>
   </extension>
 </plugin>

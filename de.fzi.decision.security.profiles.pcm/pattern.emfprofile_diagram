@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:emfprofile="http://www.modelversioning.org/emfprofile/1.1" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation">
-  <emfprofile:Profile xmi:id="_5cHmMAZqEeiNl5js7KHJSw" name="SecurityPatternPcmProfile" nsURI="de.fzi.decision.security.profiles.pcm.pattern" nsPrefix="myprofile"/>
+  <emfprofile:Profile xmi:id="_5cHmMAZqEeiNl5js7KHJSw" name="SecurityPatternPcmProfile" nsURI="de.fzi.decision.security.profiles.pcm.pattern" nsPrefix="patternprofile"/>
   <notation:Diagram xmi:id="_5cHmMQZqEeiNl5js7KHJSw" type="EMFProfile" element="_5cHmMAZqEeiNl5js7KHJSw" name="profile.emfprofile_diagram" measurementUnit="Pixel">
     <styles xmi:type="notation:DiagramStyle" xmi:id="_5cHmMgZqEeiNl5js7KHJSw"/>
   </notation:Diagram>

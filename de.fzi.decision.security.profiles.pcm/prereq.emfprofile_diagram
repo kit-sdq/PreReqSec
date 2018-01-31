@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:emfprofile="http://www.modelversioning.org/emfprofile/1.1" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation">
+  <notation:Diagram xmi:id="_zDLcQAZsEeiNl5js7KHJSw" type="EMFProfile" element="_5cHmMAZqEeiNl5js7KHJSw" measurementUnit="Pixel">
+    <styles xmi:type="notation:DiagramStyle" xmi:id="_zDLcQQZsEeiNl5js7KHJSw"/>
+  </notation:Diagram>
+  <emfprofile:Profile xmi:id="_5cHmMAZqEeiNl5js7KHJSw" name="SecurityPrerequisitePcmProfile" nsURI="de.fzi.decision.security.profiles.pcm.prerequisite" nsPrefix="prerequisiteprofile"/>
+</xmi:XMI>
