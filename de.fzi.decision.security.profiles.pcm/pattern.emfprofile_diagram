@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:emfprofile="http://www.modelversioning.org/emfprofile/1.1" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation">
+  <emfprofile:Profile xmi:id="_5cHmMAZqEeiNl5js7KHJSw" name="SecurityPatternPcmProfile" nsURI="de.fzi.decision.security.profiles.pcm.pattern" nsPrefix="patternprofile">
+    <eClassifiers xmi:type="emfprofile:Stereotype" xmi:id="_3XnQcAZtEeiNl5js7KHJSw" name="AssemblyRole">
+      <eSuperTypes xmi:type="ecore:EClass" href="http://www.modelversioning.org/emfprofile/application/1.1#//StereotypeApplication"/>
+      <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_9j7owAZtEeiNl5js7KHJSw" name="assemblyContext">
+        <eType xmi:type="ecore:EClass" href="http://palladiosimulator.org/PalladioComponentModel/5.2#//core/composition/AssemblyContext"/>
+      </eStructuralFeatures>
+      <extensions xmi:type="emfprofile:Extension" xmi:id="_7yRd4AZtEeiNl5js7KHJSw">
+        <target xmi:type="ecore:EClass" href="http://www.fzi.de/decision/security#//securityPatterns/Role"/>
+      </extensions>
+    </eClassifiers>
+  </emfprofile:Profile>
+  <notation:Diagram xmi:id="_5cHmMQZqEeiNl5js7KHJSw" type="EMFProfile" element="_5cHmMAZqEeiNl5js7KHJSw" name="profile.emfprofile_diagram" measurementUnit="Pixel">
+    <children xmi:type="notation:Node" xmi:id="_2W72kAZtEeiNl5js7KHJSw" type="2002">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_2W72mwZtEeiNl5js7KHJSw" source="Shortcut">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_2W72nAZtEeiNl5js7KHJSw" key="modelID" value="EMFProfile"/>
+      </eAnnotations>
+      <children xmi:type="notation:DecorationNode" xmi:id="_2W72lAZtEeiNl5js7KHJSw" type="5002"/>
+      <children xmi:type="notation:BasicCompartment" xmi:id="_2W72lQZtEeiNl5js7KHJSw" type="7004">
+        <styles xmi:type="notation:SortingStyle" xmi:id="_2W72lgZtEeiNl5js7KHJSw"/>
+        <styles xmi:type="notation:FilteringStyle" xmi:id="_2W72lwZtEeiNl5js7KHJSw"/>
+      </children>
+      <children xmi:type="notation:BasicCompartment" xmi:id="_2W72mAZtEeiNl5js7KHJSw" type="7005">
+        <styles xmi:type="notation:SortingStyle" xmi:id="_2W72mQZtEeiNl5js7KHJSw"/>
+        <styles xmi:type="notation:FilteringStyle" xmi:id="_2W72mgZtEeiNl5js7KHJSw"/>
+      </children>
+      <styles xmi:type="notation:DescriptionStyle" xmi:id="_2W72kQZtEeiNl5js7KHJSw"/>
+      <styles xmi:type="notation:FontStyle" xmi:id="_2W72kgZtEeiNl5js7KHJSw" fontName="Segoe UI"/>
+      <element xmi:type="ecore:EClass" href="http://www.fzi.de/decision/security#//securityPatterns/Role"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_2W72kwZtEeiNl5js7KHJSw" x="405" y="105"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_3XnQcQZtEeiNl5js7KHJSw" type="2006" element="_3XnQcAZtEeiNl5js7KHJSw">
+      <children xmi:type="notation:DecorationNode" xmi:id="_3XnQdQZtEeiNl5js7KHJSw" type="5008"/>
+      <children xmi:type="notation:DecorationNode" xmi:id="_3XnQdgZtEeiNl5js7KHJSw" type="7008">
+        <styles xmi:type="notation:SortingStyle" xmi:id="_3XnQdwZtEeiNl5js7KHJSw"/>
+        <styles xmi:type="notation:FilteringStyle" xmi:id="_3XnQeAZtEeiNl5js7KHJSw"/>
+      </children>
+      <styles xmi:type="notation:DescriptionStyle" xmi:id="_3XnQcgZtEeiNl5js7KHJSw"/>
+      <styles xmi:type="notation:FontStyle" xmi:id="_3XnQcwZtEeiNl5js7KHJSw" fontName="Segoe UI"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_3XnQdAZtEeiNl5js7KHJSw" x="405" y="225"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_5faqcAZtEeiNl5js7KHJSw" type="2002">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_5faqewZtEeiNl5js7KHJSw" source="Shortcut">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_5faqfAZtEeiNl5js7KHJSw" key="modelID" value="EMFProfile"/>
+      </eAnnotations>
+      <children xmi:type="notation:DecorationNode" xmi:id="_5faqdAZtEeiNl5js7KHJSw" type="5002"/>
+      <children xmi:type="notation:BasicCompartment" xmi:id="_5faqdQZtEeiNl5js7KHJSw" type="7004">
+        <styles xmi:type="notation:SortingStyle" xmi:id="_5faqdgZtEeiNl5js7KHJSw"/>
+        <styles xmi:type="notation:FilteringStyle" xmi:id="_5faqdwZtEeiNl5js7KHJSw"/>
+      </children>
+      <children xmi:type="notation:BasicCompartment" xmi:id="_5faqeAZtEeiNl5js7KHJSw" type="7005">
+        <styles xmi:type="notation:SortingStyle" xmi:id="_5faqeQZtEeiNl5js7KHJSw"/>
+        <styles xmi:type="notation:FilteringStyle" xmi:id="_5faqegZtEeiNl5js7KHJSw"/>
+      </children>
+      <styles xmi:type="notation:DescriptionStyle" xmi:id="_5faqcQZtEeiNl5js7KHJSw"/>
+      <styles xmi:type="notation:FontStyle" xmi:id="_5faqcgZtEeiNl5js7KHJSw" fontName="Segoe UI"/>
+      <element xmi:type="ecore:EClass" href="http://palladiosimulator.org/PalladioComponentModel/5.2#//core/composition/AssemblyContext"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5faqcwZtEeiNl5js7KHJSw" x="390" y="345"/>
+    </children>
+    <styles xmi:type="notation:DiagramStyle" xmi:id="_5cHmMgZqEeiNl5js7KHJSw"/>
+    <edges xmi:type="notation:Edge" xmi:id="_7yRd4QZtEeiNl5js7KHJSw" type="4005" element="_7yRd4AZtEeiNl5js7KHJSw" source="_3XnQcQZtEeiNl5js7KHJSw" target="_2W72kAZtEeiNl5js7KHJSw">
+      <children xmi:type="notation:DecorationNode" xmi:id="_7ySE8AZtEeiNl5js7KHJSw" type="6004">
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_7ySE8QZtEeiNl5js7KHJSw" x="-15" y="25"/>
+      </children>
+      <styles xmi:type="notation:RoutingStyle" xmi:id="_7yRd4gZtEeiNl5js7KHJSw"/>
+      <styles xmi:type="notation:FontStyle" xmi:id="_7yRd4wZtEeiNl5js7KHJSw" fontName="Segoe UI"/>
+      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_7yRd5AZtEeiNl5js7KHJSw" points="[4, -8, 2, 111]$[4, -128, 2, -9]"/>
+      <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_7ySE8gZtEeiNl5js7KHJSw" id="(0.5217391304347826,0.16666666666666666)"/>
+      <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_7ySE8wZtEeiNl5js7KHJSw" id="(0.6078431372549019,0.21739130434782608)"/>
+    </edges>
+    <edges xmi:type="notation:Edge" xmi:id="_9j7owgZtEeiNl5js7KHJSw" type="4003" element="_9j7owAZtEeiNl5js7KHJSw" source="_3XnQcQZtEeiNl5js7KHJSw" target="_5faqcAZtEeiNl5js7KHJSw">
+      <children xmi:type="notation:DecorationNode" xmi:id="_9j7oxgZtEeiNl5js7KHJSw" type="6001">
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_9j7oxwZtEeiNl5js7KHJSw" x="-10" y="-64"/>
+      </children>
+      <children xmi:type="notation:DecorationNode" xmi:id="_9j7oyAZtEeiNl5js7KHJSw" type="6002">
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_9j7oyQZtEeiNl5js7KHJSw" x="-10" y="26"/>
+      </children>
+      <styles xmi:type="notation:RoutingStyle" xmi:id="_9j7owwZtEeiNl5js7KHJSw"/>
+      <styles xmi:type="notation:FontStyle" xmi:id="_9j7oxAZtEeiNl5js7KHJSw" fontName="Segoe UI"/>
+      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_9j7oxQZtEeiNl5js7KHJSw" points="[0, 0, -8, -90]$[12, 68, 4, -22]"/>
+      <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_9kFZwAZtEeiNl5js7KHJSw" id="(0.391304347826087,1.0)"/>
+    </edges>
+  </notation:Diagram>
+</xmi:XMI>

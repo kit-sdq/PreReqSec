@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>de.fzi.decision.security.profile.pcm.pattern</name>
+	<name>de.fzi.decision.security.profiles.pcm</name>
 	<comment></comment>
 	<projects>
-		<project>de.fzi.decision.security</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

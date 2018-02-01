@@ -10,7 +10,7 @@
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" lowerBound="1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" defaultValueLiteral=" "/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Container" eSuperTypes="#//NamedDescribedEntity">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel"/>
@@ -45,8 +45,7 @@
       </eAnnotations>
       <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="mitigatedPrerequisites"
-          lowerBound="1" upperBound="-1" eType="#//securityPrerequisites/Prerequisite"
-          eOpposite="#//securityPrerequisites/Prerequisite/securityPatterns"/>
+          upperBound="-1" eType="#//securityPrerequisites/Prerequisite" eOpposite="#//securityPrerequisites/Prerequisite/securityPatterns"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="roles" lowerBound="1"
           upperBound="-1" eType="#//securityPatterns/Role" containment="true"/>
     </eClassifiers>
@@ -107,8 +106,8 @@
         <details key="documentation" value=""/>
       </eAnnotations>
       <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="attacks" lowerBound="1"
-          upperBound="-1" eType="#//securityThreats/Attack" eOpposite="#//securityThreats/Attack/attackers"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="attacks" upperBound="-1"
+          eType="#//securityThreats/Attack" eOpposite="#//securityThreats/Attack/attackers"/>
       <eGenericSuperTypes eClassifier="#//dynamicData/DynamicDataEntity">
         <eTypeArguments eClassifier="#//securityThreats/ThreatCatalog"/>
       </eGenericSuperTypes>
