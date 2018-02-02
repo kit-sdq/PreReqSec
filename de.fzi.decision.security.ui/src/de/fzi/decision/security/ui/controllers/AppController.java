@@ -228,10 +228,7 @@ public class AppController implements IQueryCallback {
 
 	@Override
 	public void setFilterByResultingSecurityPatterns(Object[] patterns) {
-<<<<<<< HEAD
 		view.clearSelection();
-=======
->>>>>>> 8f8d0bca533d0bda736ee4a0f3114e19e94e1d0f
 		patternFilter.setFilterByPattern(patterns);
 		prerequisiteFilter.setFilterByPattern(patterns);
 		attackFilter.setFilterByPattern(patterns);
@@ -239,10 +236,7 @@ public class AppController implements IQueryCallback {
 
 	@Override
 	public void setFilterByResultingPrerequisites(Object[] prerequisites) {
-<<<<<<< HEAD
 		view.clearSelection();
-=======
->>>>>>> 8f8d0bca533d0bda736ee4a0f3114e19e94e1d0f
 		patternFilter.setFilterByPrerequisite(prerequisites);
 		prerequisiteFilter.setFilterByPrerequisite(prerequisites);
 		attackFilter.setFilterByPrerequisite(prerequisites);
@@ -250,10 +244,7 @@ public class AppController implements IQueryCallback {
 
 	@Override
 	public void setFilterByResultingAttacks(Object[] attacks) {
-<<<<<<< HEAD
 		view.clearSelection();
-=======
->>>>>>> 8f8d0bca533d0bda736ee4a0f3114e19e94e1d0f
 		patternFilter.setFilterByAttacks(attacks);
 		prerequisiteFilter.setFilterByAttacks(attacks);
 		attackFilter.setFilterByAttacks(attacks);
@@ -261,15 +252,9 @@ public class AppController implements IQueryCallback {
 	
 	@Override
 	public void noResults() {
-<<<<<<< HEAD
 		view.clearSelection();
 		setFilterByResultingSecurityPatterns(model.getPatternCatalog().getSecurityPatterns().toArray());
 		Shell activeShell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 		MessageDialog.openInformation(activeShell, "No Query Results", "The resulting query was empty.");
-=======
-		Shell activeShell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-		MessageDialog.openInformation(activeShell, "No Query Results", "The resulting query was empty.");
-		setFilterByResultingSecurityPatterns(model.getPatternCatalog().getSecurityPatterns().toArray());
->>>>>>> 8f8d0bca533d0bda736ee4a0f3114e19e94e1d0f
 	}
 }
