@@ -62,4 +62,9 @@ public interface ISecurityPatternView {
 	 * @returns the current content of the Filter Textbox.
 	 */
 	String getFilterText();
+
+	/**
+	 * clears the selection of all tableviewers in the view
+	 */
+	void clearSelection();
 }

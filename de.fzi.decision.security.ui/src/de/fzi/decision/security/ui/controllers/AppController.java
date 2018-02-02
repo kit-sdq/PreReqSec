@@ -20,9 +20,9 @@ import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.fzi.decision.security.ui.controllers.query.IQueryCallback;
 import de.fzi.decision.security.ui.controllers.query.QueryManager;
 import de.fzi.decision.security.ui.controllers.viewerfilters.AttackFilter;
-import de.fzi.decision.security.ui.controllers.viewerfilters.IQueryFilter;
 import de.fzi.decision.security.ui.controllers.viewerfilters.PatternFilter;
 import de.fzi.decision.security.ui.controllers.viewerfilters.PrerequisiteFilter;
 import de.fzi.decision.security.ui.main.DelegateSelectionProvider;
@@ -37,7 +37,7 @@ import security.securityThreats.SecurityThreatsPackage;
 /**
  * Main Controller of the UI. Used to handle interaction with the user. 
  */
-public class AppController implements IQueryFilter {
+public class AppController implements IQueryCallback {
 	private final ISecurityPatternView view;
 	private final ISecurityContainer model;
 	private final Logger logger = LoggerFactory.getLogger(AppController.class);
@@ -227,23 +227,34 @@ public class AppController implements IQueryFilter {
 	}
 
 	@Override
-	public void setFilterBySecurityPatterns(Object[] patterns) {
+	public void setFilterByResultingSecurityPatterns(Object[] patterns) {
+		view.clearSelection();
 		patternFilter.setFilterByPattern(patterns);
 		prerequisiteFilter.setFilterByPattern(patterns);
 		attackFilter.setFilterByPattern(patterns);
 	}
 
 	@Override
-	public void setFilterByPrerequisites(Object[] prerequisites) {
+	public void setFilterByResultingPrerequisites(Object[] prerequisites) {
+		view.clearSelection();
 		patternFilter.setFilterByPrerequisite(prerequisites);
 		prerequisiteFilter.setFilterByPrerequisite(prerequisites);
 		attackFilter.setFilterByPrerequisite(prerequisites);
 	}
 
 	@Override
-	public void setFilterByAttacks(Object[] attacks) {
+	public void setFilterByResultingAttacks(Object[] attacks) {
+		view.clearSelection();
 		patternFilter.setFilterByAttacks(attacks);
 		prerequisiteFilter.setFilterByAttacks(attacks);
 		attackFilter.setFilterByAttacks(attacks);
+	}
+	
+	@Override
+	public void noResults() {
+		view.clearSelection();
+		setFilterByResultingSecurityPatterns(model.getPatternCatalog().getSecurityPatterns().toArray());
+		Shell activeShell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+		MessageDialog.openInformation(activeShell, "No Query Results", "The resulting query was empty.");
 	}
 }

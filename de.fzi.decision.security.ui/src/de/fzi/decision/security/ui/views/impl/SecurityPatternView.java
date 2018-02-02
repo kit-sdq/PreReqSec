@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.layout.FormLayout;
@@ -89,7 +90,16 @@ public class SecurityPatternView implements ISecurityPatternView {
 	}
 	
 	@Override
+	public void clearSelection() {
+		inputSection.getLeftViewer().setSelection(null);
+		inputSection.getRightViewer().setSelection(null);
+		outputSection.getOutputViewer().setSelection(null);
+	}
+	
+	@Override
 	public String getFilterText() {
 		return toolbar.getFilterText();
 	}
+	
+	
 }

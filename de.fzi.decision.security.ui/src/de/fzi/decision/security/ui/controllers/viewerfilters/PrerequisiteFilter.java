@@ -9,7 +9,7 @@ import security.securityThreats.Attack;
 /**
  * A ViewerFilter that consists of a set of prerequisites that shall be show in the interface.
  */
-public class PrerequisiteFilter extends CatalogViewerFilter {
+public class PrerequisiteFilter extends CatalogViewerFilter<Prerequisite> {
 	
 	public PrerequisiteFilter(Viewer viewer) {
 		super(viewer);
@@ -52,4 +52,20 @@ public class PrerequisiteFilter extends CatalogViewerFilter {
 		}
 		viewer.refresh();
 	}
+	
+	@Override
+	protected boolean containsElementToShow(Object element) {
+		if (showAll)
+			return true;
+		if (element instanceof Prerequisite) {
+			Prerequisite prerequisite = (Prerequisite) element;
+			for (Prerequisite tmp : elementsToShow) {
+				if (prerequisite.getId().equals(tmp.getId())) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
 }

@@ -8,7 +8,7 @@ import security.securityPatterns.SecurityPattern;
 import security.securityPrerequisites.Prerequisite;
 import security.securityThreats.Attack;
 
-public class PatternFilter extends CatalogViewerFilter {
+public class PatternFilter extends CatalogViewerFilter<SecurityPattern> {
 	
 	public PatternFilter(Viewer viewer) {
 		super(viewer);
@@ -52,11 +52,26 @@ public class PatternFilter extends CatalogViewerFilter {
 				Collection<Prerequisite> prerequisites = attack.getPrerequisites();
 
 				for (Prerequisite prerequisite : prerequisites) {
-					elementsToShow.addAll(prerequisite.getAttacks());
+					elementsToShow.addAll(prerequisite.getSecurityPatterns());
 				}
 			}
 		}
 		viewer.refresh();
+	}
+
+	@Override
+	protected boolean containsElementToShow(Object element) {
+		if (showAll)
+			return true;
+		if (element instanceof SecurityPattern) {
+			SecurityPattern pattern = (SecurityPattern) element;
+			for (SecurityPattern tmp : elementsToShow) {
+				if (pattern.getId().equals(tmp.getId())) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 }

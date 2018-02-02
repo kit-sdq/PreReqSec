@@ -11,7 +11,7 @@ import security.securityThreats.Attack;
 /**
  * A ViewerFilter that consists of a set of attacks that shall be show in the interface.
  */
-public class AttackFilter extends CatalogViewerFilter {
+public class AttackFilter extends CatalogViewerFilter<Attack> {
 	
 	public AttackFilter(Viewer viewer) {
 		super(viewer);
@@ -78,6 +78,19 @@ public class AttackFilter extends CatalogViewerFilter {
 		viewer.refresh();
 	}
 	
-	
+	@Override
+	protected boolean containsElementToShow(Object element) {
+		if (showAll)
+			return true;
+		if (element instanceof Attack) {
+			Attack attack = (Attack) element;
+			for (Attack tmp : elementsToShow) {
+				if (attack.getId().equals(tmp.getId())) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 
 }
