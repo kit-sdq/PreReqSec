@@ -7,7 +7,6 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
-import de.fzi.decision.security.ui.controllers.viewerfilters.IQueryFilter;
 import modelLoader.InitializationException;
 import modelLoader.LoadingException;
 import modelLoader.ModelLoaderEngine;
@@ -27,15 +26,15 @@ public class QueryManager {
 	
 	private ModelLoaderEngine modelLoaderEngine;
 	private QueryInterpreter interpreter;
-	private IQueryFilter queryFilter;
+	private IQueryCallback queryCallback;
 	
 	/**
 	 * Creates a new QueryManager and initializes the modelLoaderEngine and QueryInterpreter
 	 * @param resourceUri The URI of the model resource
 	 * @throws InitializationException Thrown if the model could not be loaded
 	 */
-	public QueryManager(IQueryFilter queryFilter, URI resourceUri) throws InitializationException {
-		this.queryFilter = queryFilter;
+	public QueryManager(IQueryCallback queryCallback, URI resourceUri) throws InitializationException {
+		this.queryCallback = queryCallback;
 		ModelLoaderEngine modelLoaderEngine = new ModelLoaderEngine(resourceUri);
 		interpreter = new QueryInterpreter(modelLoaderEngine);
 	}
@@ -56,6 +55,8 @@ public class QueryManager {
 		}
 		if (result != null && !result.isEmpty()) {
 			showQueryResult(result);
+		} else {
+			queryCallback.noResults();
 		}
 	}
 	
@@ -74,11 +75,11 @@ public class QueryManager {
 	
 	private void showQueryResult(Collection<NamedDescribedEntity> result) {
 		if (result.iterator().next() instanceof SecurityPattern) {
-			queryFilter.setFilterBySecurityPatterns(result.toArray());
+			queryCallback.setFilterByResultingSecurityPatterns(result.toArray());
 		} else if (result.iterator().next() instanceof Prerequisite) {
-			queryFilter.setFilterByPrerequisites(result.toArray());
+			queryCallback.setFilterByResultingPrerequisites(result.toArray());
 		} else if (result.iterator().next() instanceof Attack) {
-			queryFilter.setFilterByAttacks(result.toArray());
+			queryCallback.setFilterByResultingAttacks(result.toArray());
 		}
 	}
 

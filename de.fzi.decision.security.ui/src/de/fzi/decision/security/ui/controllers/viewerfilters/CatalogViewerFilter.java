@@ -6,14 +6,11 @@ import java.util.Set;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 
-import security.NamedDescribedEntity;
-
 /**
  * A ViewerFilter that consists of a set of elements that shall be show in the interface.
  */
-public abstract class CatalogViewerFilter extends ViewerFilter {
-
-	protected Set<NamedDescribedEntity> elementsToShow = new HashSet<NamedDescribedEntity>();
+public abstract class CatalogViewerFilter<T> extends ViewerFilter {
+	protected Set<T> elementsToShow = new HashSet<T>();
 	protected boolean showAll = true;
 	protected Viewer viewer;
 	
@@ -33,8 +30,10 @@ public abstract class CatalogViewerFilter extends ViewerFilter {
 			return true;
 		}
 		
-		return elementsToShow.contains(element);
+		return containsElementToShow(element);
 	}
+	
+	protected abstract boolean containsElementToShow(Object element);
 	
 	protected void initFilter(int length) {
 		showAll = length == 0;
