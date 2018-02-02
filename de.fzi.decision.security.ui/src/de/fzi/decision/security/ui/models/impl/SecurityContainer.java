@@ -81,4 +81,9 @@ public class SecurityContainer implements ISecurityContainer {
 	private Container getSecurityCatalog() {
 		return (Container) resource.getContents().get(0);
 	}
+
+	@Override
+	public URI getResourceURI() {
+		return resource.getURI();
+	}
 }

@@ -3,15 +3,13 @@ Bundle-ManifestVersion: 2
 Bundle-Name: queryMethods
 Bundle-SymbolicName: de.fzi.decision.security.query.modelLoader;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-ClassPath: de.fzi.decision.security.query.modelLoader
-Export-Package: .,
-  modelLoader
+Bundle-ClassPath: .,
+ de.fzi.decision.security.query.modelLoader
+Export-Package: modelLoader
 Require-Bundle: org.eclipse.viatra.query.runtime;bundle-version="1.5.2",
  org.eclipse.viatra.query.runtime.base.itc;bundle-version="1.5.2",
  de.fzi.decision.security;bundle-version="0.1.0",
- de.fzi.decision.security.profile.pcm.pattern;bundle-version="1.0.0",
- de.fzi.decision.security.profile.pcm.prerequisite;bundle-version="1.0.0",
- de.fzi.decision.security.profile.pcm.threat;bundle-version="1.0.0"
+ de.fzi.decision.security.query.patterns;bundle-version="0.0.1"
 Import-Package: org.eclipse.emf.ecore.xmi.impl,
   org.eclipse.viatra.query.runtime.api,
   org.eclipse.viatra.query.runtime.api.impl,

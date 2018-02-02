@@ -3,7 +3,9 @@ Bundle-ManifestVersion: 2
 Bundle-Name: queryParser
 Bundle-SymbolicName: de.fzi.decision.security.query.interpreter;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-ClassPath: de.fzi.decision.security.query.interpreter
+Bundle-ClassPath: .,
+ de.fzi.decision.security.query.interpreter
 Export-Package: parser
 Require-Bundle: org.eclipse.viatra.query.runtime;bundle-version="1.5.2",
- de.fzi.decision.security;bundle-version="0.1.0"
+ de.fzi.decision.security;bundle-version="0.1.0",
+ de.fzi.decision.security.query.modelLoader;bundle-version="1.0.0"

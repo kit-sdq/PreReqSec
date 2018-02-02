@@ -1,5 +1,6 @@
 package de.fzi.decision.security.ui.controllers;
 
+import java.util.Collection;
 import java.util.HashMap;
 
 import org.eclipse.core.databinding.observable.list.IObservableList;
@@ -23,10 +24,17 @@ import de.fzi.decision.security.ui.controllers.viewerfilters.PrerequisiteByPatte
 import de.fzi.decision.security.ui.main.DelegateSelectionProvider;
 import de.fzi.decision.security.ui.models.ISecurityContainer;
 import de.fzi.decision.security.ui.views.ISecurityPatternView;
+import modelLoader.InitializationException;
+import modelLoader.LoadingException;
+import modelLoader.ModelLoaderEngine;
+import parser.InterpreterException;
+import parser.QueryInterpreter;
+import security.NamedDescribedEntity;
 import security.SecurityPackage;
 import security.securityPatterns.SecurityPatternsPackage;
 import security.securityPrerequisites.SecurityPrerequisitesPackage;
 import security.securityThreats.SecurityThreatsPackage;
+import validation.SecurityPatternAnalysis;
 
 /**
  * Main Controller of the UI. Used to handle interaction with the user. 
@@ -84,9 +92,12 @@ public class AppController {
 	 */
 	public void runAnalysis() {
 		logger.info("runAnalysis() was called");
-		// TODO change to real analysis
-		String result = analysisMock() ? "Passed" : "Failed";
-		view.setAnalysisResult(result);
+		try {
+			runThreadAnalysisAndShowResult();
+		} catch (InitializationException | InterpreterException | LoadingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	private void load(URI uri) {
@@ -206,13 +217,25 @@ public class AppController {
 					logger.info("toolbar::filter query: " + view.getFilterText().trim());
 					// TODO Add Viewerfilter for Query, something like
 					// queryFilter.setFilter(runQuery(view.getFilterText().trim()));
+					runQuery(view.getFilterText().trim());
 				}
 			}
 		});		
 	}
 	
-	// TODO remove when no longer needed
-	private boolean analysisMock() {
-		return Math.random() > 0.5;
+	private void runQuery(String query) {
+		
+	}
+	
+	private void runThreadAnalysisAndShowResult() throws InitializationException, InterpreterException, LoadingException {
+		/*String query = view.getFilterText().trim();
+		ModelLoaderEngine modelLoaderEngine = new ModelLoaderEngine("/home/matthias/eclipse_4.7/workspace/PreReqSec/AttackInstancesCoCoME/Validation/BasicScenario/My.security");
+		QueryInterpreter interpreter = new QueryInterpreter(modelLoaderEngine);
+		SecurityPatternAnalysis analysis = new SecurityPatternAnalysis();
+		//Collection<NamedDescribedEntity> resAttack = 
+		//Collection<NamedDescribedEntity> resPattern =
+		Collection<NamedDescribedEntity> prerequisites = analysis.getPrerequisites(interpreter, query);
+		boolean analysisResult = analysis.runThreatAnalysis(prerequisites, prerequisites);
+		view.setAnalysisResult(analysisResult ? "Passed" : "Failed");*/
 	}
 }

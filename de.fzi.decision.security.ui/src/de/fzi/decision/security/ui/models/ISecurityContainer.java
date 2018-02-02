@@ -32,4 +32,9 @@ public interface ISecurityContainer {
 	 * @return the AttackCatalog of the loaded SecurityContainer resource
 	 */
 	ThreatCatalog getAttackCatalog();
+	
+	/**
+	 ** @return the URI of the loaded SecurityContainer resource
+	 */
+	URI getResourceURI();
 }
