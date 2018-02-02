@@ -1,6 +1,5 @@
 package de.fzi.decision.security.ui.controllers;
 
-import java.util.Collection;
 import java.util.HashMap;
 
 import org.eclipse.core.databinding.observable.list.IObservableList;
@@ -8,6 +7,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -15,37 +15,36 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.fzi.decision.security.ui.controllers.viewerfilters.AttackByPatternFilter;
-import de.fzi.decision.security.ui.controllers.viewerfilters.AttackByPrerequisiteFilter;
-import de.fzi.decision.security.ui.controllers.viewerfilters.PrerequisiteByPatternFilter;
+import de.fzi.decision.security.ui.controllers.query.QueryManager;
+import de.fzi.decision.security.ui.controllers.viewerfilters.AttackFilter;
+import de.fzi.decision.security.ui.controllers.viewerfilters.IQueryFilter;
+import de.fzi.decision.security.ui.controllers.viewerfilters.PatternFilter;
+import de.fzi.decision.security.ui.controllers.viewerfilters.PrerequisiteFilter;
 import de.fzi.decision.security.ui.main.DelegateSelectionProvider;
 import de.fzi.decision.security.ui.models.ISecurityContainer;
 import de.fzi.decision.security.ui.views.ISecurityPatternView;
 import modelLoader.InitializationException;
-import modelLoader.LoadingException;
-import modelLoader.ModelLoaderEngine;
-import parser.InterpreterException;
-import parser.QueryInterpreter;
-import security.NamedDescribedEntity;
 import security.SecurityPackage;
 import security.securityPatterns.SecurityPatternsPackage;
 import security.securityPrerequisites.SecurityPrerequisitesPackage;
 import security.securityThreats.SecurityThreatsPackage;
-import validation.SecurityPatternAnalysis;
 
 /**
  * Main Controller of the UI. Used to handle interaction with the user. 
  */
-public class AppController {
+public class AppController implements IQueryFilter {
 	private final ISecurityPatternView view;
 	private final ISecurityContainer model;
 	private final Logger logger = LoggerFactory.getLogger(AppController.class);
-	private PrerequisiteByPatternFilter prerequisiteByPatternFilter;
-	private AttackByPatternFilter attackByPatternFilter;
-	private AttackByPrerequisiteFilter attackByPrerequisiteFilter;
+	private PrerequisiteFilter prerequisiteFilter;
+	private AttackFilter attackFilter;
+	private PatternFilter patternFilter;
+	private QueryManager queryManager;
 	
 	/**
 	 * Creates a new AppController.
@@ -74,6 +73,7 @@ public class AppController {
 		registerViewerFilters();
 		registerListeners();
 		load(uri);
+		initQueryManager();
 	}
 
 	/**
@@ -92,11 +92,16 @@ public class AppController {
 	 */
 	public void runAnalysis() {
 		logger.info("runAnalysis() was called");
+		//TODO runn Analysis
+		//runThreadAnalysisAndShowResult();
+	}
+	
+	private void initQueryManager() {
 		try {
-			runThreadAnalysisAndShowResult();
-		} catch (InitializationException | InterpreterException | LoadingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			queryManager = new QueryManager(this, model.getResourceURI());
+		} catch (InitializationException e) {
+			Shell activeShell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+			MessageDialog.openError(activeShell, "No model found", e.getMessage());
 		}
 	}
 	
@@ -160,8 +165,8 @@ public class AppController {
 					logger.info("DelegateSelectionProvider delegating to inputSection::leftViewer");
 				}
 				
-				prerequisiteByPatternFilter.setFilter(selection.toArray());
-				attackByPatternFilter.setFilter(selection.toArray());
+				prerequisiteFilter.setFilterByPattern(selection.toArray());
+				attackFilter.setFilterByPattern(selection.toArray());
 			}
 		});
 		
@@ -176,7 +181,7 @@ public class AppController {
 					logger.info("DelegateSelectionProvider delegating to inputSection::rightViewer");
 				}
 				
-				attackByPrerequisiteFilter.setFilter(selection.toArray());
+				attackFilter.setFilterByPrerequisite(selection.toArray());
 			}
 		});
 		
@@ -195,13 +200,12 @@ public class AppController {
 	}
 	
 	private void registerViewerFilters() {
-		prerequisiteByPatternFilter = new PrerequisiteByPatternFilter(view.getRightViewer());
-		view.getRightViewer().addFilter(prerequisiteByPatternFilter);
-		
-		attackByPatternFilter = new AttackByPatternFilter(view.getOutputViewer());
-		attackByPrerequisiteFilter = new AttackByPrerequisiteFilter(view.getOutputViewer());
-		
-		view.getOutputViewer().setFilters(attackByPatternFilter, attackByPrerequisiteFilter);
+		patternFilter = new PatternFilter(view.getLeftViewer());
+		view.getLeftViewer().addFilter(patternFilter);
+		prerequisiteFilter = new PrerequisiteFilter(view.getRightViewer());
+		view.getRightViewer().addFilter(prerequisiteFilter);
+		attackFilter = new AttackFilter(view.getOutputViewer());
+		view.getOutputViewer().addFilter(attackFilter);
 	}
 	
 	private void registerListeners() {
@@ -215,27 +219,31 @@ public class AppController {
 				} else if (e.character == SWT.LF || e.character == SWT.CR || e.character == SWT.KEYPAD_CR) {
 					logger.info("toolbar::filter registered Enter Key.");
 					logger.info("toolbar::filter query: " + view.getFilterText().trim());
-					// TODO Add Viewerfilter for Query, something like
-					// queryFilter.setFilter(runQuery(view.getFilterText().trim()));
-					runQuery(view.getFilterText().trim());
+					
+					queryManager.startQuery(view.getFilterText().trim());
 				}
 			}
 		});		
 	}
-	
-	private void runQuery(String query) {
-		
+
+	@Override
+	public void setFilterBySecurityPatterns(Object[] patterns) {
+		patternFilter.setFilterByPattern(patterns);
+		prerequisiteFilter.setFilterByPattern(patterns);
+		attackFilter.setFilterByPattern(patterns);
 	}
-	
-	private void runThreadAnalysisAndShowResult() throws InitializationException, InterpreterException, LoadingException {
-		/*String query = view.getFilterText().trim();
-		ModelLoaderEngine modelLoaderEngine = new ModelLoaderEngine("/home/matthias/eclipse_4.7/workspace/PreReqSec/AttackInstancesCoCoME/Validation/BasicScenario/My.security");
-		QueryInterpreter interpreter = new QueryInterpreter(modelLoaderEngine);
-		SecurityPatternAnalysis analysis = new SecurityPatternAnalysis();
-		//Collection<NamedDescribedEntity> resAttack = 
-		//Collection<NamedDescribedEntity> resPattern =
-		Collection<NamedDescribedEntity> prerequisites = analysis.getPrerequisites(interpreter, query);
-		boolean analysisResult = analysis.runThreatAnalysis(prerequisites, prerequisites);
-		view.setAnalysisResult(analysisResult ? "Passed" : "Failed");*/
+
+	@Override
+	public void setFilterByPrerequisites(Object[] prerequisites) {
+		patternFilter.setFilterByPrerequisite(prerequisites);
+		prerequisiteFilter.setFilterByPrerequisite(prerequisites);
+		attackFilter.setFilterByPrerequisite(prerequisites);
+	}
+
+	@Override
+	public void setFilterByAttacks(Object[] attacks) {
+		patternFilter.setFilterByAttacks(attacks);
+		prerequisiteFilter.setFilterByAttacks(attacks);
+		attackFilter.setFilterByAttacks(attacks);
 	}
 }
