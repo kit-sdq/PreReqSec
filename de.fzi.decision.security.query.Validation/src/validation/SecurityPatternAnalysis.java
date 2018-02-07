@@ -15,7 +15,7 @@ public class SecurityPatternAnalysis {
 
 //	private static ModelLoaderEngine engine = null;
 
-	boolean runThreatAnalysis(Collection<NamedDescribedEntity> resultsOfAttack, Collection<NamedDescribedEntity> resultsOfSecurityPattern) throws InterpreterException, LoadingException {
+	public boolean runThreatAnalysis(Collection<NamedDescribedEntity> resultsOfAttack, Collection<NamedDescribedEntity> resultsOfSecurityPattern) throws InterpreterException, LoadingException {
 		
 		boolean result;
 		
@@ -28,7 +28,7 @@ public class SecurityPatternAnalysis {
 	    return result;
 	}
 	
-	Collection<NamedDescribedEntity> getPrerequisites (QueryInterpreter interpreter, String query) throws InterpreterException, LoadingException {
+	public Collection<NamedDescribedEntity> getPrerequisites (QueryInterpreter interpreter, String query) throws InterpreterException, LoadingException {
 		//get prerequisites
 		@SuppressWarnings("unchecked")
 		Collection<NamedDescribedEntity> results = (Collection<NamedDescribedEntity>) interpreter.interpretQuery(query);

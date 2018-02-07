@@ -7,7 +7,7 @@ import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.viatra.query.runtime.api.ViatraQueryEngine;
 import org.eclipse.viatra.query.runtime.emf.EMFScope;
 import org.eclipse.viatra.query.runtime.exception.ViatraQueryException;
-import org.modelversioning.emfprofileapplication.EMFProfileApplicationPackage;
+//import org.modelversioning.emfprofileapplication.EMFProfileApplicationPackage;
 
 import security.SecurityPackage;
 
@@ -36,18 +36,35 @@ public class ModelLoaderEngine {
 		//register security meta model
 		set.getPackageRegistry().put(SecurityPackage.eNS_URI, SecurityPackage.eINSTANCE);
 		
-		//register profile meta-model
-		set.getPackageRegistry().put(EMFProfileApplicationPackage.eNS_URI, EMFProfileApplicationPackage.eINSTANCE);
-				
-		//register profiles
-		set.getPackageRegistry().put("http://de.fzi.decision.security.profile.pcm.threat/0.1.0", EMFProfileApplicationPackage.eINSTANCE);
-		set.getPackageRegistry().put("http://de.fzi.decision.security.profile.pcm.pattern/0.1.0", EMFProfileApplicationPackage.eINSTANCE);
-		set.getPackageRegistry().put("http://de.fzi.decision.security.profile.pcm.prerequisite/0.1.0", EMFProfileApplicationPackage.eINSTANCE);
+//		//register profile meta-model
+//		set.getPackageRegistry().put(EMFProfileApplicationPackage.eNS_URI, EMFProfileApplicationPackage.eINSTANCE);
+//				
+//		//register profiles
+//		set.getPackageRegistry().put("http://de.fzi.decision.security.profile.pcm.threat/0.1.0", EMFProfileApplicationPackage.eINSTANCE);
+//		set.getPackageRegistry().put("http://de.fzi.decision.security.profile.pcm.pattern/0.1.0", EMFProfileApplicationPackage.eINSTANCE);
+//		set.getPackageRegistry().put("http://de.fzi.decision.security.profile.pcm.prerequisite/0.1.0", EMFProfileApplicationPackage.eINSTANCE);
 		
 		//load model		
 		set.getResourceFactoryRegistry().getExtensionToFactoryMap().put("security", new EcoreResourceFactoryImpl());
 		
 		URI modelUri = URI.createFileURI(modelPath);
+		initEngine(set, modelUri);
+	}
+	
+	/**
+	 * This class loads a security model. It has to be given to a new modelLoader to enable it to load models.
+	 * 
+	 * @param modelUri the URI to the cdo resource
+	 * @throws InitializationException thrown if the model could not be loaded
+	 */
+	public ModelLoaderEngine(URI modelUri) throws InitializationException {
+		super();
+		ResourceSet set = new ResourceSetImpl();
+		set.getPackageRegistry().put(SecurityPackage.eNS_URI, SecurityPackage.eINSTANCE);
+		initEngine(set, modelUri);
+	}
+	
+	private void initEngine(ResourceSet set, URI modelUri) throws InitializationException {
 		set.createResource(modelUri);
 		
 		/*Resource r =*/ set.getResource(modelUri, true);

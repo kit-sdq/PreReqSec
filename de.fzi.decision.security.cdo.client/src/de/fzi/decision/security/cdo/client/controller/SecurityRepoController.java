@@ -9,7 +9,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.net4j.util.event.IEvent;
 import org.eclipse.net4j.util.event.IListener;
 import org.eclipse.net4j.util.lifecycle.LifecycleException;
-import org.eclipse.ui.PartInitException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,16 +16,16 @@ import de.fzi.decision.security.cdo.client.connection.ServerConnection;
 import de.fzi.decision.security.cdo.client.util.SecurityContainerTableViewerModel;
 import de.fzi.decision.security.cdo.client.util.SecurityEditorInput;
 import de.fzi.decision.security.cdo.client.util.SecurityFileHandler;
-import de.fzi.decision.security.cdo.client.view.SecurityRepoView;
+import de.fzi.decision.security.cdo.client.view.ISecurityRepoView;
 import security.Container;
 
 public class SecurityRepoController {
 
 	private final Logger logger = LoggerFactory.getLogger(SecurityRepoController.class);
-	private SecurityRepoView view;
+	private ISecurityRepoView view;
 	private ServerConnection connection;
 	
-	public SecurityRepoController(SecurityRepoView view) {
+	public SecurityRepoController(ISecurityRepoView view) {
 		this.view = view;
 	}
 	
@@ -97,12 +96,7 @@ public class SecurityRepoController {
 	}
 	
 	public void closeSession() {
-		try {
-			view.onSessionClosed();
-		} catch (PartInitException e) {
-			e.printStackTrace();
-		}
-		
+		view.onSessionClosed();
 		if (connection != null) {
 			connection.closeSession();
 			connection = null;
