@@ -11,7 +11,6 @@
   </requires>
   <extension point="org.modelversioning.emfprofile.profile">
      <profile profile_resource="pattern.emfprofile_diagram"/>
-     <profile profile_resource="threat.emfprofile_diagram"/>
      <profile profile_resource="prereq.emfprofile_diagram"/>
   </extension>
 </plugin>
