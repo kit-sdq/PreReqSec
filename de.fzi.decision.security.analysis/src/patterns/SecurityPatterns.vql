@@ -1,0 +1,11 @@
+package patterns
+
+import "http://www.fzi.de/decision/security"
+import "http://www.fzi.de/decision/security/securityPatterns"
+import "http://www.fzi.de/decision/security/securityPrerequisites"
+import "http://www.fzi.de/decision/security/securityThreats"
+
+pattern securityAttacks(attack : Attack, prerequisite : Prerequisite)
+{	
+	Attack.prerequisites(attack, prerequisite);
+}

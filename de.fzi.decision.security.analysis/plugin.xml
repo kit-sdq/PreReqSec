@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?><plugin>
+  <extension id="patterns.PcmPatterns" point="org.eclipse.viatra.query.runtime.queryspecification">
+    <group group="org.eclipse.viatra.query.runtime.extensibility.SingletonExtensionFactory:patterns.PcmPatterns" id="patterns.PcmPatterns">
+      <query-specification fqn="patterns.pcmAssemblyStereotypes"/>
+      <query-specification fqn="patterns.pcmAssemblyConnections"/>
+      <query-specification fqn="patterns.pcmAssemblyPaths"/>
+    </group>
+  </extension>
+  <extension id="patterns.SecurityPatterns" point="org.eclipse.viatra.query.runtime.queryspecification">
+    <group group="org.eclipse.viatra.query.runtime.extensibility.SingletonExtensionFactory:patterns.SecurityPatterns" id="patterns.SecurityPatterns">
+      <query-specification fqn="patterns.securityAttacks"/>
+    </group>
+  </extension>
+</plugin>
