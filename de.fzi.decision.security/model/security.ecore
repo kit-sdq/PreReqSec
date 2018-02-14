@@ -47,7 +47,7 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="mitigatedPrerequisites"
           upperBound="-1" eType="#//securityPrerequisites/Prerequisite" eOpposite="#//securityPrerequisites/Prerequisite/securityPatterns"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="roles" lowerBound="1"
-          upperBound="-1" eType="#//securityPatterns/Role" containment="true"/>
+          upperBound="-1" eType="#//securityPatterns/Role" containment="true" eOpposite="#//securityPatterns/Role/securityPattern"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Role" eSuperTypes="#//NamedDescribedEntity">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -58,6 +58,8 @@
           eType="#//securityPatterns/Role" eOpposite="#//securityPatterns/Role/usedBy"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="usedBy" upperBound="-1"
           eType="#//securityPatterns/Role" eOpposite="#//securityPatterns/Role/uses"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="securityPattern" eType="#//securityPatterns/SecurityPattern"
+          eOpposite="#//securityPatterns/SecurityPattern/roles"/>
     </eClassifiers>
   </eSubpackages>
   <eSubpackages name="securityPrerequisites" nsURI="http://www.fzi.de/decision/security/securityPrerequisites"
