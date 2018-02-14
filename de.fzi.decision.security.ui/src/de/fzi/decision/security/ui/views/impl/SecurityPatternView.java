@@ -4,12 +4,12 @@ import java.util.HashMap;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
 
+import de.fzi.decision.security.ui.controllers.query.IAnalysisClickListener;
 import de.fzi.decision.security.ui.views.ISecurityPatternView;
 import de.fzi.decision.security.ui.views.impl.parts.ContentWrapper;
 import de.fzi.decision.security.ui.views.impl.parts.InputSection;
@@ -40,12 +40,13 @@ public class SecurityPatternView implements ISecurityPatternView {
 	@Override
 	public void init(
 		Composite parent,
+		IAnalysisClickListener analysisClickListener,
 		HashMap<EAttribute, String> patternAttributeMap,
 		HashMap<EAttribute, String> prerequisiteAttributeMap,
 		HashMap<EAttribute, String> threatAttributeMap
 	) {
 		setWindowLayout(parent);
-		toolbar = new Toolbar(parent);
+		toolbar = new Toolbar(parent, analysisClickListener);
 		ContentWrapper contentWrapper = new ContentWrapper(parent, toolbar);
 		inputSection = new InputSection(contentWrapper, patternAttributeMap, prerequisiteAttributeMap, editingDomain);
 		outputSection = new OutputSection(contentWrapper, threatAttributeMap, editingDomain);	

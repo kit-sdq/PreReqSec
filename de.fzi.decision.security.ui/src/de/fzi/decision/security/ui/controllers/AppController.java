@@ -1,5 +1,6 @@
 package de.fzi.decision.security.ui.controllers;
 
+import java.util.Collection;
 import java.util.HashMap;
 
 import org.eclipse.core.databinding.observable.list.IObservableList;
@@ -20,6 +21,7 @@ import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.fzi.decision.security.ui.controllers.query.IAnalysisClickListener;
 import de.fzi.decision.security.ui.controllers.query.IQueryCallback;
 import de.fzi.decision.security.ui.controllers.query.QueryManager;
 import de.fzi.decision.security.ui.controllers.viewerfilters.AttackFilter;
@@ -29,15 +31,19 @@ import de.fzi.decision.security.ui.main.DelegateSelectionProvider;
 import de.fzi.decision.security.ui.models.ISecurityContainer;
 import de.fzi.decision.security.ui.views.ISecurityPatternView;
 import modelLoader.InitializationException;
+import modelLoader.LoadingException;
+import parser.InterpreterException;
+import security.NamedDescribedEntity;
 import security.SecurityPackage;
 import security.securityPatterns.SecurityPatternsPackage;
 import security.securityPrerequisites.SecurityPrerequisitesPackage;
 import security.securityThreats.SecurityThreatsPackage;
+import validation.SecurityPatternAnalysis;
 
 /**
  * Main Controller of the UI. Used to handle interaction with the user. 
  */
-public class AppController implements IQueryCallback {
+public class AppController implements IQueryCallback, IAnalysisClickListener {
 	private final ISecurityPatternView view;
 	private final ISecurityContainer model;
 	private final Logger logger = LoggerFactory.getLogger(AppController.class);
@@ -68,7 +74,7 @@ public class AppController implements IQueryCallback {
 	 */
 	public void init(Composite parent, URI uri, DelegateSelectionProvider delegateSelectionProvider) {
 		logger.info("init() was called with URI: " + uri.toString() + ".");
-		view.init(parent, createPatternAttributeMap(), createPrerequisiteAttributeMap(), createThreatAttributeMap());
+		view.init(parent, this, createPatternAttributeMap(), createPrerequisiteAttributeMap(), createThreatAttributeMap());
 		registerSelectionListeners(delegateSelectionProvider);
 		registerViewerFilters();
 		registerListeners();
@@ -256,5 +262,16 @@ public class AppController implements IQueryCallback {
 		setFilterByResultingSecurityPatterns(model.getPatternCatalog().getSecurityPatterns().toArray());
 		Shell activeShell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 		MessageDialog.openInformation(activeShell, "No Query Results", "The resulting query was empty.");
+	}
+
+	@Override
+	public void startAnalysis(String attackQuery, String patternQuery) throws InterpreterException, LoadingException {
+		Collection<NamedDescribedEntity> attackResults = queryManager.runQueryAndReturnResult(attackQuery);
+		Collection<NamedDescribedEntity> patternResults = queryManager.runQueryAndReturnResult(patternQuery);
+		if (attackResults != null && patternResults != null) {
+			SecurityPatternAnalysis spa = new SecurityPatternAnalysis();
+			boolean analysisResult = spa.runThreatAnalysis(attackResults, patternResults);
+			view.setAnalysisResult(Boolean.toString(analysisResult));
+		}
 	}
 }

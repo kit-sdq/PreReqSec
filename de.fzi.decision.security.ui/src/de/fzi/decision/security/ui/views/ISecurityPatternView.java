@@ -7,6 +7,8 @@ import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.widgets.Composite;
 
+import de.fzi.decision.security.ui.controllers.query.IAnalysisClickListener;
+
 /**
  * Interface for the view showing the SecurityContainer model and the corresponding analysis.
  */
@@ -23,6 +25,7 @@ public interface ISecurityPatternView {
 	 */
 	public void init(
 		Composite parent,
+		IAnalysisClickListener analysisClickListener,
 		HashMap<EAttribute, String> patternAttributeMap,
 		HashMap<EAttribute, String> prerequisiteAttributeMap,
 		HashMap<EAttribute, String> threatAttributeMap

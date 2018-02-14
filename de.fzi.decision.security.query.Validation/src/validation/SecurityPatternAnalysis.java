@@ -15,7 +15,7 @@ public class SecurityPatternAnalysis {
 
 //	private static ModelLoaderEngine engine = null;
 
-	public boolean runThreatAnalysis(Collection<NamedDescribedEntity> resultsOfAttack, Collection<NamedDescribedEntity> resultsOfSecurityPattern) throws InterpreterException, LoadingException {
+	public boolean runThreatAnalysis(Collection<NamedDescribedEntity> resultsOfAttack, Collection<NamedDescribedEntity> resultsOfSecurityPattern) {
 		
 		boolean result;
 		

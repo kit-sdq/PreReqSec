@@ -24,7 +24,6 @@ import security.securityThreats.Attack;
  */
 public class QueryManager {
 	
-	private ModelLoaderEngine modelLoaderEngine;
 	private QueryInterpreter interpreter;
 	private IQueryCallback queryCallback;
 	
@@ -58,6 +57,13 @@ public class QueryManager {
 		} else {
 			queryCallback.noResults();
 		}
+	}
+	
+	public Collection<NamedDescribedEntity> runQueryAndReturnResult(String query) throws InterpreterException, LoadingException {
+		Collection<NamedDescribedEntity> result = null;
+		result = runQuery(query);
+
+		return result;
 	}
 	
 	/**
