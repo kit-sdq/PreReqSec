@@ -9,6 +9,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 
+import de.fzi.decision.security.ui.main.DelegateSelectionProvider;
+
 /**
  * A composite that consists of one TableViewer that shows the output. The output are either the SecurityPatterns
  * or the Attacks.
@@ -26,14 +28,15 @@ public class OutputSection extends Composite {
 	public OutputSection(
 		Composite parent,
 		HashMap<EAttribute, String> attributeMap,
-		AdapterFactoryEditingDomain editingDomain
+		AdapterFactoryEditingDomain editingDomain,
+		DelegateSelectionProvider selectionProvider
 	) {
 		super(parent, SWT.NONE);
 		
 		FillLayout layout = new FillLayout(SWT.HORIZONTAL);
 		this.setLayout(layout);
 		
-		outputViewer = new EMFTableViewer(this, attributeMap, editingDomain);
+		outputViewer = new EMFTableViewer(this, attributeMap, editingDomain, selectionProvider);
 	}
 	
 	/**

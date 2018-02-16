@@ -66,6 +66,9 @@ public class SecurityPatternEditorPart extends EditorPart {
 		public void partActivated(IWorkbenchPart p) {
 			if (p instanceof PropertySheet && p.equals(propertySheetPage) || p == SecurityPatternEditorPart.this) {
 				handleActivate();
+			} else if (p instanceof PropertySheet) {
+				propertySheetPage = new ExtendedPropertySheetPage(editingDomain);
+				propertySheetPage.setPropertySourceProvider(new AdapterFactoryContentProvider(adapterFactory));
 			}
 		}
 	};

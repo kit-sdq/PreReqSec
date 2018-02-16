@@ -10,6 +10,7 @@ import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
 
 import de.fzi.decision.security.ui.controllers.query.IAnalysisClickListener;
+import de.fzi.decision.security.ui.main.DelegateSelectionProvider;
 import de.fzi.decision.security.ui.views.ISecurityPatternView;
 import de.fzi.decision.security.ui.views.impl.parts.ContentWrapper;
 import de.fzi.decision.security.ui.views.impl.parts.InputSection;
@@ -41,6 +42,7 @@ public class SecurityPatternView implements ISecurityPatternView {
 	public void init(
 		Composite parent,
 		IAnalysisClickListener analysisClickListener,
+		DelegateSelectionProvider selectionProvider,
 		HashMap<EAttribute, String> patternAttributeMap,
 		HashMap<EAttribute, String> prerequisiteAttributeMap,
 		HashMap<EAttribute, String> threatAttributeMap
@@ -48,8 +50,8 @@ public class SecurityPatternView implements ISecurityPatternView {
 		setWindowLayout(parent);
 		toolbar = new Toolbar(parent, analysisClickListener);
 		ContentWrapper contentWrapper = new ContentWrapper(parent, toolbar);
-		inputSection = new InputSection(contentWrapper, patternAttributeMap, prerequisiteAttributeMap, editingDomain);
-		outputSection = new OutputSection(contentWrapper, threatAttributeMap, editingDomain);	
+		inputSection = new InputSection(contentWrapper, patternAttributeMap, prerequisiteAttributeMap, editingDomain, selectionProvider);
+		outputSection = new OutputSection(contentWrapper, threatAttributeMap, editingDomain, selectionProvider);	
 	}
 
 	private static void setWindowLayout(Composite parent) {

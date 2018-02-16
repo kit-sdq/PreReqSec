@@ -74,7 +74,8 @@ public class AppController implements IQueryCallback, IAnalysisClickListener {
 	 */
 	public void init(Composite parent, URI uri, DelegateSelectionProvider delegateSelectionProvider) {
 		logger.info("init() was called with URI: " + uri.toString() + ".");
-		view.init(parent, this, createPatternAttributeMap(), createPrerequisiteAttributeMap(), createThreatAttributeMap());
+		view.init(parent, this, delegateSelectionProvider, createPatternAttributeMap(), 
+				createPrerequisiteAttributeMap(), createThreatAttributeMap());
 		registerSelectionListeners(delegateSelectionProvider);
 		registerViewerFilters();
 		registerListeners();

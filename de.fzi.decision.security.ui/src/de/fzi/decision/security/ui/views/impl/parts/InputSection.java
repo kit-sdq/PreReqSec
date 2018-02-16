@@ -9,6 +9,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.widgets.Composite;
 
+import de.fzi.decision.security.ui.main.DelegateSelectionProvider;
+
 /**
  * A composite that consists of two TableViewers that show either
  * pattern and prerequisites or attacks and prerequisites.
@@ -29,13 +31,15 @@ public class InputSection extends SashForm {
 		Composite parent, 
 		HashMap<EAttribute, String> leftAttributeMap, 
 		HashMap<EAttribute, String> rightAttributeMap,
-		AdapterFactoryEditingDomain editingDomain
+		AdapterFactoryEditingDomain editingDomain,
+		DelegateSelectionProvider selectionProvider
 	) {
 		super(parent, SWT.HORIZONTAL);
 		
-		leftViewer = new EMFTableViewer(this, leftAttributeMap, editingDomain);
-		rightViewer = new EMFTableViewer(this, rightAttributeMap, editingDomain);	
+		leftViewer = new EMFTableViewer(this, leftAttributeMap, editingDomain, selectionProvider);
+		rightViewer = new EMFTableViewer(this, rightAttributeMap, editingDomain, selectionProvider);
 	}
+	
 	
 	/**
 	 * @return the left TableViewer
