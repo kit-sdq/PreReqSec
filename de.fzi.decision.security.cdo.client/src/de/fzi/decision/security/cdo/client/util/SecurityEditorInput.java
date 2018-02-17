@@ -11,6 +11,11 @@ import org.eclipse.ui.IPersistableElement;
 
 import de.fzi.decision.security.cdo.client.connection.ServerConnection;
 
+/**
+ * This class represents the input of the security editor when opening a security model as a cdo resource.
+ * @author matthias endlichhofer
+ *
+ */
 public class SecurityEditorInput extends PlatformObject implements IEditorInput {
 	
 	private String resourcePath;
@@ -29,7 +34,6 @@ public class SecurityEditorInput extends PlatformObject implements IEditorInput 
 
 	@Override
 	public <T> T getAdapter(Class<T> adapter) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -40,7 +44,7 @@ public class SecurityEditorInput extends PlatformObject implements IEditorInput 
 
 	@Override
 	public ImageDescriptor getImageDescriptor() {
-		// TODO Auto-generated method stub
+		//No image needed
 		return null;
 	}
 
@@ -75,6 +79,11 @@ public class SecurityEditorInput extends PlatformObject implements IEditorInput 
 		return false;
 	}
 	
+	/**
+	 * Opens a new CDOTransaction in the current session on the given EMF resource set
+	 * @param set An EMF resource set
+	 * @return the cdo transaction
+	 */
 	public CDOTransaction getTransaction(ResourceSet set) {
 		ServerConnection connection = ServerConnection.getInstance(host, repoName);
 		return connection.getSession().openTransaction(set);
