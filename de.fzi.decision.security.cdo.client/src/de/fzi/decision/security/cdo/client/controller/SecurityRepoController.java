@@ -18,6 +18,11 @@ import de.fzi.decision.security.cdo.client.util.SecurityEditorInput;
 import de.fzi.decision.security.cdo.client.util.SecurityContainerLoader;
 import de.fzi.decision.security.cdo.client.view.ISecurityRepoView;
 import security.Container;
+import security.SecurityFactory;
+import security.impl.SecurityFactoryImpl;
+import security.securityPatterns.impl.SecurityPatternsFactoryImpl;
+import security.securityPrerequisites.impl.SecurityPrerequisitesFactoryImpl;
+import security.securityThreats.impl.SecurityThreatsFactoryImpl;
 
 /**
  * Controller of the repository view
@@ -70,7 +75,7 @@ public class SecurityRepoController {
 	}
 
 	/**
-	 * Let's the user choose a security container model and stores this as a new resource in the repository
+	 * Lets the user choose a security container model and stores this as a new resource in the repository
 	 * @throws IllegalArgumentException Thrown if the user chooses a model which name conflicts with an existing model
 	 * @throws CommitException Thrown in case of commit problems such as conflicts
 	 * @throws PackageNotFoundException 
@@ -87,6 +92,32 @@ public class SecurityRepoController {
 				throw new IllegalArgumentException();
 			}
 		}
+	}
+	
+	/**
+	 * Lets the user enter a name and creates a new security container and saves it in the repo
+	 * @throws CommitException 
+	 */
+	public void createNewModel() throws IllegalArgumentException, CommitException {
+		Container rootContainer = createNewSecurityContainer();
+		boolean isCanceld = !view.openNamedDescribedEntityCreatorDialog(rootContainer);
+		if (!isCanceld) {
+			if (!checkIfSecurityContainerAlreadyExists(rootContainer.getName())) {
+				connection.storeNewResource(rootContainer, rootContainer.getName());
+				refreshTableInput();
+			} else {
+				throw new IllegalArgumentException();
+			}
+		}
+	}
+	
+	private Container createNewSecurityContainer() {
+		SecurityFactory secFactory = new SecurityFactoryImpl();
+		Container container = secFactory.createContainer();
+		container.getContains().add((new SecurityPatternsFactoryImpl()).createPatternCatalog());
+		container.getContains().add((new SecurityPrerequisitesFactoryImpl()).createPrerequisiteCatalog());
+		container.getContains().add((new SecurityThreatsFactoryImpl()).createThreatCatalog());
+		return container;
 	}
 	
 	/**

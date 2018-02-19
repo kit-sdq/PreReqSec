@@ -94,15 +94,6 @@ public class AppController implements IQueryCallback, IAnalysisClickListener {
 		load(uri);
 	}
 	
-	/**
-	 * Calls the analysis and sets the result in the user interface.
-	 */
-	public void runAnalysis() {
-		logger.info("runAnalysis() was called");
-		//TODO runn Analysis
-		//runThreadAnalysisAndShowResult();
-	}
-	
 	private void initQueryManager() {
 		try {
 			queryManager = new QueryManager(this, model.getResourceURI());
@@ -115,7 +106,6 @@ public class AppController implements IQueryCallback, IAnalysisClickListener {
 	private void load(URI uri) {
 		model.load(uri);
 		initDatabinding();
-		runAnalysis();
 	}
 	
 	private HashMap<EAttribute, String> createPatternAttributeMap() {

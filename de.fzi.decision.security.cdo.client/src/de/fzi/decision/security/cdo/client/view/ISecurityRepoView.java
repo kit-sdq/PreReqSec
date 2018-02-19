@@ -3,6 +3,7 @@ package de.fzi.decision.security.cdo.client.view;
 import org.eclipse.emf.common.util.URI;
 
 import de.fzi.decision.security.cdo.client.util.SecurityEditorInput;
+import security.NamedDescribedEntity;
 
 /**
  * Interface for the view showing the cdo repository
@@ -34,6 +35,12 @@ public interface ISecurityRepoView {
 	 * @param model The input of the tableviewer
 	 */
 	public abstract void setTableInput(String[] modelNames);
+
+	/**
+	 * Opens a new Dialog in which the user can enter the name and description for a new NamedDescribedEntity.
+	 * @param entity The new NamedDescribedEntity
+	 */
+	public abstract boolean openNamedDescribedEntityCreatorDialog(NamedDescribedEntity entity);
 	
 	//public abstract boolean showCDOConflictDialog();
 

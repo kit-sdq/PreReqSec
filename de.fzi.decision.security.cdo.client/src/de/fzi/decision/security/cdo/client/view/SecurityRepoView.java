@@ -29,7 +29,9 @@ import org.eclipse.swt.widgets.FileDialog;
 import de.fzi.decision.security.cdo.client.controller.SecurityRepoController;
 import de.fzi.decision.security.cdo.client.util.Constants;
 import de.fzi.decision.security.cdo.client.util.SecurityEditorInput;
+import de.fzi.decision.security.cdo.client.view.dialogs.NamedDescribedEntityCreatorDialog;
 import de.fzi.decision.security.cdo.client.view.dialogs.OpenSessionDialog;
+import security.NamedDescribedEntity;
 
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
@@ -156,6 +158,7 @@ public class SecurityRepoView implements ISecurityRepoView{
 		createOpenEditorButton();
 		createDeleteButton();
 		createLoadButton();
+		createNewButton();
 	}
 	
 	private void createOpenEditorButton() {
@@ -233,7 +236,7 @@ public class SecurityRepoView implements ISecurityRepoView{
 	private void createLoadButton() {
 		Button loadButton = new Button(controlComposite, SWT.PUSH);
 		loadButton.setEnabled(true);
-		loadButton.setText("Load Security Model");
+		loadButton.setText("Load Security Container");
 		loadButton.computeSize(SWT.DEFAULT, table.getItemHeight());
 		loadButton.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -242,13 +245,34 @@ public class SecurityRepoView implements ISecurityRepoView{
 					controller.doLoadModel();
 				} catch (CommitException e1) {
 					e1.printStackTrace();
-					MessageDialog.openInformation(parent.getShell(), "Resource could not be committed", e1.getMessage());
+					MessageDialog.openInformation(parent.getShell(), "Container could not be committed", e1.getMessage());
 				} catch (IllegalArgumentException e2) {
-					MessageDialog.openInformation(parent.getShell(), "Resource could not be loaded", 
+					MessageDialog.openInformation(parent.getShell(), "Container could not be loaded", 
 							"The selected container name already exists in the repository.");
 				} catch (Exception e3) {
-					MessageDialog.openInformation(parent.getShell(), "Resource could not be loaded", 
+					MessageDialog.openInformation(parent.getShell(), "Container could not be loaded", 
 							e3.getMessage());
+				}
+			}
+		});
+	}
+	
+	private void createNewButton() {
+		Button newButton = new Button(controlComposite, SWT.PUSH);
+		newButton.setEnabled(true);
+		newButton.setText("Create New Security Container");
+		newButton.computeSize(SWT.DEFAULT, table.getItemHeight());
+		newButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				try {
+					controller.createNewModel();
+				} catch (CommitException e1) {
+					e1.printStackTrace();
+					MessageDialog.openInformation(parent.getShell(), "New Security Container could not be committed", e1.getMessage());
+				} catch (IllegalArgumentException e2) {
+					MessageDialog.openInformation(parent.getShell(), "Container could not be loaded", 
+							"The specified container name already exists in the repository.");
 				}
 			}
 		});
@@ -387,6 +411,15 @@ public class SecurityRepoView implements ISecurityRepoView{
 			}
 		}
 		page.closeEditors(editorsToClose.toArray(new IEditorReference[editorsToClose.size()]), true);
+	}
+	
+	@Override
+	public boolean openNamedDescribedEntityCreatorDialog(NamedDescribedEntity entity) {
+		NamedDescribedEntityCreatorDialog dialog = new NamedDescribedEntityCreatorDialog(parent.getShell(), entity);
+		if (dialog.open() == Window.OK) {
+			return true;
+		}
+		return false;
 	}
 	
 }

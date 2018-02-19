@@ -14,10 +14,13 @@ import security.Catalog;
 import security.Container;
 import security.securityPatterns.PatternCatalog;
 import security.securityPatterns.SecurityPattern;
+import security.securityPatterns.impl.SecurityPatternsFactoryImpl;
 import security.securityPrerequisites.Prerequisite;
 import security.securityPrerequisites.PrerequisiteCatalog;
+import security.securityPrerequisites.impl.SecurityPrerequisitesFactoryImpl;
 import security.securityThreats.Attack;
 import security.securityThreats.ThreatCatalog;
+import security.securityThreats.impl.SecurityThreatsFactoryImpl;
 
 /**
  * An implementation of the ISecurityContainer interface.
@@ -95,7 +98,12 @@ public class SecurityContainer implements ISecurityContainer {
 
 	@Override
 	public void addSecurityPattern(SecurityPattern pattern) {
-		Command command = AddCommand.create(editingDomain, getPatternCatalog(), null, pattern);
+		PatternCatalog catalog = getPatternCatalog();
+		if (catalog == null) {
+			catalog = (new SecurityPatternsFactoryImpl()).createPatternCatalog();
+			getSecurityCatalog().getContains().add(catalog);
+		}
+		Command command = AddCommand.create(editingDomain, catalog, null, pattern);
 		editingDomain.getCommandStack().execute(command);
 	}
 
@@ -112,7 +120,12 @@ public class SecurityContainer implements ISecurityContainer {
 
 	@Override
 	public void addPrerequisite(Prerequisite prerequisite) {
-		Command command = AddCommand.create(editingDomain, getPrerequisiteCatalog(), null, prerequisite);
+		PrerequisiteCatalog catalog = getPrerequisiteCatalog();
+		if (catalog == null) {
+			catalog = (new SecurityPrerequisitesFactoryImpl()).createPrerequisiteCatalog();
+			getSecurityCatalog().getContains().add(catalog);
+		}
+		Command command = AddCommand.create(editingDomain, catalog, null, prerequisite);
 		editingDomain.getCommandStack().execute(command);
 	}
 
@@ -129,7 +142,12 @@ public class SecurityContainer implements ISecurityContainer {
 
 	@Override
 	public void addAttack(Attack attack) {
-		Command command = AddCommand.create(editingDomain, getAttackCatalog(), null, attack);
+		ThreatCatalog catalog = getAttackCatalog();
+		if (catalog == null) {
+			catalog = (new SecurityThreatsFactoryImpl()).createThreatCatalog();
+			getSecurityCatalog().getContains().add(catalog);
+		}
+		Command command = AddCommand.create(editingDomain, catalog, null, attack);
 		editingDomain.getCommandStack().execute(command);
 	}
 

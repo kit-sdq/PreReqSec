@@ -119,7 +119,7 @@ public class SecurityPatternEditorPart extends EditorPart {
 		site.getPage().addPartListener(partListener);
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(resourceChangeListener, IResourceChangeEvent.POST_CHANGE);
 		initializeEditingDomain(input);
-		
+		initUndoRedoActionGroup();
 	}
 	
 	
@@ -270,6 +270,10 @@ public class SecurityPatternEditorPart extends EditorPart {
 		transaction = input.getTransaction(set);
 		CDOResource resource = transaction.getResource(input.getResourcePath());
 		uri = resource.getURI();
+	}
+	
+	private void initUndoRedoActionGroup() {
+		//TODO:
 	}
 	
 	private void handleActivate() {

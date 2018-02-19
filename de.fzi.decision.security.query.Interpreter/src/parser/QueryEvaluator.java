@@ -48,6 +48,7 @@ public class QueryEvaluator {
 		
 		Iterator<Triple<String, String, String>> iterator = attributes.iterator();
 		
+
 		while (iterator.hasNext()) {
 			Triple<String, String, String> attribute = iterator.next();
 			
