@@ -10,6 +10,9 @@ import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.widgets.Composite;
 
 import de.fzi.decision.security.ui.main.DelegateSelectionProvider;
+import de.fzi.decision.security.ui.models.ISecurityContainer;
+import de.fzi.decision.security.ui.models.impl.PrerequisiteModificationListener;
+import de.fzi.decision.security.ui.models.impl.SecurityPatternModificationListener;
 
 /**
  * A composite that consists of two TableViewers that show either
@@ -32,12 +35,15 @@ public class InputSection extends SashForm {
 		HashMap<EAttribute, String> leftAttributeMap, 
 		HashMap<EAttribute, String> rightAttributeMap,
 		AdapterFactoryEditingDomain editingDomain,
-		DelegateSelectionProvider selectionProvider
+		DelegateSelectionProvider selectionProvider,
+		ISecurityContainer model
 	) {
 		super(parent, SWT.HORIZONTAL);
 		
-		leftViewer = new EMFTableViewer(this, leftAttributeMap, editingDomain, selectionProvider);
-		rightViewer = new EMFTableViewer(this, rightAttributeMap, editingDomain, selectionProvider);
+		leftViewer = new EMFTableViewer(this, leftAttributeMap, editingDomain, selectionProvider, 
+				new SecurityPatternModificationListener(model));
+		rightViewer = new EMFTableViewer(this, rightAttributeMap, editingDomain, selectionProvider, 
+				new PrerequisiteModificationListener(model));
 	}
 	
 	

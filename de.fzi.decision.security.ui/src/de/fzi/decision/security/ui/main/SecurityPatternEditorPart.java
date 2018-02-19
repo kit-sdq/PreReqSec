@@ -245,7 +245,7 @@ public class SecurityPatternEditorPart extends EditorPart {
 				});
 			}
 		});
-
+		
 		editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack, new HashMap<Resource, Boolean>());
 		if (checkIfCDOInput(editorInput)) {
 			SecurityEditorInput securityInput = (SecurityEditorInput) editorInput;

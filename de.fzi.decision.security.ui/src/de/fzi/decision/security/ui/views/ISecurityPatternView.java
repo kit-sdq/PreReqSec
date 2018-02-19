@@ -9,6 +9,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import de.fzi.decision.security.ui.controllers.query.IAnalysisClickListener;
 import de.fzi.decision.security.ui.main.DelegateSelectionProvider;
+import de.fzi.decision.security.ui.models.ISecurityContainer;
 
 /**
  * Interface for the view showing the SecurityContainer model and the corresponding analysis.
@@ -30,7 +31,8 @@ public interface ISecurityPatternView {
 		DelegateSelectionProvider selectionProvider,
 		HashMap<EAttribute, String> patternAttributeMap,
 		HashMap<EAttribute, String> prerequisiteAttributeMap,
-		HashMap<EAttribute, String> threatAttributeMap
+		HashMap<EAttribute, String> threatAttributeMap,
+		ISecurityContainer model
 	);
 	
 	/**

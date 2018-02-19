@@ -3,7 +3,10 @@ package de.fzi.decision.security.ui.models;
 import org.eclipse.emf.common.util.URI;
 
 import security.securityPatterns.PatternCatalog;
+import security.securityPatterns.SecurityPattern;
+import security.securityPrerequisites.Prerequisite;
 import security.securityPrerequisites.PrerequisiteCatalog;
+import security.securityThreats.Attack;
 import security.securityThreats.ThreatCatalog;
 
 /**
@@ -37,4 +40,17 @@ public interface ISecurityContainer {
 	 ** @return the URI of the loaded SecurityContainer resource
 	 */
 	URI getResourceURI();
+	
+	void addSecurityPattern(SecurityPattern pattern);
+	
+	void deleteSecurityPattern(String id);
+
+	void addPrerequisite(Prerequisite prerequisite);
+	
+	void deletePrerequisite(String id);
+	
+	void addAttack(Attack attack);
+	
+	void deleteAttack(String id);
+	
 }

@@ -1,7 +1,10 @@
 package de.fzi.decision.security.ui.models.impl;
 
+import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.edit.command.AddCommand;
+import org.eclipse.emf.edit.command.DeleteCommand;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +13,10 @@ import de.fzi.decision.security.ui.models.ISecurityContainer;
 import security.Catalog;
 import security.Container;
 import security.securityPatterns.PatternCatalog;
+import security.securityPatterns.SecurityPattern;
+import security.securityPrerequisites.Prerequisite;
 import security.securityPrerequisites.PrerequisiteCatalog;
+import security.securityThreats.Attack;
 import security.securityThreats.ThreatCatalog;
 
 /**
@@ -85,5 +91,56 @@ public class SecurityContainer implements ISecurityContainer {
 	@Override
 	public URI getResourceURI() {
 		return resource.getURI();
+	}
+
+	@Override
+	public void addSecurityPattern(SecurityPattern pattern) {
+		Command command = AddCommand.create(editingDomain, getPatternCatalog(), null, pattern);
+		editingDomain.getCommandStack().execute(command);
+	}
+
+	@Override
+	public void deleteSecurityPattern(String id) {
+		for (SecurityPattern pattern : getPatternCatalog().getSecurityPatterns()) {
+			if (pattern.getId().equals(id)) {
+				Command command = DeleteCommand.create(editingDomain, pattern);
+				editingDomain.getCommandStack().execute(command);
+				break;
+			}
+		}
+	}
+
+	@Override
+	public void addPrerequisite(Prerequisite prerequisite) {
+		Command command = AddCommand.create(editingDomain, getPrerequisiteCatalog(), null, prerequisite);
+		editingDomain.getCommandStack().execute(command);
+	}
+
+	@Override
+	public void deletePrerequisite(String id) {
+		for (Prerequisite pre : getPrerequisiteCatalog().getPrerequisites()) {
+			if (pre.getId().equals(id)) {
+				Command command = DeleteCommand.create(editingDomain, pre);
+				editingDomain.getCommandStack().execute(command);
+				break;
+			}
+		}
+	}
+
+	@Override
+	public void addAttack(Attack attack) {
+		Command command = AddCommand.create(editingDomain, getAttackCatalog(), null, attack);
+		editingDomain.getCommandStack().execute(command);
+	}
+
+	@Override
+	public void deleteAttack(String id) {
+		for (Attack attack : getAttackCatalog().getAttacks()) {
+			if (attack.getId().equals(id)) {
+				Command command = DeleteCommand.create(editingDomain, attack);
+				editingDomain.getCommandStack().execute(command);
+				break;
+			}
+		}
 	}
 }

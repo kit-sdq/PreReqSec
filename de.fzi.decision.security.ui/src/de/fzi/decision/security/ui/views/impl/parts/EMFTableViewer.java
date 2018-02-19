@@ -25,6 +25,8 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
 import de.fzi.decision.security.ui.main.DelegateSelectionProvider;
+import de.fzi.decision.security.ui.models.ModelModificationListener;
+import security.NamedDescribedEntity;
 
 /**
  * A generic EMF TableViewer that builds the table according to an attribute map that is input.
@@ -34,6 +36,7 @@ import de.fzi.decision.security.ui.main.DelegateSelectionProvider;
 public class EMFTableViewer extends TableViewer {
 	
 	private DelegateSelectionProvider selectionProvider;
+	private ModelModificationListener modModListener;
 	
 	/**
 	 * Creates a TableViewer using the attribute map. The keys of attribute map are the EMF attributes to observe
@@ -48,7 +51,8 @@ public class EMFTableViewer extends TableViewer {
 		Composite parent,
 		HashMap<EAttribute, String> attributeMap, 
 		AdapterFactoryEditingDomain editingDomain,
-		DelegateSelectionProvider selectionProvider
+		DelegateSelectionProvider selectionProvider,
+		ModelModificationListener modModListener
 	) {
 		super(parent, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
 
@@ -66,6 +70,7 @@ public class EMFTableViewer extends TableViewer {
 				
 		this.setContentProvider(cp);
 		this.selectionProvider = selectionProvider;
+		this.modModListener = modModListener;
 		setContextMenu();
 	}
 	
@@ -88,9 +93,11 @@ public class EMFTableViewer extends TableViewer {
 	            {
 	                items[i].dispose();
 	            }
+	            createAddItem(contextMenu);
 				if (doGetSelectionIndices().length == 1) {
 					createPropertiesViewItem(contextMenu);
-				}
+					createDeleteItem(contextMenu);
+				}				
 	        }
 	    };
 	}
@@ -116,6 +123,27 @@ public class EMFTableViewer extends TableViewer {
 		} catch (PartInitException e) {
 			e.printStackTrace();
 		} 
+	}
+	
+	private void createAddItem(Menu contextMenu) {
+		MenuItem item = new MenuItem(contextMenu, SWT.NONE);
+		item.setText("Add New");
+		item.addSelectionListener(new SelectionAdapter() {
+        	public void widgetSelected(SelectionEvent e) {
+        		modModListener.addEntity();
+        	}
+		});
+	}
+	
+	private void createDeleteItem(Menu contextMenu) {
+		MenuItem item = new MenuItem(contextMenu, SWT.NONE);
+		item.setText("Delete");
+		item.addSelectionListener(new SelectionAdapter() {
+        	public void widgetSelected(SelectionEvent e) {
+        		String id = ((NamedDescribedEntity)getTable().getSelection()[0].getData()).getId();
+        		modModListener.deleteEntity(id);
+        	}
+		});
 	}
 
 }
