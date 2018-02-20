@@ -2,6 +2,7 @@ package de.fzi.decision.security.ui.main;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -31,11 +32,13 @@ import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
@@ -166,13 +169,14 @@ public class SecurityPatternEditorPart extends EditorPart {
 					if (notEmpty && writeAllowed) {
 						try {
 							long timeStamp = resource.getTimeStamp();
-							//TODO catch LocalCommitConflictException
 							resource.save(saveOptions);
 							if (resource.getTimeStamp() != timeStamp) {
 								savedResources.add(resource);
 							}
-						} catch (Exception e) {
-							e.printStackTrace();
+						} catch (IOException e) {
+							Shell activeShell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+							MessageDialog.openInformation(activeShell, "Error Saving Container", e.getMessage());
+							return;
 						}
 					}
 				}
@@ -183,15 +187,27 @@ public class SecurityPatternEditorPart extends EditorPart {
 			new ProgressMonitorDialog(getSite().getShell()).run(true, false, operation);
 			((BasicCommandStack) editingDomain.getCommandStack()).saveIsDone();
 			firePropertyChange(PROP_DIRTY);
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (InvocationTargetException e1) {
+			String msg = e1.getMessage();
+			if (e1.getCause() != null) {
+				msg = e1.getCause().getMessage();
+			}
+			Shell activeShell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+			MessageDialog.openInformation(activeShell, "Error Saving Container", msg);
+			return;
+		} catch (InterruptedException e2) {
+			// TODO: handle the ConflictException -> e.g. merge the changes...
+			Shell activeShell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+			MessageDialog.openInformation(activeShell, "Error Saving Container", e2.getLocalizedMessage());
+			return;
 		}
-		
+
 		try {
 			transaction.commit();
 		} catch (CommitException e) {
-			//TODO handle that
-			e.printStackTrace();
+			// TODO: handle the ConflictException -> e.g. merge the changes...
+			Shell activeShell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+			MessageDialog.openInformation(activeShell, "Error Saving Container", e.getMessage());
 		}
 	}
 

@@ -50,9 +50,11 @@ public class QueryManager {
 		} catch (InterpreterException e) {
 			Shell activeShell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 			MessageDialog.openError(activeShell, "Illegal query", e.getMessage());
+			return;
 		} catch (LoadingException e) {
 			Shell activeShell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 			MessageDialog.openError(activeShell, "Problems loading the result", e.getMessage());
+			return;
 		}
 		if (result != null && !result.isEmpty()) {
 			showQueryResult(result);
