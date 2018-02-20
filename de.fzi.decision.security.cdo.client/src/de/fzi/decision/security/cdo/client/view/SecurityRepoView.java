@@ -44,7 +44,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 
@@ -52,7 +51,7 @@ import org.eclipse.jface.viewers.TableViewerColumn;
  * @author matthias endlichhofer
  *
  */
-public class SecurityRepoView implements ISecurityRepoView{
+public class SecurityRepoView implements ISecurityRepoView, IRepoContextMenuClient{
 	
 	private SecurityRepoController controller;
 	private Label lblHeading;
@@ -61,9 +60,6 @@ public class SecurityRepoView implements ISecurityRepoView{
 	private TableViewer tableViewer;
 	private Table table;
 	private Composite controlComposite;
-	private Button deleteButton;
-	private Button openButton;
-	private String selectedContainer;
 
 	@PostConstruct
 	public void createPartControl(Composite parent) {
@@ -77,6 +73,7 @@ public class SecurityRepoView implements ISecurityRepoView{
 		setVisibilityOfContainerComposite(false);
 		
 		controller = new SecurityRepoController(this);
+		new RepoContextMenu(this, tableViewer.getTable());
 	}
 
 	private void createHeading() {
@@ -95,7 +92,7 @@ public class SecurityRepoView implements ISecurityRepoView{
 		table = tableViewer.getTable();
 		table.setHeaderVisible(false);
 		table.setLinesVisible(false);
-		addTableSelectionListener();
+		addTableMouseListener();
 		
 		GridData gridData = new GridData();
         gridData.verticalAlignment = GridData.FILL;
@@ -118,34 +115,16 @@ public class SecurityRepoView implements ISecurityRepoView{
 		});
 	}
 	
-	private void addTableSelectionListener() {
-		table.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				TableItem item = (TableItem) e.item;
-				if (item != null) {
-					selectedContainer = (String) item.getData();
-					setButtonsEnabled(true);
-				} else {
-					selectedContainer = null;
-					setButtonsEnabled(false);
-				}
-			}
-		});
-		
+	private void addTableMouseListener() {
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseDoubleClick(MouseEvent e) {
-				if (selectedContainer != null) {
-					controller.openResourceInEditor("/" + selectedContainer);
+				if (tableViewer.getTable().getSelectionCount() == 1) {
+					int index = tableViewer.getTable().getSelectionIndex();
+					openContainer(index);
 				}
 			}
 		});
-	}
-	
-	private void setButtonsEnabled(boolean enabled) {
-		openButton.setEnabled(enabled);
-		deleteButton.setEnabled(enabled);
 	}
 	
 	private void createControlComposite() {
@@ -155,64 +134,8 @@ public class SecurityRepoView implements ISecurityRepoView{
 		layout.marginBottom = 5;
 		layout.marginTop = 5;
 		controlComposite.setLayout(layout);
-		createOpenEditorButton();
-		createDeleteButton();
 		createLoadButton();
 		createNewButton();
-	}
-	
-	private void createOpenEditorButton() {
-		openButton = new Button(controlComposite, SWT.PUSH);
-		
-		openButton.setEnabled(false);
-		openButton.setText("Open");
-		openButton.computeSize(SWT.DEFAULT, table.getItemHeight());
-		openButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				if (selectedContainer != null) {
-					String path = "/" + selectedContainer;
-					controller.openResourceInEditor(path);
-				}
-			}
-		});
-	}
-	
-	private void createDeleteButton() {
-		deleteButton = new Button(controlComposite, SWT.PUSH);
-		deleteButton.setEnabled(false);
-		deleteButton.setText("Delete");
-		deleteButton.computeSize(SWT.DEFAULT, table.getItemHeight());
-		deleteButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				if (selectedContainer != null) {
-					if (doubleCheckDeletionIntention(selectedContainer)) {
-						String name = selectedContainer;
-						deleteResource(name);
-						closeSecurityEditorByModelName(name);
-					}
-				}
-			}
-		});
-	}
-	
-	private boolean doubleCheckDeletionIntention(String name) {
-		String title = "Deletion of " + name;
-		String msg = "Do you really want to delete the container " + name + "?";
-		return MessageDialog.openConfirm(parent.getShell(), title, msg);
-	}
-	
-	private void deleteResource(String name) {
-		try {
-			controller.deleteResource(name);
-		} catch (CommitException e) {
-			e.printStackTrace();
-			MessageDialog.openInformation(parent.getShell(), "Resource deletion could not be committed", e.getMessage());
-		} catch (IOException e) {
-			e.printStackTrace();
-			MessageDialog.openInformation(parent.getShell(), "Resource could not be deletetd", e.getMessage());
-		}
 	}
 	
 	private void closeSecurityEditorByModelName(String name) {
@@ -260,7 +183,7 @@ public class SecurityRepoView implements ISecurityRepoView{
 	private void createNewButton() {
 		Button newButton = new Button(controlComposite, SWT.PUSH);
 		newButton.setEnabled(true);
-		newButton.setText("Create New Security Container");
+		newButton.setText("New Security Container");
 		newButton.computeSize(SWT.DEFAULT, table.getItemHeight());
 		newButton.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -304,7 +227,6 @@ public class SecurityRepoView implements ISecurityRepoView{
 					lblHeading.setText("No session active");
 					btnSession.setText("Open Session");
 				}
-				
 			}
 			
 			private void closeCurrentSession() {
@@ -377,8 +299,6 @@ public class SecurityRepoView implements ISecurityRepoView{
 	@Override
 	public void onSessionClosed() {
 		closeAllOpenSecurityEditors();
-		selectedContainer = null;
-		setButtonsEnabled(false);
 		setVisibilityOfContainerComposite(false);
 	}
 	
@@ -420,6 +340,40 @@ public class SecurityRepoView implements ISecurityRepoView{
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public void deleteContainer(int index) {
+		String selected = tableViewer.getTable().getItem(index).getData().toString();
+		if (doubleCheckDeletionIntention(selected)) {
+			deleteResource(selected);
+			closeSecurityEditorByModelName(selected);
+		}
+	}
+	
+	private boolean doubleCheckDeletionIntention(String name) {
+		String title = "Deletion of " + name;
+		String msg = "Do you really want to delete the container " + name + "?";
+		return MessageDialog.openConfirm(parent.getShell(), title, msg);
+	}
+	
+	private void deleteResource(String name) {
+		try {
+			controller.deleteResource(name);
+		} catch (CommitException e) {
+			e.printStackTrace();
+			MessageDialog.openInformation(parent.getShell(), "Resource deletion could not be committed", e.getMessage());
+		} catch (IOException e) {
+			e.printStackTrace();
+			MessageDialog.openInformation(parent.getShell(), "Resource could not be deletetd", e.getMessage());
+		}
+	}
+
+	@Override
+	public void openContainer(int index) {
+		String selected = tableViewer.getTable().getItem(index).getData().toString();
+		String path = "/" + selected;
+		controller.openResourceInEditor(path);
 	}
 	
 }
