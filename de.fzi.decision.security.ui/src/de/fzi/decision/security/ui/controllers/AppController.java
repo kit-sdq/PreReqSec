@@ -96,7 +96,7 @@ public class AppController implements IQueryCallback, IAnalysisClickListener {
 	
 	private void initQueryManager() {
 		try {
-			queryManager = new QueryManager(this, model.getResourceURI());
+			queryManager = new QueryManager(this, model.getResourceSet());
 		} catch (InitializationException e) {
 			Shell activeShell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 			MessageDialog.openError(activeShell, "No model found", e.getMessage());
@@ -217,7 +217,12 @@ public class AppController implements IQueryCallback, IAnalysisClickListener {
 					logger.info("toolbar::filter registered Enter Key.");
 					logger.info("toolbar::filter query: " + view.getFilterText().trim());
 					
-					queryManager.startQuery(view.getFilterText().trim());
+					try {
+						queryManager.startQuery(view.getFilterText().trim());
+					} catch (InitializationException e1) {
+						Shell activeShell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+						MessageDialog.openError(activeShell, "Problems loading the resource", e1.getMessage());
+					}
 				}
 			}
 		});		
@@ -256,7 +261,7 @@ public class AppController implements IQueryCallback, IAnalysisClickListener {
 	}
 
 	@Override
-	public void startAnalysis(String attackQuery, String patternQuery) throws InterpreterException, LoadingException {
+	public void startAnalysis(String attackQuery, String patternQuery) throws InterpreterException, LoadingException, InitializationException {
 		Collection<NamedDescribedEntity> attackResults = queryManager.runQueryAndReturnResult(attackQuery);
 		Collection<NamedDescribedEntity> patternResults = queryManager.runQueryAndReturnResult(patternQuery);
 		if (attackResults != null && patternResults != null) {

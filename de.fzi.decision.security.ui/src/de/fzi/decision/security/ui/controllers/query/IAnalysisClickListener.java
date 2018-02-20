@@ -1,5 +1,6 @@
 package de.fzi.decision.security.ui.controllers.query;
 
+import modelLoader.InitializationException;
 import modelLoader.LoadingException;
 import parser.InterpreterException;
 
@@ -11,6 +12,6 @@ import parser.InterpreterException;
 
 public interface IAnalysisClickListener {
 	
-	public abstract void startAnalysis(String attackQuery, String patternQuery) throws InterpreterException, LoadingException;
+	public abstract void startAnalysis(String attackQuery, String patternQuery) throws InterpreterException, LoadingException, InitializationException;
 	
 }

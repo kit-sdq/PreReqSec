@@ -1,6 +1,7 @@
 package de.fzi.decision.security.ui.models;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 
 import security.securityPatterns.PatternCatalog;
 import security.securityPatterns.SecurityPattern;
@@ -40,6 +41,8 @@ public interface ISecurityContainer {
 	 ** @return the URI of the loaded SecurityContainer resource
 	 */
 	URI getResourceURI();
+	
+	ResourceSet getResourceSet();
 	
 	void addSecurityPattern(SecurityPattern pattern);
 	

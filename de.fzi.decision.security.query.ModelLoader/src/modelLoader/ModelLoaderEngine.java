@@ -21,6 +21,7 @@ public class ModelLoaderEngine {
 
 	private ViatraQueryEngine engine;
 	
+	
 	/**
 	 * This class loads a security model. It has to be given to a new modelLoader to enable it to load models.
 	 * 
@@ -54,20 +55,23 @@ public class ModelLoaderEngine {
 	/**
 	 * This class loads a security model. It has to be given to a new modelLoader to enable it to load models.
 	 * 
-	 * @param modelUri the URI to the cdo resource
+	 * @param resource the EMF Resource representing the model
 	 * @throws InitializationException thrown if the model could not be loaded
 	 */
-	public ModelLoaderEngine(URI modelUri) throws InitializationException {
+	public ModelLoaderEngine(ResourceSet set) throws InitializationException {
 		super();
-		ResourceSet set = new ResourceSetImpl();
-		set.getPackageRegistry().put(SecurityPackage.eNS_URI, SecurityPackage.eINSTANCE);
-		initEngine(set, modelUri);
+		try {
+			engine = ViatraQueryEngine.on(new EMFScope(set));
+		} catch (ViatraQueryException e) {
+			InitializationException wrapperException = new InitializationException(e.getMessage(), e.getCause());
+			wrapperException.setStackTrace(e.getStackTrace());
+			throw wrapperException;
+		}
 	}
 	
 	private void initEngine(ResourceSet set, URI modelUri) throws InitializationException {
 		set.createResource(modelUri);
-		
-		/*Resource r =*/ set.getResource(modelUri, true);
+		set.getResource(modelUri, true);
 			
 		//start engine		
 		try {

@@ -3,6 +3,7 @@ package de.fzi.decision.security.ui.models.impl;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.DeleteCommand;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
@@ -94,6 +95,11 @@ public class SecurityContainer implements ISecurityContainer {
 	@Override
 	public URI getResourceURI() {
 		return resource.getURI();
+	}
+	
+	@Override
+	public ResourceSet getResourceSet() {
+		return editingDomain.getResourceSet();
 	}
 
 	@Override

@@ -13,6 +13,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
 import de.fzi.decision.security.ui.controllers.query.IAnalysisClickListener;
+import modelLoader.InitializationException;
 import modelLoader.LoadingException;
 import parser.InterpreterException;
 
@@ -115,11 +116,12 @@ public class AnalysisConfigDialog extends TitleAreaDialog {
 		} catch (InterpreterException e) {
 			Shell activeShell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 			MessageDialog.openError(activeShell, "Illegal query", e.getMessage());
-			return;
 		} catch (LoadingException e) {
 			Shell activeShell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 			MessageDialog.openError(activeShell, "Problems loading the result", e.getMessage());
-			return;
+		} catch (InitializationException e) {
+			Shell activeShell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+			MessageDialog.openError(activeShell, "Problems loading the resource", e.getMessage());
 		}
 	}
 

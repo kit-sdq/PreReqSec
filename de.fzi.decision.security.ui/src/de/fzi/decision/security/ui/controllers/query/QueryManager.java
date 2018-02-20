@@ -2,7 +2,7 @@ package de.fzi.decision.security.ui.controllers.query;
 
 import java.util.Collection;
 
-import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
@@ -24,6 +24,7 @@ import security.securityThreats.Attack;
  */
 public class QueryManager {
 	
+	private ModelLoaderEngine engine;
 	private QueryInterpreter interpreter;
 	private IQueryCallback queryCallback;
 	
@@ -32,16 +33,17 @@ public class QueryManager {
 	 * @param resourceUri The URI of the model resource
 	 * @throws InitializationException Thrown if the model could not be loaded
 	 */
-	public QueryManager(IQueryCallback queryCallback, URI resourceUri) throws InitializationException {
+	public QueryManager(IQueryCallback queryCallback, ResourceSet set) throws InitializationException {
 		this.queryCallback = queryCallback;
-		ModelLoaderEngine modelLoaderEngine = new ModelLoaderEngine(resourceUri);
-		interpreter = new QueryInterpreter(modelLoaderEngine);
+		engine = new ModelLoaderEngine(set);
+		interpreter = new QueryInterpreter(engine);
 	}
 	
 	/**
 	 * Starts a query and shows the result in the UI. Possible Exceptions will be catched and shown to the user.
+	 * @throws InitializationException 
 	 */
-	public void startQuery(String query) {
+	public void startQuery(String query) throws InitializationException {
 		Collection<NamedDescribedEntity> result = null;
 		try {
 			result = runQuery(query);
@@ -59,7 +61,7 @@ public class QueryManager {
 		}
 	}
 	
-	public Collection<NamedDescribedEntity> runQueryAndReturnResult(String query) throws InterpreterException, LoadingException {
+	public Collection<NamedDescribedEntity> runQueryAndReturnResult(String query) throws InterpreterException, LoadingException, InitializationException {
 		Collection<NamedDescribedEntity> result = null;
 		result = runQuery(query);
 
@@ -74,7 +76,8 @@ public class QueryManager {
 	 * @throws InterpreterException
 	 * @throws LoadingException
 	 */
-	private Collection<NamedDescribedEntity> runQuery(String query) throws InterpreterException, LoadingException {
+	@SuppressWarnings("unchecked")
+	private Collection<NamedDescribedEntity> runQuery(String query) throws InterpreterException, LoadingException, InitializationException {
 		Collection<NamedDescribedEntity> result = (Collection<NamedDescribedEntity>) interpreter.interpretQuery(query);
 		return result;
 	}

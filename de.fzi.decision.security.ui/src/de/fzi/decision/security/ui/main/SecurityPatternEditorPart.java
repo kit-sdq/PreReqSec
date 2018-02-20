@@ -183,7 +183,6 @@ public class SecurityPatternEditorPart extends EditorPart {
 			new ProgressMonitorDialog(getSite().getShell()).run(true, false, operation);
 			((BasicCommandStack) editingDomain.getCommandStack()).saveIsDone();
 			firePropertyChange(PROP_DIRTY);
-			controller.runAnalysis();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
