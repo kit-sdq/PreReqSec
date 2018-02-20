@@ -47,8 +47,8 @@ public class PcmModelLoaderEngine {
 		
 		//register profiles
 		set.getPackageRegistry().put(EMFProfileApplicationPackage.eNS_URI, EMFProfileApplicationPackage.eINSTANCE);
-		//set.getPackageRegistry().put("http://de.fzi.decision.security.profiles.pcm.prerequisite/1.0.0", EMFProfileApplicationPackage.eINSTANCE);
-		//set.getPackageRegistry().put("http://de.fzi.decision.security.profiles.pcm.pattern/1.0.0", EMFProfileApplicationPackage.eINSTANCE);
+		//set.getPackageRegistry().put("de.fzi.decision.security.profiles.pcm.prerequisite", EMFProfileApplicationPackage.eINSTANCE);
+		//set.getPackageRegistry().put("de.fzi.decision.security.profiles.pcm.pattern", EMFProfileApplicationPackage.eINSTANCE);
 		
 		//load model		
 		set.getResourceFactoryRegistry().getExtensionToFactoryMap().put("system", new EcoreResourceFactoryImpl());
