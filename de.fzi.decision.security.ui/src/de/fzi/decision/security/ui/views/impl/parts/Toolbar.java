@@ -32,7 +32,6 @@ public class Toolbar extends Composite {
 	 */
 	public Toolbar(Composite parent, IAnalysisClickListener analysisClickListener) {
 		super(parent, SWT.NONE);
-		
 		FormData formData = new FormData();
 		formData.top = new FormAttachment(0);
 		formData.left = new FormAttachment(0);

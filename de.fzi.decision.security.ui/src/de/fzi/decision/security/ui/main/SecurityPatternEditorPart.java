@@ -39,6 +39,7 @@ import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
@@ -59,6 +60,9 @@ public class SecurityPatternEditorPart extends EditorPart {
 	private Collection<Resource> removedResources = new ArrayList<Resource>();
 	private Collection<Resource> changedResources = new ArrayList<Resource>();
 	private Collection<Resource> savedResources = new ArrayList<Resource>();
+	
+	private SecurityUndoHandler undoHandler;
+	private SecurityRedoHandler redoHandler;
 	
 	private AppController controller;
 	private CDOTransaction transaction;
@@ -122,7 +126,7 @@ public class SecurityPatternEditorPart extends EditorPart {
 		site.getPage().addPartListener(partListener);
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(resourceChangeListener, IResourceChangeEvent.POST_CHANGE);
 		initializeEditingDomain(input);
-		initUndoRedoActionGroup();
+		initUndoRedo();
 	}
 	
 	
@@ -287,8 +291,15 @@ public class SecurityPatternEditorPart extends EditorPart {
 		uri = resource.getURI();
 	}
 	
-	private void initUndoRedoActionGroup() {
-		//TODO:
+	private void initUndoRedo() {
+			IEditorSite site = getEditorSite();
+			undoHandler = new SecurityUndoHandler(editingDomain);
+			site.getActionBars().setGlobalActionHandler(ActionFactory.UNDO.getId(), undoHandler);
+			
+			redoHandler = new SecurityRedoHandler(editingDomain);
+			site.getActionBars().setGlobalActionHandler(ActionFactory.REDO.getId(), redoHandler);
+			
+			//TODO: set commandstack listener that refreshes the propertysheet when changes occur
 	}
 	
 	private void handleActivate() {
