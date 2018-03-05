@@ -1,5 +1,7 @@
 package analysis;
 
+import java.io.File;
+
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -27,7 +29,7 @@ public class PcmModelLoaderEngine {
 	 * @throws InitializationException thrown if the model could not be loaded
 	 */
 	public PcmModelLoaderEngine(String modelPath) throws InitializationException {
-		this(URI.createFileURI(modelPath));
+		this(URI.createFileURI(new File(modelPath).getAbsolutePath()));
 	}
 	
 	/**
@@ -45,12 +47,38 @@ public class PcmModelLoaderEngine {
 		//register pcm meta model
 		set.getPackageRegistry().put(CorePackage.eNS_URI, CorePackage.eINSTANCE);
 		
-		//register profiles
+		//register EMF profiles
 		set.getPackageRegistry().put(EMFProfileApplicationPackage.eNS_URI, EMFProfileApplicationPackage.eINSTANCE);
-		//set.getPackageRegistry().put("de.fzi.decision.security.profiles.pcm.prerequisite", EMFProfileApplicationPackage.eINSTANCE);
-		//set.getPackageRegistry().put("de.fzi.decision.security.profiles.pcm.pattern", EMFProfileApplicationPackage.eINSTANCE);
 		
-		//load model		
+		//use factory registration
+		//set.getResourceFactoryRegistry().getExtensionToFactoryMap().put("emfprofile_diagram", new MdsdprofilesFactoryImpl());
+		
+		//use platform URI
+		//URI profileURI = URI.createURI("platform:/resource/de.fzi.decision.security.profile.pcm/prereq.emfprofile_diagram");
+		
+		//use profile API
+		//for (Profile p : ProfileAPI.getApplicableProfiles()) {
+		//	set.getPackageRegistry().put(p.getNsURI(), p);
+		//}
+		
+		//create security profile registration
+		//set.getPackageRegistry().put("de.fzi.decision.security.profiles.pcm.prerequisite",
+		//		URI.createURI("platform:/resource/de.fzi.decision.security.profile.pcm/prereq.emfprofile_diagram"));
+		//set.getResource(profileURI, true);
+
+		//get epackage from the profile factory
+		//EPackage pac = MdsdprofilesFactory.eINSTANCE.getEPackage();
+		
+		//register security profiles
+		//set.getPackageRegistry().put("de.fzi.decision.security.profiles.pcm.prerequisite", pac);
+		//set.getPackageRegistry().put("de.fzi.decision.security.profiles.pcm.pattern", pac);
+
+		//register xmi factory
+		//set.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl());
+		
+		//TODO: Register security MDSDProfiles
+		
+		//load model	
 		set.getResourceFactoryRegistry().getExtensionToFactoryMap().put("system", new EcoreResourceFactoryImpl());
 		
 		initEngine(set, modelUri);
@@ -58,8 +86,7 @@ public class PcmModelLoaderEngine {
 	
 	private void initEngine(ResourceSet set, URI modelUri) throws InitializationException {
 		set.createResource(modelUri);
-		
-		/*Resource r =*/ set.getResource(modelUri, true);
+		set.getResource(modelUri, true);
 			
 		//start engine		
 		try {
