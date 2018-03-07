@@ -181,19 +181,19 @@
   <emfprofileapplication:ProfileApplication>
     <stereotypeApplications xsi:type="prerequisiteprofile:ComponentPrerequisite" appliedTo="_GY2HALF-EeaCwqxzEIieVA">
       <extension href="../../../de.fzi.decision.security.profiles.pcm/prereq.emfprofile_diagram#_JJWzwAZuEeiNl5js7KHJSw"/>
-      <prerequisites href="basicScenario.security#_WZhQQj1JEeaC77dVaP0Eeg"/>
-      <prerequisites href="basicScenario.security#_Myt4qD1KEeaVk-W-mW-puA"/>
-      <prerequisites href="basicScenario.security#_GBmUuD1LEeaVk-W-mW-puA"/>
-      <prerequisites href="basicScenario.security#_M0bySGSOEeaBdfha1Hk-SA"/>
-      <prerequisites href="basicScenario.security#_biC3AAXZEeiln5uSIv6U2g"/>
+      <prerequisites href="../DefaultCatalog.security#_WZhQQj1JEeaC77dVaP0Eeg"/>
+      <prerequisites href="../DefaultCatalog.security#_Myt4qD1KEeaVk-W-mW-puA"/>
+      <prerequisites href="../DefaultCatalog.security#_GBmUuD1LEeaVk-W-mW-puA"/>
+      <prerequisites href="../DefaultCatalog.security#_M0bySGSOEeaBdfha1Hk-SA"/>
+      <prerequisites href="../DefaultCatalog.security#_biC3AAXZEeiln5uSIv6U2g"/>
     </stereotypeApplications>
     <stereotypeApplications xsi:type="prerequisiteprofile:ComponentPrerequisite" appliedTo="_17KzoLF9EeaCwqxzEIieVA">
       <extension href="../../../de.fzi.decision.security.profiles.pcm/prereq.emfprofile_diagram#_JJWzwAZuEeiNl5js7KHJSw"/>
-      <prerequisites href="basicScenario.security#_K3GZKD1NEeaVk-W-mW-puA"/>
+      <prerequisites href="../DefaultCatalog.security#_K3GZKD1NEeaVk-W-mW-puA"/>
     </stereotypeApplications>
     <stereotypeApplications xsi:type="patternprofile:SecurityPatternRole" appliedTo="_GY2HALF-EeaCwqxzEIieVA">
       <extension href="../../../de.fzi.decision.security.profiles.pcm/pattern.emfprofile_diagram#_7yRd4AZtEeiNl5js7KHJSw"/>
-      <roles href="basicScenario.security#_6ntp8DEvEeejp9Ll7O-qTg"/>
+      <roles href="../DefaultCatalog.security#_6ntp8DEvEeejp9Ll7O-qTg"/>
     </stereotypeApplications>
     <importedProfiles nsURI="de.fzi.decision.security.profiles.pcm.prerequisite" location="platform:/resource/de.fzi.decision.security.profiles.pcm/prereq.emfprofile_diagram"/>
     <importedProfiles nsURI="de.fzi.decision.security.profiles.pcm.pattern" location="platform:/resource/de.fzi.decision.security.profiles.pcm/pattern.emfprofile_diagram"/>
