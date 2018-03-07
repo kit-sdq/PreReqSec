@@ -1,10 +1,11 @@
 package de.fzi.decision.security.ui.views.impl.parts;
 
-import java.util.HashMap;
+import java.util.List;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.net4j.util.collection.Pair;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -29,7 +30,7 @@ public class OutputSection extends Composite {
 	 */
 	public OutputSection(
 		Composite parent,
-		HashMap<EAttribute, String> attributeMap,
+		List<Pair<EAttribute, String>> attributeMap,
 		AdapterFactoryEditingDomain editingDomain,
 		DelegateSelectionProvider selectionProvider,
 		ISecurityContainer model

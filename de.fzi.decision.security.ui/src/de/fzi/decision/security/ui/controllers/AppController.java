@@ -1,7 +1,8 @@
 package de.fzi.decision.security.ui.controllers;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.List;
 
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.emf.common.util.URI;
@@ -12,6 +13,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.net4j.util.collection.Pair;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
@@ -74,8 +76,8 @@ public class AppController implements IQueryCallback, IAnalysisClickListener {
 	 */
 	public void init(Composite parent, URI uri, DelegateSelectionProvider delegateSelectionProvider) {
 		logger.info("init() was called with URI: " + uri.toString() + ".");
-		view.init(parent, this, delegateSelectionProvider, createPatternAttributeMap(), 
-				createPrerequisiteAttributeMap(), createThreatAttributeMap(), model);
+		view.init(parent, this, delegateSelectionProvider, createPatternAttributeList(), 
+				createPrerequisiteAttributeList(), createThreatAttributeList(), model);
 		registerSelectionListeners(delegateSelectionProvider);
 		registerViewerFilters();
 		registerListeners();
@@ -108,22 +110,36 @@ public class AppController implements IQueryCallback, IAnalysisClickListener {
 		initDatabinding();
 	}
 	
-	private HashMap<EAttribute, String> createPatternAttributeMap() {
-		HashMap<EAttribute, String> map = new HashMap<EAttribute, String>();
-		map.put(SecurityPackage.Literals.NAMED_DESCRIBED_ENTITY__NAME, "Security Pattern");
-		return map;
+	private List<Pair<EAttribute, String>> createPatternAttributeList() {
+		List<Pair<EAttribute, String>> list = new ArrayList<>();
+		Pair<EAttribute, String> patternPair = new Pair<EAttribute, String>(SecurityPackage.Literals.NAMED_DESCRIBED_ENTITY__NAME,
+				"Security Pattern");
+		list.add(patternPair);
+		list.add(createDescPair());
+		return list;
 	}
 	
-	private HashMap<EAttribute, String> createPrerequisiteAttributeMap() {
-		HashMap<EAttribute, String> map = new HashMap<EAttribute, String>();
-		map.put(SecurityPackage.Literals.NAMED_DESCRIBED_ENTITY__NAME, "Prerequisite");
-		return map;
+	private List<Pair<EAttribute, String>> createPrerequisiteAttributeList() {
+		List<Pair<EAttribute, String>> list = new ArrayList<>();
+		Pair<EAttribute, String> prePair = new Pair<EAttribute, String>(SecurityPackage.Literals.NAMED_DESCRIBED_ENTITY__NAME, 
+				"Prerequisite");
+		list.add(prePair);
+		list.add(createDescPair());
+		return list;
 	}
 	
-	private HashMap<EAttribute, String> createThreatAttributeMap() {
-		HashMap<EAttribute, String> map = new HashMap<EAttribute, String>();
-		map.put(SecurityPackage.Literals.NAMED_DESCRIBED_ENTITY__NAME, "Attack");
-		return map;
+	private List<Pair<EAttribute, String>> createThreatAttributeList() {
+		List<Pair<EAttribute, String>> list = new ArrayList<>();
+		Pair<EAttribute, String> attackPair = new Pair<EAttribute, String>(SecurityPackage.Literals.NAMED_DESCRIBED_ENTITY__NAME, 
+				"Attack");
+		list.add(attackPair);
+		list.add(createDescPair());
+		return list;
+	}
+	
+	private Pair<EAttribute, String> createDescPair() {
+		return new Pair<EAttribute, String>(SecurityPackage.Literals.NAMED_DESCRIBED_ENTITY__DESCRIPTION,
+				"Description");
 	}
 	
 	private void initDatabinding() {

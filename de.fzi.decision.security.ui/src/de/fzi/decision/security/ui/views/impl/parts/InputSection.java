@@ -1,10 +1,11 @@
 package de.fzi.decision.security.ui.views.impl.parts;
 
-import java.util.HashMap;
+import java.util.List;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.net4j.util.collection.Pair;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.widgets.Composite;
@@ -32,8 +33,8 @@ public class InputSection extends SashForm {
 	 */
 	public InputSection(
 		Composite parent, 
-		HashMap<EAttribute, String> leftAttributeMap, 
-		HashMap<EAttribute, String> rightAttributeMap,
+		List<Pair<EAttribute, String>> leftAttributeMap, 
+		List<Pair<EAttribute, String>> rightAttributeMap,
 		AdapterFactoryEditingDomain editingDomain,
 		DelegateSelectionProvider selectionProvider,
 		ISecurityContainer model

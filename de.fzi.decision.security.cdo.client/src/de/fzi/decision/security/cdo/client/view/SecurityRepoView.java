@@ -29,7 +29,8 @@ import org.eclipse.swt.widgets.FileDialog;
 import de.fzi.decision.security.cdo.client.controller.SecurityRepoController;
 import de.fzi.decision.security.cdo.client.util.Constants;
 import de.fzi.decision.security.cdo.client.util.SecurityEditorInput;
-import de.fzi.decision.security.cdo.client.view.dialogs.NamedDescribedEntityCreatorDialog;
+import de.fzi.decision.security.cdo.client.view.dialogs.CreateNamedDescribedEntityDialog;
+import de.fzi.decision.security.cdo.client.view.dialogs.NamedDescribedEntityDialog;
 import de.fzi.decision.security.cdo.client.view.dialogs.OpenSessionDialog;
 import security.NamedDescribedEntity;
 
@@ -334,8 +335,8 @@ public class SecurityRepoView implements ISecurityRepoView, IRepoContextMenuClie
 	}
 	
 	@Override
-	public boolean openNamedDescribedEntityCreatorDialog(NamedDescribedEntity entity) {
-		NamedDescribedEntityCreatorDialog dialog = new NamedDescribedEntityCreatorDialog(parent.getShell(), entity);
+	public boolean openCreateNamedDescribedEntityDialog(NamedDescribedEntity entity) {
+		NamedDescribedEntityDialog dialog = new CreateNamedDescribedEntityDialog(parent.getShell(), entity);
 		if (dialog.open() == Window.OK) {
 			return true;
 		}

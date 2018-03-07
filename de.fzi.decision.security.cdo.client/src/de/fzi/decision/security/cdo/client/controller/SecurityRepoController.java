@@ -100,7 +100,7 @@ public class SecurityRepoController {
 	 */
 	public void createNewModel() throws IllegalArgumentException, CommitException {
 		Container rootContainer = createNewSecurityContainer();
-		boolean isCanceld = !view.openNamedDescribedEntityCreatorDialog(rootContainer);
+		boolean isCanceld = !view.openCreateNamedDescribedEntityDialog(rootContainer);
 		if (!isCanceld) {
 			if (!checkIfSecurityContainerAlreadyExists(rootContainer.getName())) {
 				connection.storeNewResource(rootContainer, rootContainer.getName());

@@ -40,7 +40,7 @@ public interface ISecurityRepoView {
 	 * Opens a new Dialog in which the user can enter the name and description for a new NamedDescribedEntity.
 	 * @param entity The new NamedDescribedEntity
 	 */
-	public abstract boolean openNamedDescribedEntityCreatorDialog(NamedDescribedEntity entity);
+	public abstract boolean openCreateNamedDescribedEntityDialog(NamedDescribedEntity entity);
 	
 	//public abstract boolean showCDOConflictDialog();
 

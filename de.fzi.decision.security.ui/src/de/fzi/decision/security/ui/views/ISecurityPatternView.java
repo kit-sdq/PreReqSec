@@ -1,9 +1,10 @@
 package de.fzi.decision.security.ui.views;
 
-import java.util.HashMap;
+import java.util.List;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.jface.viewers.StructuredViewer;
+import org.eclipse.net4j.util.collection.Pair;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.widgets.Composite;
 
@@ -29,9 +30,9 @@ public interface ISecurityPatternView {
 		Composite parent,
 		IAnalysisClickListener analysisClickListener,
 		DelegateSelectionProvider selectionProvider,
-		HashMap<EAttribute, String> patternAttributeMap,
-		HashMap<EAttribute, String> prerequisiteAttributeMap,
-		HashMap<EAttribute, String> threatAttributeMap,
+		List<Pair<EAttribute, String>> patternAttributeMap,
+		List<Pair<EAttribute, String>> prerequisiteAttributeMap,
+		List<Pair<EAttribute, String>> threatAttributeMap,
 		ISecurityContainer model
 	);
 	

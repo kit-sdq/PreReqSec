@@ -1,6 +1,7 @@
 package de.fzi.decision.security.ui.views.impl.parts;
 
-import java.util.HashMap;
+
+import java.util.List;
 
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
@@ -11,6 +12,7 @@ import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapCellLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.net4j.util.collection.Pair;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MenuAdapter;
 import org.eclipse.swt.events.MenuEvent;
@@ -43,13 +45,13 @@ public class EMFTableViewer extends TableViewer {
 	 * and the values of the map are the names for the TableViewer columns.
 	 *  
 	 * @param parent the parent composite
-	 * @param attributeMap the AttributeMap for the TableViewer
+	 * @param attributeList the AttributeMap for the TableViewer
 	 * @param editingDomain the EMF editingDomain needed for the databinding of the JFace Viewers
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public EMFTableViewer(
 		Composite parent,
-		HashMap<EAttribute, String> attributeMap, 
+		List<Pair<EAttribute, String>> attributeList, 
 		AdapterFactoryEditingDomain editingDomain,
 		DelegateSelectionProvider selectionProvider,
 		ModelModificationListener modModListener
@@ -60,12 +62,12 @@ public class EMFTableViewer extends TableViewer {
 		
 		ObservableListContentProvider cp = new ObservableListContentProvider();
 			
-		for (EAttribute attribute : attributeMap.keySet()) {
+		for (Pair<EAttribute, String> pair : attributeList) {
 			TableViewerColumn column = new TableViewerColumn(this, SWT.LEFT);
-			IObservableMap map = EMFEditProperties.value(editingDomain, attribute).observeDetail(cp.getKnownElements());
+			IObservableMap map = EMFEditProperties.value(editingDomain, pair.getElement1()).observeDetail(cp.getKnownElements());
 			column.setLabelProvider(new ObservableMapCellLabelProvider(map));
-			column.getColumn().setText(attributeMap.get(attribute));
-			column.getColumn().setWidth(150);
+			column.getColumn().setText(pair.getElement2());
+			column.getColumn().setWidth(200);
 		}
 				
 		this.setContentProvider(cp);

@@ -14,24 +14,16 @@ import org.eclipse.ui.PlatformUI;
 
 import security.NamedDescribedEntity;
 
-public class NamedDescribedEntityCreatorDialog extends TitleAreaDialog {
+public class NamedDescribedEntityDialog extends TitleAreaDialog {
 	
-	private NamedDescribedEntity entity;
+	protected NamedDescribedEntity entity;
 	
 	private Text name;
 	private Text description;
 
-	public NamedDescribedEntityCreatorDialog(Shell parentShell, NamedDescribedEntity entity) {
+	public NamedDescribedEntityDialog(Shell parentShell, NamedDescribedEntity entity) {
 		super(parentShell);
 		this.entity = entity;
-	}
-	
-	@Override
-	public void create() {
-		super.create();
-		String typeName = entity.getClass().getSimpleName().replace("Impl", "");
-		setTitle("Create New " + typeName);
-		setMessage("Please specify a name and a description for the new " + typeName);
 	}
 	
 	@Override
@@ -64,6 +56,7 @@ public class NamedDescribedEntityCreatorDialog extends TitleAreaDialog {
 		
 		name = new Text(container, SWT.BORDER);
 		name.setLayoutData(gridData);
+		name.setText(entity.getName());
 	}
 	
 	private void createDescriptionPart(Composite container) {
@@ -76,6 +69,7 @@ public class NamedDescribedEntityCreatorDialog extends TitleAreaDialog {
 		
 		description = new Text(container, SWT.BORDER);
 		description.setLayoutData(gridData);
+		description.setText(entity.getDescription());
 	}
 
 	@Override
