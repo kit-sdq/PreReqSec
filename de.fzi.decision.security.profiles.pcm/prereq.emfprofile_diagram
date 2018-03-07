@@ -22,6 +22,9 @@
     <children xmi:type="notation:Node" xmi:id="_EVPkgQZuEeiNl5js7KHJSw" type="2006" element="_EVPkgAZuEeiNl5js7KHJSw">
       <children xmi:type="notation:DecorationNode" xmi:id="_EVPkhQZuEeiNl5js7KHJSw" type="5008"/>
       <children xmi:type="notation:DecorationNode" xmi:id="_EVPkhgZuEeiNl5js7KHJSw" type="7008">
+        <children xmi:type="notation:Node" xmi:id="_6ACJUCH6Eei8X_bXIkFxZg" type="3001" element="_6AA7MCH6Eei8X_bXIkFxZg">
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_6ACJUSH6Eei8X_bXIkFxZg"/>
+        </children>
         <styles xmi:type="notation:SortingStyle" xmi:id="_EVPkhwZuEeiNl5js7KHJSw"/>
         <styles xmi:type="notation:FilteringStyle" xmi:id="_EVPkiAZuEeiNl5js7KHJSw"/>
       </children>
@@ -75,6 +78,9 @@
       <eSuperTypes xmi:type="ecore:EClass" href="http://www.modelversioning.org/emfprofile/application/1.1#//StereotypeApplication"/>
       <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_KMoOoAZuEeiNl5js7KHJSw" name="prerequisites" upperBound="-1">
         <eType xmi:type="ecore:EClass" href="http://www.fzi.de/decision/security#//securityPrerequisites/Prerequisite"/>
+      </eStructuralFeatures>
+      <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_6AA7MCH6Eei8X_bXIkFxZg" name="TruthValue" defaultValueLiteral="true">
+        <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
       </eStructuralFeatures>
       <extensions xmi:type="emfprofile:Extension" xmi:id="_JJWzwAZuEeiNl5js7KHJSw">
         <target xmi:type="ecore:EClass" href="http://palladiosimulator.org/PalladioComponentModel/5.2#//core/composition/AssemblyContext"/>
