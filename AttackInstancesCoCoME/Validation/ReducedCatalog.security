@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<security:Container xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:security="http://www.fzi.de/decision/security" xmlns:securityPatterns="http://www.fzi.de/decision/security/securityPatterns" xmlns:securityPrerequisites="http://www.fzi.de/decision/security/securityPrerequisites" xmlns:securityThreats="http://www.fzi.de/decision/security/securityThreats" id="_gLjkkCvnEeeBFJawWlgBXg" name="CoCoME Demo Collection">
+  <contains xsi:type="securityThreats:ThreatCatalog" id="_hLTxYivnEeeBFJawWlgBXg" name=" ">
+    <dynamicDataKeys id="_Wd69MAXWEeiln5uSIv6U2g" name="SecurityViolation"/>
+    <attacks id="_DPedQj1JEeaC77dVaP0Eeg" name="HTTPFlooding" description="The attacker issues an enormous amount of HTTP requests to produce a denial of service at the web server." prerequisites="_Myt4qD1KEeaVk-W-mW-puA _WZhQQj1JEeaC77dVaP0Eeg _mSY-ICK3EeiYxIG5DLS5Yg _GBmUuD1LEeaVk-W-mW-puA">
+      <data key="_Wd69MAXWEeiln5uSIv6U2g" value="AVAILABILITY"/>
+    </attacks>
+    <attacks id="_zbUWEj1KEeaVk-W-mW-puA" name="SpoofedHTTPFlooding" description="The attacker issues an enormous amount of HTTP requests under differing spoofed identities to produce a denial of service at the web server." prerequisites="_WZhQQj1JEeaC77dVaP0Eeg _mSY-ICK3EeiYxIG5DLS5Yg">
+      <data key="_Wd69MAXWEeiln5uSIv6U2g" value="AVAILABILITY"/>
+    </attacks>
+    <attacks id="_hkLC4iK0EeiYxIG5DLS5Yg" name="ConnectionImpersonation" description="The attacker impersonates a different sender to establish a two-way connection via which information may be leaked." prerequisites="_WZhQQj1JEeaC77dVaP0Eeg _mSY-ICK3EeiYxIG5DLS5Yg">
+      <data key="_Wd69MAXWEeiln5uSIv6U2g" value="AUTHENTICITY"/>
+    </attacks>
+    <attacks id="_9l9nwiK2EeiYxIG5DLS5Yg" name="UnauthorizedConnection" description="An attacker establishes a connection to a system for which he is not authorized" prerequisites="_GBmUuD1LEeaVk-W-mW-puA _WZhQQj1JEeaC77dVaP0Eeg _mSY-ICK3EeiYxIG5DLS5Yg">
+      <data key="_Wd69MAXWEeiln5uSIv6U2g" value="CONFIDENTIALITY"/>
+    </attacks>
+  </contains>
+  <contains xsi:type="securityPatterns:PatternCatalog" id="_gwSCQCvnEeeBFJawWlgBXg" name=" " description="This catalog contains a selection of security patterns.">
+    <securityPatterns id="_OH2CsC60Eeee4Ma0GzGF8w" name="Simple Packet Filter Firewall" description="A packet filter firewall allows the definition and enforcement of rules at the application layer for restricting ingoing and outgoing network traffic based on sender and port information." mitigatedPrerequisites="_GBmUuD1LEeaVk-W-mW-puA _mSY-ICK3EeiYxIG5DLS5Yg">
+      <roles id="_nnMFgDODEeedIemevWrvFg" name="Proxy" description="Firewall component acting as a proxy for a specific service; checking ingoing and outgoing traffic up to application layer against rule base and enforcing those rules." uses="_MS0ZwDEwEeejp9Ll7O-qTg _APZrMDEwEeejp9Ll7O-qTg"/>
+      <roles id="_APZrMDEwEeejp9Ll7O-qTg" name="External Interface" description="Interface facing to the untrusted partition of the network." usedBy="_nnMFgDODEeedIemevWrvFg"/>
+      <roles id="_MS0ZwDEwEeejp9Ll7O-qTg" name="Internal Interface" description="Interface facing the trusted partition of the network." usedBy="_nnMFgDODEeedIemevWrvFg"/>
+    </securityPatterns>
+    <securityPatterns id="_IVr20C60Eeee4Ma0GzGF8w" name="Authenticator" description="An authenticator confirms the authenticity of a connection partner." mitigatedPrerequisites="_WZhQQj1JEeaC77dVaP0Eeg _Myt4qD1KEeaVk-W-mW-puA _GBmUuD1LEeaVk-W-mW-puA _mSY-ICK3EeiYxIG5DLS5Yg">
+      <roles id="_6ntp8DEvEeejp9Ll7O-qTg" name="Authenticator" description="Component checking a clients claim of identity by comparing provided identifaction information with expected one. Hands out proof of identification in case of equality." uses="_435fEDPVEeedIemevWrvFg"/>
+      <roles id="_435fEDPVEeedIemevWrvFg" name="Authentication Information" description="Information required to establish the identity of users." usedBy="_6ntp8DEvEeejp9Ll7O-qTg"/>
+    </securityPatterns>
+    <securityPatterns id="_l1K50CK7EeiRHLtbvSDAWg" name="Reactive Packet Filter Firewall" description="A reactive packet filter firewall defines rules for allowed incoming and outgoing traffic based on sender and port information, but also defines rules that automatically block potentially dangerous connections." mitigatedPrerequisites="_mSY-ICK3EeiYxIG5DLS5Yg _Myt4qD1KEeaVk-W-mW-puA _GBmUuD1LEeaVk-W-mW-puA">
+      <roles id="_qdDD4CK7EeiRHLtbvSDAWg" name="Proxy" description="Firewall component acting as a proxy for a specific service; checking ingoing and outgoing traffic up to application layer against rule base and enforcing those rules."/>
+      <roles id="_rBLEoCK7EeiRHLtbvSDAWg" name="External Interface" description="Interface facing to the untrusted partition of the network."/>
+      <roles id="_rOXMECK7EeiRHLtbvSDAWg" name="Internal Interface" description="Interface facing to the untrusted partition of the network."/>
+    </securityPatterns>
+  </contains>
+  <contains xsi:type="securityPrerequisites:PrerequisiteCatalog" id="_heSXwSvnEeeBFJawWlgBXg" name=" ">
+    <prerequisites id="_WZhQQj1JEeaC77dVaP0Eeg" name="IsSenderAuthenticated" description="Is the authenticity of the packet sender verified?" attacks="_hkLC4iK0EeiYxIG5DLS5Yg _9l9nwiK2EeiYxIG5DLS5Yg _zbUWEj1KEeaVk-W-mW-puA _DPedQj1JEeaC77dVaP0Eeg" securityPatterns="_IVr20C60Eeee4Ma0GzGF8w"/>
+    <prerequisites id="_Myt4qD1KEeaVk-W-mW-puA" name="IsSelfLearning" description="Does the component have rules defined to potentially counteract troublesome unknown connections?" attacks="_DPedQj1JEeaC77dVaP0Eeg" securityPatterns="_IVr20C60Eeee4Ma0GzGF8w _l1K50CK7EeiRHLtbvSDAWg"/>
+    <prerequisites id="_GBmUuD1LEeaVk-W-mW-puA" name="IsTrafficFiltered" description="Are incoming connections to this component filtered?" attacks="_9l9nwiK2EeiYxIG5DLS5Yg _DPedQj1JEeaC77dVaP0Eeg" securityPatterns="_OH2CsC60Eeee4Ma0GzGF8w _IVr20C60Eeee4Ma0GzGF8w _l1K50CK7EeiRHLtbvSDAWg"/>
+    <prerequisites id="_mSY-ICK3EeiYxIG5DLS5Yg" name="IsConnectionTrusted" description="Is the connection trusted, i.e. is access for malicious unknown attackers prevented?" attacks="_hkLC4iK0EeiYxIG5DLS5Yg _9l9nwiK2EeiYxIG5DLS5Yg _zbUWEj1KEeaVk-W-mW-puA _DPedQj1JEeaC77dVaP0Eeg" securityPatterns="_OH2CsC60Eeee4Ma0GzGF8w _IVr20C60Eeee4Ma0GzGF8w _l1K50CK7EeiRHLtbvSDAWg"/>
+  </contains>
+</security:Container>
