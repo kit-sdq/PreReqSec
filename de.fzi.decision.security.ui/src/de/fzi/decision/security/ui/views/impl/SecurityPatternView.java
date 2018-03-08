@@ -1,15 +1,18 @@
 package de.fzi.decision.security.ui.views.impl;
 
-import java.util.HashMap;
+import java.util.List;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
+import org.eclipse.net4j.util.collection.Pair;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
 
+import de.fzi.decision.security.ui.controllers.query.IAnalysisClickListener;
+import de.fzi.decision.security.ui.main.DelegateSelectionProvider;
+import de.fzi.decision.security.ui.models.ISecurityContainer;
 import de.fzi.decision.security.ui.views.ISecurityPatternView;
 import de.fzi.decision.security.ui.views.impl.parts.ContentWrapper;
 import de.fzi.decision.security.ui.views.impl.parts.InputSection;
@@ -40,15 +43,18 @@ public class SecurityPatternView implements ISecurityPatternView {
 	@Override
 	public void init(
 		Composite parent,
-		HashMap<EAttribute, String> patternAttributeMap,
-		HashMap<EAttribute, String> prerequisiteAttributeMap,
-		HashMap<EAttribute, String> threatAttributeMap
+		IAnalysisClickListener analysisClickListener,
+		DelegateSelectionProvider selectionProvider,
+		List<Pair<EAttribute, String>> patternAttributeMap,
+		List<Pair<EAttribute, String>> prerequisiteAttributeMap,
+		List<Pair<EAttribute, String>> threatAttributeMap,
+		ISecurityContainer model
 	) {
 		setWindowLayout(parent);
-		toolbar = new Toolbar(parent);
+		toolbar = new Toolbar(parent, analysisClickListener);
 		ContentWrapper contentWrapper = new ContentWrapper(parent, toolbar);
-		inputSection = new InputSection(contentWrapper, patternAttributeMap, prerequisiteAttributeMap, editingDomain);
-		outputSection = new OutputSection(contentWrapper, threatAttributeMap, editingDomain);	
+		inputSection = new InputSection(contentWrapper, patternAttributeMap, prerequisiteAttributeMap, editingDomain, selectionProvider, model);
+		outputSection = new OutputSection(contentWrapper, threatAttributeMap, editingDomain, selectionProvider, model);	
 	}
 
 	private static void setWindowLayout(Composite parent) {

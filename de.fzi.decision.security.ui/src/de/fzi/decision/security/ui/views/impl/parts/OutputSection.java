@@ -1,13 +1,18 @@
 package de.fzi.decision.security.ui.views.impl.parts;
 
-import java.util.HashMap;
+import java.util.List;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.net4j.util.collection.Pair;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
+
+import de.fzi.decision.security.ui.main.DelegateSelectionProvider;
+import de.fzi.decision.security.ui.models.ISecurityContainer;
+import de.fzi.decision.security.ui.models.impl.AttackModificationListener;
 
 /**
  * A composite that consists of one TableViewer that shows the output. The output are either the SecurityPatterns
@@ -25,15 +30,18 @@ public class OutputSection extends Composite {
 	 */
 	public OutputSection(
 		Composite parent,
-		HashMap<EAttribute, String> attributeMap,
-		AdapterFactoryEditingDomain editingDomain
+		List<Pair<EAttribute, String>> attributeMap,
+		AdapterFactoryEditingDomain editingDomain,
+		DelegateSelectionProvider selectionProvider,
+		ISecurityContainer model
 	) {
 		super(parent, SWT.NONE);
 		
 		FillLayout layout = new FillLayout(SWT.HORIZONTAL);
 		this.setLayout(layout);
 		
-		outputViewer = new EMFTableViewer(this, attributeMap, editingDomain);
+		outputViewer = new EMFTableViewer(this, attributeMap, editingDomain, selectionProvider, 
+				new AttackModificationListener(model));
 	}
 	
 	/**

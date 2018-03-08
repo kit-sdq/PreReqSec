@@ -1,11 +1,12 @@
 package de.fzi.decision.security.cdo.client.controller;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.ArrayList;
 
 import org.eclipse.emf.cdo.session.CDOSessionInvalidationEvent;
 import org.eclipse.emf.cdo.util.CommitException;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.xmi.PackageNotFoundException;
 import org.eclipse.net4j.util.event.IEvent;
 import org.eclipse.net4j.util.event.IListener;
 import org.eclipse.net4j.util.lifecycle.LifecycleException;
@@ -13,12 +14,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.fzi.decision.security.cdo.client.connection.ServerConnection;
-import de.fzi.decision.security.cdo.client.util.SecurityContainerTableViewerModel;
 import de.fzi.decision.security.cdo.client.util.SecurityEditorInput;
-import de.fzi.decision.security.cdo.client.util.SecurityFileHandler;
+import de.fzi.decision.security.cdo.client.util.SecurityContainerLoader;
 import de.fzi.decision.security.cdo.client.view.ISecurityRepoView;
 import security.Container;
+import security.SecurityFactory;
+import security.impl.SecurityFactoryImpl;
+import security.securityPatterns.impl.SecurityPatternsFactoryImpl;
+import security.securityPrerequisites.impl.SecurityPrerequisitesFactoryImpl;
+import security.securityThreats.impl.SecurityThreatsFactoryImpl;
 
+/**
+ * Controller of the repository view
+ * @author matthias endlichhofer
+ *
+ */
 public class SecurityRepoController {
 
 	private final Logger logger = LoggerFactory.getLogger(SecurityRepoController.class);
@@ -29,11 +39,20 @@ public class SecurityRepoController {
 		this.view = view;
 	}
 	
+	/**
+	 * Establishes a ServerConnection to the given server and repo and refreshes the repo view table
+	 * @param host The address of the host server to connect to
+	 * @param repoName The name of the repo to connect to
+	 * @throws LifecycleException Thrown if the connection to the repo or server is not possible
+	 */
 	public void connectToCDOServer(String host, String repoName) throws LifecycleException {
 		connection = ServerConnection.getInstance(host, repoName, createPassiveUpdateListener());
 		refreshTableInput();
 	}
 	
+	/**
+	 ** @return a new listener that responds to CDOSessionInvalidationEvents
+	 */
 	private IListener createPassiveUpdateListener() {
 		return new IListener() {
 					
@@ -51,20 +70,22 @@ public class SecurityRepoController {
 	}
 
 	private void refreshTableInput() {
-		List<String> containerNames = connection.getAllSecurityContainerNames();
-		SecurityContainerTableViewerModel[] model = new SecurityContainerTableViewerModel[containerNames.size()];
-		for (int i = 0; i < containerNames.size(); i++) {
-			model[i] = new SecurityContainerTableViewerModel(containerNames.get(i));
-		}
-		view.setTableInput(model);
+		ArrayList<String> containerNames = connection.getAllSecurityContainerNames();
+		view.setTableInput(containerNames.toArray(new String[0]));
 	}
 
-	public void doLoadModel() throws IllegalArgumentException, CommitException {
-		URI modelURI = view.startModelSelection();
+	/**
+	 * Lets the user choose a security container model and stores this as a new resource in the repository
+	 * @throws IllegalArgumentException Thrown if the user chooses a model which name conflicts with an existing model
+	 * @throws CommitException Thrown in case of commit problems such as conflicts
+	 * @throws PackageNotFoundException 
+	 */
+	public void doLoadModel() throws IllegalArgumentException, CommitException, Exception {
+		URI modelURI = view.openModelSelectionDialog();
 		if (modelURI != null) {
-			Container rootContainer = SecurityFileHandler.getModelFromFile(modelURI);
+			Container rootContainer = SecurityContainerLoader.loadModelFromFile(modelURI);
 			String name = modelURI.lastSegment().substring(0, modelURI.lastSegment().indexOf('.'));
-			if (!checkIfNameAlreadyExists(name)) {
+			if (!checkIfSecurityContainerAlreadyExists(name)) {
 				connection.storeNewResource(rootContainer, name);
 				refreshTableInput();
 			} else {
@@ -73,7 +94,38 @@ public class SecurityRepoController {
 		}
 	}
 	
-	private boolean checkIfNameAlreadyExists(String name) {
+	/**
+	 * Lets the user enter a name and creates a new security container and saves it in the repo
+	 * @throws CommitException 
+	 */
+	public void createNewModel() throws IllegalArgumentException, CommitException {
+		Container rootContainer = createNewSecurityContainer();
+		boolean isCanceld = !view.openCreateNamedDescribedEntityDialog(rootContainer);
+		if (!isCanceld) {
+			if (!checkIfSecurityContainerAlreadyExists(rootContainer.getName())) {
+				connection.storeNewResource(rootContainer, rootContainer.getName());
+				refreshTableInput();
+			} else {
+				throw new IllegalArgumentException();
+			}
+		}
+	}
+	
+	private Container createNewSecurityContainer() {
+		SecurityFactory secFactory = new SecurityFactoryImpl();
+		Container container = secFactory.createContainer();
+		container.getContains().add((new SecurityPatternsFactoryImpl()).createPatternCatalog());
+		container.getContains().add((new SecurityPrerequisitesFactoryImpl()).createPrerequisiteCatalog());
+		container.getContains().add((new SecurityThreatsFactoryImpl()).createThreatCatalog());
+		return container;
+	}
+	
+	/**
+	 * Checks if the current opened cdo repository contains a resource with this name.
+	 * @param name The name of the security container
+	 * @return true if a similar named security container exists, false otherwise.
+	 */
+	private boolean checkIfSecurityContainerAlreadyExists(String name) {
 		for (String existingName : connection.getAllSecurityContainerNames()) {
 			if (existingName.equals(name)) {
 				return true;
@@ -103,7 +155,7 @@ public class SecurityRepoController {
 		}
 	}
 
-	public void deleteResource(String name) throws IOException {
+	public void deleteResource(String name) throws IOException, CommitException {
 		connection.deleteResource(name);
 		refreshTableInput();
 	}

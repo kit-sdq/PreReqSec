@@ -1,6 +1,8 @@
 package de.fzi.decision.security.ui.controllers;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.emf.common.util.URI;
@@ -11,6 +13,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.net4j.util.collection.Pair;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
@@ -20,6 +23,7 @@ import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.fzi.decision.security.ui.controllers.query.IAnalysisClickListener;
 import de.fzi.decision.security.ui.controllers.query.IQueryCallback;
 import de.fzi.decision.security.ui.controllers.query.QueryManager;
 import de.fzi.decision.security.ui.controllers.viewerfilters.AttackFilter;
@@ -29,15 +33,19 @@ import de.fzi.decision.security.ui.main.DelegateSelectionProvider;
 import de.fzi.decision.security.ui.models.ISecurityContainer;
 import de.fzi.decision.security.ui.views.ISecurityPatternView;
 import modelLoader.InitializationException;
+import modelLoader.LoadingException;
+import parser.InterpreterException;
+import security.NamedDescribedEntity;
 import security.SecurityPackage;
 import security.securityPatterns.SecurityPatternsPackage;
 import security.securityPrerequisites.SecurityPrerequisitesPackage;
 import security.securityThreats.SecurityThreatsPackage;
+import validation.SecurityPatternAnalysis;
 
 /**
  * Main Controller of the UI. Used to handle interaction with the user. 
  */
-public class AppController implements IQueryCallback {
+public class AppController implements IQueryCallback, IAnalysisClickListener {
 	private final ISecurityPatternView view;
 	private final ISecurityContainer model;
 	private final Logger logger = LoggerFactory.getLogger(AppController.class);
@@ -68,7 +76,8 @@ public class AppController implements IQueryCallback {
 	 */
 	public void init(Composite parent, URI uri, DelegateSelectionProvider delegateSelectionProvider) {
 		logger.info("init() was called with URI: " + uri.toString() + ".");
-		view.init(parent, createPatternAttributeMap(), createPrerequisiteAttributeMap(), createThreatAttributeMap());
+		view.init(parent, this, delegateSelectionProvider, createPatternAttributeList(), 
+				createPrerequisiteAttributeList(), createThreatAttributeList(), model);
 		registerSelectionListeners(delegateSelectionProvider);
 		registerViewerFilters();
 		registerListeners();
@@ -87,18 +96,9 @@ public class AppController implements IQueryCallback {
 		load(uri);
 	}
 	
-	/**
-	 * Calls the analysis and sets the result in the user interface.
-	 */
-	public void runAnalysis() {
-		logger.info("runAnalysis() was called");
-		//TODO runn Analysis
-		//runThreadAnalysisAndShowResult();
-	}
-	
 	private void initQueryManager() {
 		try {
-			queryManager = new QueryManager(this, model.getResourceURI());
+			queryManager = new QueryManager(this, model.getResourceSet());
 		} catch (InitializationException e) {
 			Shell activeShell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 			MessageDialog.openError(activeShell, "No model found", e.getMessage());
@@ -108,25 +108,38 @@ public class AppController implements IQueryCallback {
 	private void load(URI uri) {
 		model.load(uri);
 		initDatabinding();
-		runAnalysis();
 	}
 	
-	private HashMap<EAttribute, String> createPatternAttributeMap() {
-		HashMap<EAttribute, String> map = new HashMap<EAttribute, String>();
-		map.put(SecurityPackage.Literals.NAMED_DESCRIBED_ENTITY__NAME, "Security Pattern");
-		return map;
+	private List<Pair<EAttribute, String>> createPatternAttributeList() {
+		List<Pair<EAttribute, String>> list = new ArrayList<>();
+		Pair<EAttribute, String> patternPair = new Pair<EAttribute, String>(SecurityPackage.Literals.NAMED_DESCRIBED_ENTITY__NAME,
+				"Security Pattern");
+		list.add(patternPair);
+		list.add(createDescPair());
+		return list;
 	}
 	
-	private HashMap<EAttribute, String> createPrerequisiteAttributeMap() {
-		HashMap<EAttribute, String> map = new HashMap<EAttribute, String>();
-		map.put(SecurityPackage.Literals.NAMED_DESCRIBED_ENTITY__NAME, "Prerequisite");
-		return map;
+	private List<Pair<EAttribute, String>> createPrerequisiteAttributeList() {
+		List<Pair<EAttribute, String>> list = new ArrayList<>();
+		Pair<EAttribute, String> prePair = new Pair<EAttribute, String>(SecurityPackage.Literals.NAMED_DESCRIBED_ENTITY__NAME, 
+				"Prerequisite");
+		list.add(prePair);
+		list.add(createDescPair());
+		return list;
 	}
 	
-	private HashMap<EAttribute, String> createThreatAttributeMap() {
-		HashMap<EAttribute, String> map = new HashMap<EAttribute, String>();
-		map.put(SecurityPackage.Literals.NAMED_DESCRIBED_ENTITY__NAME, "Attack");
-		return map;
+	private List<Pair<EAttribute, String>> createThreatAttributeList() {
+		List<Pair<EAttribute, String>> list = new ArrayList<>();
+		Pair<EAttribute, String> attackPair = new Pair<EAttribute, String>(SecurityPackage.Literals.NAMED_DESCRIBED_ENTITY__NAME, 
+				"Attack");
+		list.add(attackPair);
+		list.add(createDescPair());
+		return list;
+	}
+	
+	private Pair<EAttribute, String> createDescPair() {
+		return new Pair<EAttribute, String>(SecurityPackage.Literals.NAMED_DESCRIBED_ENTITY__DESCRIPTION,
+				"Description");
 	}
 	
 	private void initDatabinding() {
@@ -220,7 +233,12 @@ public class AppController implements IQueryCallback {
 					logger.info("toolbar::filter registered Enter Key.");
 					logger.info("toolbar::filter query: " + view.getFilterText().trim());
 					
-					queryManager.startQuery(view.getFilterText().trim());
+					try {
+						queryManager.startQuery(view.getFilterText().trim());
+					} catch (InitializationException e1) {
+						Shell activeShell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+						MessageDialog.openError(activeShell, "Problems loading the resource", e1.getMessage());
+					}
 				}
 			}
 		});		
@@ -256,5 +274,16 @@ public class AppController implements IQueryCallback {
 		setFilterByResultingSecurityPatterns(model.getPatternCatalog().getSecurityPatterns().toArray());
 		Shell activeShell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 		MessageDialog.openInformation(activeShell, "No Query Results", "The resulting query was empty.");
+	}
+
+	@Override
+	public void startAnalysis(String attackQuery, String patternQuery) throws InterpreterException, LoadingException, InitializationException {
+		Collection<NamedDescribedEntity> attackResults = queryManager.runQueryAndReturnResult(attackQuery);
+		Collection<NamedDescribedEntity> patternResults = queryManager.runQueryAndReturnResult(patternQuery);
+		if (attackResults != null && patternResults != null) {
+			SecurityPatternAnalysis spa = new SecurityPatternAnalysis();
+			boolean analysisResult = spa.runThreatAnalysis(attackResults, patternResults);
+			view.setAnalysisResult(Boolean.toString(analysisResult));
+		}
 	}
 }

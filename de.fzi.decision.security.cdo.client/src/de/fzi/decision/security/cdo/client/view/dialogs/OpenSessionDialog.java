@@ -10,6 +10,11 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+/**
+ * TitleAreaDialog lets the user enter the information necessary to open a new cdo session.
+ * @author matthias endlichhofer
+ *
+ */
 public class OpenSessionDialog extends TitleAreaDialog {
 	
 	private Text hostText;
@@ -39,6 +44,10 @@ public class OpenSessionDialog extends TitleAreaDialog {
         return area;
     }
 	
+	/**
+	 * Creates the label and text field allowing to enter the host address
+	 * @param container The parent composite of the host area
+	 */
 	private void createHostInput(Composite container) {
         Label lblHost = new Label(container, SWT.NONE);
         lblHost.setText("Host:");
@@ -54,6 +63,10 @@ public class OpenSessionDialog extends TitleAreaDialog {
         //hostText.setMessage("The address of the host");
     }
 
+	/**
+	 * Creates the label and text field allowing to enter the repo name
+	 * @param container The parent composite of the repo name area
+	 */
     private void createRepoInput(Composite container) {
         Label lblRepo = new Label(container, SWT.NONE);
         lblRepo.setText("Repository name:");
@@ -73,8 +86,10 @@ public class OpenSessionDialog extends TitleAreaDialog {
         return true;
     }
 
-    // save content of the Text fields because they get disposed
-    // as soon as the Dialog closes
+    /**
+     * saves the content of the Text fields because they get disposed
+     * as soon as the Dialog closes.
+     */
     private void saveInput() {
         host = hostText.getText();
         repo = repoText.getText();

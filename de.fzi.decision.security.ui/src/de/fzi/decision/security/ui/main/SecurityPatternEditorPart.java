@@ -2,6 +2,7 @@ package de.fzi.decision.security.ui.main;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -31,11 +32,14 @@ import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
@@ -57,6 +61,9 @@ public class SecurityPatternEditorPart extends EditorPart {
 	private Collection<Resource> changedResources = new ArrayList<Resource>();
 	private Collection<Resource> savedResources = new ArrayList<Resource>();
 	
+	private SecurityUndoHandler undoHandler;
+	private SecurityRedoHandler redoHandler;
+	
 	private AppController controller;
 	private CDOTransaction transaction;
 	private URI uri;
@@ -66,6 +73,9 @@ public class SecurityPatternEditorPart extends EditorPart {
 		public void partActivated(IWorkbenchPart p) {
 			if (p instanceof PropertySheet && p.equals(propertySheetPage) || p == SecurityPatternEditorPart.this) {
 				handleActivate();
+			} else if (p instanceof PropertySheet) {
+				propertySheetPage = new ExtendedPropertySheetPage(editingDomain);
+				propertySheetPage.setPropertySourceProvider(new AdapterFactoryContentProvider(adapterFactory));
 			}
 		}
 	};
@@ -116,7 +126,7 @@ public class SecurityPatternEditorPart extends EditorPart {
 		site.getPage().addPartListener(partListener);
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(resourceChangeListener, IResourceChangeEvent.POST_CHANGE);
 		initializeEditingDomain(input);
-		
+		initUndoRedo();
 	}
 	
 	
@@ -163,13 +173,14 @@ public class SecurityPatternEditorPart extends EditorPart {
 					if (notEmpty && writeAllowed) {
 						try {
 							long timeStamp = resource.getTimeStamp();
-							//TODO catch LocalCommitConflictException
 							resource.save(saveOptions);
 							if (resource.getTimeStamp() != timeStamp) {
 								savedResources.add(resource);
 							}
-						} catch (Exception e) {
-							e.printStackTrace();
+						} catch (IOException e) {
+							Shell activeShell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+							MessageDialog.openInformation(activeShell, "Error Saving Container", e.getMessage());
+							return;
 						}
 					}
 				}
@@ -180,16 +191,27 @@ public class SecurityPatternEditorPart extends EditorPart {
 			new ProgressMonitorDialog(getSite().getShell()).run(true, false, operation);
 			((BasicCommandStack) editingDomain.getCommandStack()).saveIsDone();
 			firePropertyChange(PROP_DIRTY);
-			controller.runAnalysis();
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (InvocationTargetException e1) {
+			String msg = e1.getMessage();
+			if (e1.getCause() != null) {
+				msg = e1.getCause().getMessage();
+			}
+			Shell activeShell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+			MessageDialog.openInformation(activeShell, "Error Saving Container", msg);
+			return;
+		} catch (InterruptedException e2) {
+			// TODO: handle the ConflictException -> e.g. merge the changes...
+			Shell activeShell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+			MessageDialog.openInformation(activeShell, "Error Saving Container", e2.getLocalizedMessage());
+			return;
 		}
-		
+
 		try {
 			transaction.commit();
 		} catch (CommitException e) {
-			//TODO handle that
-			e.printStackTrace();
+			// TODO: handle the ConflictException -> e.g. merge the changes...
+			Shell activeShell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+			MessageDialog.openInformation(activeShell, "Error Saving Container", e.getMessage());
 		}
 	}
 
@@ -242,7 +264,7 @@ public class SecurityPatternEditorPart extends EditorPart {
 				});
 			}
 		});
-
+		
 		editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack, new HashMap<Resource, Boolean>());
 		if (checkIfCDOInput(editorInput)) {
 			SecurityEditorInput securityInput = (SecurityEditorInput) editorInput;
@@ -267,6 +289,17 @@ public class SecurityPatternEditorPart extends EditorPart {
 		transaction = input.getTransaction(set);
 		CDOResource resource = transaction.getResource(input.getResourcePath());
 		uri = resource.getURI();
+	}
+	
+	private void initUndoRedo() {
+			IEditorSite site = getEditorSite();
+			undoHandler = new SecurityUndoHandler(editingDomain);
+			site.getActionBars().setGlobalActionHandler(ActionFactory.UNDO.getId(), undoHandler);
+			
+			redoHandler = new SecurityRedoHandler(editingDomain);
+			site.getActionBars().setGlobalActionHandler(ActionFactory.REDO.getId(), redoHandler);
+			
+			//TODO: set commandstack listener that refreshes the propertysheet when changes occur
 	}
 	
 	private void handleActivate() {

@@ -1,11 +1,16 @@
 package de.fzi.decision.security.ui.views;
 
-import java.util.HashMap;
+import java.util.List;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.jface.viewers.StructuredViewer;
+import org.eclipse.net4j.util.collection.Pair;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.widgets.Composite;
+
+import de.fzi.decision.security.ui.controllers.query.IAnalysisClickListener;
+import de.fzi.decision.security.ui.main.DelegateSelectionProvider;
+import de.fzi.decision.security.ui.models.ISecurityContainer;
 
 /**
  * Interface for the view showing the SecurityContainer model and the corresponding analysis.
@@ -23,9 +28,12 @@ public interface ISecurityPatternView {
 	 */
 	public void init(
 		Composite parent,
-		HashMap<EAttribute, String> patternAttributeMap,
-		HashMap<EAttribute, String> prerequisiteAttributeMap,
-		HashMap<EAttribute, String> threatAttributeMap
+		IAnalysisClickListener analysisClickListener,
+		DelegateSelectionProvider selectionProvider,
+		List<Pair<EAttribute, String>> patternAttributeMap,
+		List<Pair<EAttribute, String>> prerequisiteAttributeMap,
+		List<Pair<EAttribute, String>> threatAttributeMap,
+		ISecurityContainer model
 	);
 	
 	/**

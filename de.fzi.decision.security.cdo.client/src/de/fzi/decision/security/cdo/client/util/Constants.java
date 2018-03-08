@@ -1,5 +1,10 @@
 package de.fzi.decision.security.cdo.client.util;
 
+/**
+ * This class holds public static constants used across the plugin
+ * @author matthias endlichhofer
+ *
+ */
 public class Constants {
 
 	public static final String REPO_NAME = "Security";

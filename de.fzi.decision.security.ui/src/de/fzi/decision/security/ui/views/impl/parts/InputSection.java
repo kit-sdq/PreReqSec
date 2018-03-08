@@ -1,13 +1,19 @@
 package de.fzi.decision.security.ui.views.impl.parts;
 
-import java.util.HashMap;
+import java.util.List;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.net4j.util.collection.Pair;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.widgets.Composite;
+
+import de.fzi.decision.security.ui.main.DelegateSelectionProvider;
+import de.fzi.decision.security.ui.models.ISecurityContainer;
+import de.fzi.decision.security.ui.models.impl.PrerequisiteModificationListener;
+import de.fzi.decision.security.ui.models.impl.SecurityPatternModificationListener;
 
 /**
  * A composite that consists of two TableViewers that show either
@@ -27,15 +33,20 @@ public class InputSection extends SashForm {
 	 */
 	public InputSection(
 		Composite parent, 
-		HashMap<EAttribute, String> leftAttributeMap, 
-		HashMap<EAttribute, String> rightAttributeMap,
-		AdapterFactoryEditingDomain editingDomain
+		List<Pair<EAttribute, String>> leftAttributeMap, 
+		List<Pair<EAttribute, String>> rightAttributeMap,
+		AdapterFactoryEditingDomain editingDomain,
+		DelegateSelectionProvider selectionProvider,
+		ISecurityContainer model
 	) {
 		super(parent, SWT.HORIZONTAL);
 		
-		leftViewer = new EMFTableViewer(this, leftAttributeMap, editingDomain);
-		rightViewer = new EMFTableViewer(this, rightAttributeMap, editingDomain);	
+		leftViewer = new EMFTableViewer(this, leftAttributeMap, editingDomain, selectionProvider, 
+				new SecurityPatternModificationListener(model));
+		rightViewer = new EMFTableViewer(this, rightAttributeMap, editingDomain, selectionProvider, 
+				new PrerequisiteModificationListener(model));
 	}
+	
 	
 	/**
 	 * @return the left TableViewer
