@@ -56,7 +56,6 @@ public class NamedDescribedEntityDialog extends TitleAreaDialog {
 		
 		name = new Text(container, SWT.BORDER);
 		name.setLayoutData(gridData);
-		name.setText(entity.getName());
 	}
 	
 	private void createDescriptionPart(Composite container) {
@@ -69,7 +68,6 @@ public class NamedDescribedEntityDialog extends TitleAreaDialog {
 		
 		description = new Text(container, SWT.BORDER);
 		description.setLayoutData(gridData);
-		description.setText(entity.getDescription());
 	}
 
 	@Override
