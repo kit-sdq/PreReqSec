@@ -205,13 +205,14 @@ public class SecurityPatternEditorPart extends EditorPart {
 			MessageDialog.openInformation(activeShell, "Error Saving Container", e2.getLocalizedMessage());
 			return;
 		}
-
-		try {
-			transaction.commit();
-		} catch (CommitException e) {
-			// TODO: handle the ConflictException -> e.g. merge the changes...
-			Shell activeShell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-			MessageDialog.openInformation(activeShell, "Error Saving Container", e.getMessage());
+		if (transaction != null){
+			try {
+				transaction.commit();
+			} catch (CommitException e) {
+				// TODO: handle the ConflictException -> e.g. merge the changes...
+				Shell activeShell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+				MessageDialog.openInformation(activeShell, "Error Saving Container", e.getMessage());
+			}
 		}
 	}
 
