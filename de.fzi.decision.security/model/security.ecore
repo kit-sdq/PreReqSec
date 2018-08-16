@@ -85,7 +85,8 @@
           eType="#//securityThreats/Attack" eOpposite="#//securityThreats/Attack/prerequisites"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="securityPatterns" upperBound="-1"
           eType="#//securityPatterns/SecurityPattern" eOpposite="#//securityPatterns/SecurityPattern/mitigatedPrerequisites"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="satisfied" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="satisfied" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </eClassifiers>
   </eSubpackages>
   <eSubpackages name="securityThreats" nsURI="http://www.fzi.de/decision/security/securityThreats"
