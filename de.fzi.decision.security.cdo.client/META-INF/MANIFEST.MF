@@ -32,3 +32,4 @@ Import-Package: javax.annotation;version="1.2.0",
  security.securityThreats.impl
 Export-Package: de.fzi.decision.security.cdo.client.connection,
  de.fzi.decision.security.cdo.client.util
+Automatic-Module-Name: de.fzi.decision.security.cdo.client

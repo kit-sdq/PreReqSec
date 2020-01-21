@@ -1,0 +1,14 @@
+package patterns
+
+import "http://www.fzi.de/decision/security/securityThreats"
+import "http://www.fzi.de/decision/security/securityPrerequisites"
+import "http://www.modelversioning.org/emfprofile/application/1.1"
+import "http://www.eclipse.org/emf/2002/Ecore"
+
+pattern stereotypesOnElement(object : EObject, stereotypeApplication : StereotypeApplication) {
+	StereotypeApplication.appliedTo(stereotypeApplication, object);
+}
+
+pattern attackByPrerequisite(attack: Attack, prerequisite: Prerequisite) {
+	Attack.prerequisites(attack, prerequisite);
+}
