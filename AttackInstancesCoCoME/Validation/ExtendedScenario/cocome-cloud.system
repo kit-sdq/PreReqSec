@@ -179,21 +179,73 @@
     </providedRoles_InterfaceProvidingEntity>
   </system:System>
   <emfprofileapplication:ProfileApplication>
-    <stereotypeApplications xsi:type="prerequisiteprofile:ComponentPrerequisite" appliedTo="_GY2HALF-EeaCwqxzEIieVA">
-      <extension href="../../../de.fzi.decision.security.profiles.pcm/prereq.emfprofile_diagram#_JJWzwAZuEeiNl5js7KHJSw"/>
-      <prerequisites href="../DefaultCatalog.security#_WZhQQj1JEeaC77dVaP0Eeg"/>
-      <prerequisites href="../DefaultCatalog.security#_Myt4qD1KEeaVk-W-mW-puA"/>
-      <prerequisites href="../DefaultCatalog.security#_GBmUuD1LEeaVk-W-mW-puA"/>
-      <prerequisites href="../DefaultCatalog.security#_M0bySGSOEeaBdfha1Hk-SA"/>
-      <prerequisites href="../DefaultCatalog.security#_biC3AAXZEeiln5uSIv6U2g"/>
-    </stereotypeApplications>
     <stereotypeApplications xsi:type="prerequisiteprofile:ComponentPrerequisite" appliedTo="_17KzoLF9EeaCwqxzEIieVA">
       <extension href="../../../de.fzi.decision.security.profiles.pcm/prereq.emfprofile_diagram#_JJWzwAZuEeiNl5js7KHJSw"/>
-      <prerequisites href="../DefaultCatalog.security#_K3GZKD1NEeaVk-W-mW-puA"/>
+      <prerequisites href="../ExtendedCatalog.security#_K3GZKD1NEeaVk-W-mW-puA"/>
+      <prerequisites href="../ExtendedCatalog.security#_WybeoJQJEeetdbBECRggAA"/>
+      <prerequisites href="../ExtendedCatalog.security#_9CkUkJGfEeeo7s_vdwbkdQ"/>
+      <prerequisites href="../ExtendedCatalog.security#_yuXHgFpBEeeDStyR4vdK8Q"/>
+      <prerequisites href="../ExtendedCatalog.security#_XrUGAFpDEeeDStyR4vdK8Q"/>
+      <prerequisites href="../ExtendedCatalog.security#_BvpFYT1NEeaVk-W-mW-puA"/>
+      <prerequisites href="../ExtendedCatalog.security#_HrR9AHChEeeuUeOpptM-yQ"/>
+      <prerequisites href="../ExtendedCatalog.security#_IdkgIHCiEeeuUeOpptM-yQ"/>
+      <prerequisites href="../ExtendedCatalog.security#_VpQeUHCiEeeuUeOpptM-yQ"/>
+      <prerequisites href="../ExtendedCatalog.security#_CibCIYDOEeep_vGoYB1cZA"/>
+      <prerequisites href="../ExtendedCatalog.security#_9YMmUJGfEeeo7s_vdwbkdQ"/>
+      <prerequisites href="../ExtendedCatalog.security#_9wt0AJGfEeeo7s_vdwbkdQ"/>
+    </stereotypeApplications>
+    <stereotypeApplications xsi:type="prerequisiteprofile:ComponentPrerequisite" appliedTo="_A6MF8LF-EeaCwqxzEIieVA">
+      <extension href="../../../de.fzi.decision.security.profiles.pcm/prereq.emfprofile_diagram#_JJWzwAZuEeiNl5js7KHJSw"/>
+      <prerequisites href="../ExtendedCatalog.security#_K3GZKD1NEeaVk-W-mW-puA"/>
+      <prerequisites href="../ExtendedCatalog.security#_WybeoJQJEeetdbBECRggAA"/>
+      <prerequisites href="../ExtendedCatalog.security#_9CkUkJGfEeeo7s_vdwbkdQ"/>
+      <prerequisites href="../ExtendedCatalog.security#_yuXHgFpBEeeDStyR4vdK8Q"/>
+      <prerequisites href="../ExtendedCatalog.security#_XrUGAFpDEeeDStyR4vdK8Q"/>
+      <prerequisites href="../ExtendedCatalog.security#_BvpFYT1NEeaVk-W-mW-puA"/>
+      <prerequisites href="../ExtendedCatalog.security#_HrR9AHChEeeuUeOpptM-yQ"/>
+      <prerequisites href="../ExtendedCatalog.security#_IdkgIHCiEeeuUeOpptM-yQ"/>
+      <prerequisites href="../ExtendedCatalog.security#_VpQeUHCiEeeuUeOpptM-yQ"/>
+      <prerequisites href="../ExtendedCatalog.security#_CibCIYDOEeep_vGoYB1cZA"/>
+      <prerequisites href="../ExtendedCatalog.security#_9YMmUJGfEeeo7s_vdwbkdQ"/>
+      <prerequisites href="../ExtendedCatalog.security#_9wt0AJGfEeeo7s_vdwbkdQ"/>
+    </stereotypeApplications>
+    <stereotypeApplications xsi:type="prerequisiteprofile:ComponentPrerequisite" appliedTo="_GY2HALF-EeaCwqxzEIieVA">
+      <extension href="../../../de.fzi.decision.security.profiles.pcm/prereq.emfprofile_diagram#_JJWzwAZuEeiNl5js7KHJSw"/>
+      <prerequisites href="../ExtendedCatalog.security#_WZhQQj1JEeaC77dVaP0Eeg"/>
+      <prerequisites href="../ExtendedCatalog.security#_Myt4qD1KEeaVk-W-mW-puA"/>
+      <prerequisites href="../ExtendedCatalog.security#_GBmUuD1LEeaVk-W-mW-puA"/>
+      <prerequisites href="../ExtendedCatalog.security#_M0bySGSOEeaBdfha1Hk-SA"/>
+      <prerequisites href="../ExtendedCatalog.security#_biC3AAXZEeiln5uSIv6U2g"/>
+      <prerequisites href="../ExtendedCatalog.security#__jRfYEFsEeqMXfeUGGlvXg"/>
+      <prerequisites href="../ExtendedCatalog.security#_jM18MJItEeeXW53tAuXZPA"/>
+      <prerequisites href="../ExtendedCatalog.security#_3N1XEEFvEeqMXfeUGGlvXg"/>
+      <prerequisites href="../ExtendedCatalog.security#_Z2AysHJPEeeUDOga6FjiIB"/>
+      <prerequisites href="../ExtendedCatalog.security#_zfqRoEFuEeqMXfeUGGlvXg"/>
+    </stereotypeApplications>
+    <stereotypeApplications xsi:type="prerequisiteprofile:ComponentPrerequisite" appliedTo="_FHaUULF-EeaCwqxzEIieVA">
+      <extension href="../../../de.fzi.decision.security.profiles.pcm/prereq.emfprofile_diagram#_JJWzwAZuEeiNl5js7KHJSw"/>
+      <prerequisites href="../ExtendedCatalog.security#__jRfYEFsEeqMXfeUGGlvXg"/>
+      <prerequisites href="../ExtendedCatalog.security#_jM18MJItEeeXW53tAuXZPA"/>
+      <prerequisites href="../ExtendedCatalog.security#_3N1XEEFvEeqMXfeUGGlvXg"/>
+      <prerequisites href="../ExtendedCatalog.security#_Z2AysHJPEeeUDOga6FjiIB"/>
+      <prerequisites href="../ExtendedCatalog.security#_zfqRoEFuEeqMXfeUGGlvXg"/>
     </stereotypeApplications>
     <stereotypeApplications xsi:type="patternprofile:SecurityPatternRole" appliedTo="_GY2HALF-EeaCwqxzEIieVA">
       <extension href="../../../de.fzi.decision.security.profiles.pcm/pattern.emfprofile_diagram#_7yRd4AZtEeiNl5js7KHJSw"/>
-      <roles href="../DefaultCatalog.security#_6ntp8DEvEeejp9Ll7O-qTg"/>
+      <roles href="../ExtendedCatalog.security#_6ntp8DEvEeejp9Ll7O-qTg"/>
+      <roles href="../ExtendedCatalog.security#_EYKtADwjEeqdkv0-3mMESw"/>
+      <roles href="../ExtendedCatalog.security#_IwhNUDwjEeqdkv0-3mMESw"/>
+    </stereotypeApplications>
+    <stereotypeApplications xsi:type="patternprofile:SecurityPatternRole" appliedTo="_A6MF8LF-EeaCwqxzEIieVA">
+      <extension href="../../../de.fzi.decision.security.profiles.pcm/pattern.emfprofile_diagram#_7yRd4AZtEeiNl5js7KHJSw"/>
+      <roles href="../ExtendedCatalog.security#_9fRzgDwrEeqdkv0-3mMESw"/>
+      <roles href="../ExtendedCatalog.security#_ODB5sDwsEeqdkv0-3mMESw"/>
+      <roles href="../ExtendedCatalog.security#_FUHo0DwsEeqdkv0-3mMESw"/>
+    </stereotypeApplications>
+    <stereotypeApplications xsi:type="patternprofile:SecurityPatternRole" appliedTo="_1ac2wLF-EeaCwqxzEIieVA">
+      <extension href="../../../de.fzi.decision.security.profiles.pcm/pattern.emfprofile_diagram#_7yRd4AZtEeiNl5js7KHJSw"/>
+      <roles href="../ExtendedCatalog.security#_MHzSMDwjEeqdkv0-3mMESw"/>
+      <roles href="../ExtendedCatalog.security#_EYKtADwjEeqdkv0-3mMESw"/>
     </stereotypeApplications>
     <importedProfiles nsURI="de.fzi.decision.security.profiles.pcm.prerequisite" location="platform:/resource/de.fzi.decision.security.profiles.pcm/prereq.emfprofile_diagram"/>
     <importedProfiles nsURI="de.fzi.decision.security.profiles.pcm.pattern" location="platform:/resource/de.fzi.decision.security.profiles.pcm/pattern.emfprofile_diagram"/>

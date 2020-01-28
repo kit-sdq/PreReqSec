@@ -91,40 +91,39 @@
       <data key="_Pld-sOAmEee5FL2WPUSVkQ" value="STEALTHY"/>
       <data key="_Wd69MAXWEeiln5uSIv6U2g" value="AUTHENTICATION"/>
     </attacks>
+    <attacks id="_uEnsokFrEeqMXfeUGGlvXg" name="Man in the Middle" prerequisites="_jM18MJItEeeXW53tAuXZPA __jRfYEFsEeqMXfeUGGlvXg _zfqRoEFuEeqMXfeUGGlvXg _3N1XEEFvEeqMXfeUGGlvXg _Z2AysHJPEeeUDOga6FjiIB"/>
   </contains>
   <contains xsi:type="securityPatterns:PatternCatalog" id="_gwSCQCvnEeeBFJawWlgBXg" name=" " description="This catalog contains a selection of security patterns.">
-    <securityPatterns id="_IVr20C60Eeee4Ma0GzGF8w" name="Authenticator" description="The authenticator veryfies the identity of the user. To do so It receives provided autentication information from the user, compares it with expected authentication information and, on equality, creates and returns a proof of identity to the user." mitigatedPrerequisites="_QCwv8HJPEeeUDOga6FjiIA _Z2AysHJPEeeUDOga6FjiIB _Z2AysHJPEeeUDOga6FjiIC _Z2AysHJPEeeUDOga6FjiIA _HcBuMHJQEeeUDOga6FjiIA _kp2D0HrCEeelLYMz0yOLCw _l2BjEHrCEeelLYMz0yOLCw _CibCIYDOEeep_vGoYB1cZA _9CkUkJGfEeeo7s_vdwbkdQ _9YMmUJGfEeeo7s_vdwbkdQ _9wt0AJGfEeeo7s_vdwbkdQ _i3-fcJItEeeXW53tAuXZPA _jM18MJItEeeXW53tAuXZPA _kJhm4JItEeeXW53tAuXZPA _khlhkJItEeeXW53tAuXZPA _k4ZfEJItEeeXW53tAuXZPA _lYmpIJItEeeXW53tAuXZPA _l3I_QJItEeeXW53tAuXZPA _nM6fYJItEeeXW53tAuXZPA _biC3AAXZEeiln5uSIv6U2g">
+    <securityPatterns id="_IVr20C60Eeee4Ma0GzGF8w" name="Authenticator" description="The authenticator veryfies the identity of the user. To do so It receives provided autentication information from the user, compares it with expected authentication information and, on equality, creates and returns a proof of identity to the user." mitigatedPrerequisites="_QCwv8HJPEeeUDOga6FjiIA _Z2AysHJPEeeUDOga6FjiIB _Z2AysHJPEeeUDOga6FjiIC _Z2AysHJPEeeUDOga6FjiIA _HcBuMHJQEeeUDOga6FjiIA _kp2D0HrCEeelLYMz0yOLCw _l2BjEHrCEeelLYMz0yOLCw _CibCIYDOEeep_vGoYB1cZA _9CkUkJGfEeeo7s_vdwbkdQ _9YMmUJGfEeeo7s_vdwbkdQ _9wt0AJGfEeeo7s_vdwbkdQ _i3-fcJItEeeXW53tAuXZPA _jM18MJItEeeXW53tAuXZPA _kJhm4JItEeeXW53tAuXZPA _khlhkJItEeeXW53tAuXZPA _k4ZfEJItEeeXW53tAuXZPA _lYmpIJItEeeXW53tAuXZPA _l3I_QJItEeeXW53tAuXZPA _nM6fYJItEeeXW53tAuXZPA _biC3AAXZEeiln5uSIv6U2g _3N1XEEFvEeqMXfeUGGlvXg _ioT10EF1EeqMXfeUGGlvXg _vEDk0EF1EeqMXfeUGGlvXg">
       <roles id="_6ntp8DEvEeejp9Ll7O-qTg" name="Authenticator" description="Component checking a clients claim of identity by comparing provided identifaction information with expected one. Hands out proof of identification in case of equality." uses="_435fEDPVEeedIemevWrvFg" usedBy="_XuOBEDPYEeedIemevWrvFg"/>
       <roles id="_435fEDPVEeedIemevWrvFg" name="Authentication Information" description="Information required to establish the identity of users." usedBy="_6ntp8DEvEeejp9Ll7O-qTg"/>
       <roles id="_XuOBEDPYEeedIemevWrvFg" name="Proof of Identity" description="Created by the authenticator, may be used to proof identy without repeated identification through authenticator." uses="_6ntp8DEvEeejp9Ll7O-qTg"/>
     </securityPatterns>
-    <securityPatterns id="_K7yWYC60Eeee4Ma0GzGF8w" name="Role-Based Access Control" description="Role base access control allows giving allowing and denying access for groups of users. Users have the rights that are the union of the rights of the groups they belong to." mitigatedPrerequisites="_biC3AAXZEeiln5uSIv6U2g">
+    <securityPatterns id="_K7yWYC60Eeee4Ma0GzGF8w" name="Role-Based Access Control" description="Role base access control allows giving allowing and denying access for groups of users. Users have the rights that are the union of the rights of the groups they belong to." mitigatedPrerequisites="_biC3AAXZEeiln5uSIv6U2g _vEDk0EF1EeqMXfeUGGlvXg">
       <roles id="_p8ZRQDExEeejp9Ll7O-qTg" name="Protected Interface" description="Interface that may only be accessed by roles with corresponding rights." uses="_y5o5EDExEeejp9Ll7O-qTg"/>
       <roles id="_y5o5EDExEeejp9Ll7O-qTg" name="Authorizator" description="Component looking up a users roles and that roles' rights and granting or denying access accordingly." uses="_5P6eoDExEeejp9Ll7O-qTg _tGYhADExEeejp9Ll7O-qTg" usedBy="_p8ZRQDExEeejp9Ll7O-qTg"/>
       <roles id="_5P6eoDExEeejp9Ll7O-qTg" name="User Role Mapping" description="Information about which roles a user belongs to." usedBy="_y5o5EDExEeejp9Ll7O-qTg"/>
       <roles id="_tGYhADExEeejp9Ll7O-qTg" name="Role Right Mapping" description="Definition of rights a role is given." usedBy="_y5o5EDExEeejp9Ll7O-qTg"/>
     </securityPatterns>
-    <securityPatterns id="_OH2CsC60Eeee4Ma0GzGF8w" name="Proxy-based Filter Firewall" description="A packet filter firewall allows the definition and enforcement of rules at the application layer for restricting ingoing and outgoing network trafic as well as ananlysis and modification of payload..">
+    <securityPatterns id="_OH2CsC60Eeee4Ma0GzGF8w" name="Proxy-based Filter Firewall" description="A packet filter firewall allows the definition and enforcement of rules at the application layer for restricting ingoing and outgoing network trafic as well as ananlysis and modification of payload.." mitigatedPrerequisites="_3N1XEEFvEeqMXfeUGGlvXg _ioT10EF1EeqMXfeUGGlvXg">
       <roles id="_nnMFgDODEeedIemevWrvFg" name="Proxy" description="Firewall component acting as a proxy for a specific service; checking ingoing and outgoing traffic up to application layer against rule base and enforcing those rules." uses="_MS0ZwDEwEeejp9Ll7O-qTg _APZrMDEwEeejp9Ll7O-qTg"/>
       <roles id="_APZrMDEwEeejp9Ll7O-qTg" name="External Interface" description="Interface facing to the untrusted partition of the network." usedBy="_nnMFgDODEeedIemevWrvFg"/>
       <roles id="_MS0ZwDEwEeejp9Ll7O-qTg" name="Internal Interface" description="Interface facing the trusted partition of the network." usedBy="_nnMFgDODEeedIemevWrvFg"/>
     </securityPatterns>
-    <securityPatterns id="_-2-VUDwiEeqdkv0-3mMESw" name="Secure Channels">
-      <roles id="_EYKtADwjEeqdkv0-3mMESw" name="Client browser"/>
-      <roles id="_Gtp9sDwjEeqdkv0-3mMESw" name="Web Server"/>
-      <roles id="_IwhNUDwjEeqdkv0-3mMESw" name="Key exchange mechanism"/>
-      <roles id="_MHzSMDwjEeqdkv0-3mMESw" name="Encryption Mechanism"/>
+    <securityPatterns id="_-2-VUDwiEeqdkv0-3mMESw" name="Secure Channels" mitigatedPrerequisites="_3N1XEEFvEeqMXfeUGGlvXg _jM18MJItEeeXW53tAuXZPA _Z2AysHJPEeeUDOga6FjiIB">
+      <roles id="_EYKtADwjEeqdkv0-3mMESw" name="Communication Channel" uses="_MHzSMDwjEeqdkv0-3mMESw _IwhNUDwjEeqdkv0-3mMESw"/>
+      <roles id="_IwhNUDwjEeqdkv0-3mMESw" name="Key Exchange Mechanism" usedBy="_EYKtADwjEeqdkv0-3mMESw"/>
+      <roles id="_MHzSMDwjEeqdkv0-3mMESw" name="Encryption Mechanism" usedBy="_EYKtADwjEeqdkv0-3mMESw"/>
     </securityPatterns>
-    <securityPatterns id="_QSJLsTwjEeqdkv0-3mMESw" name="Stateful Firewall">
-      <roles id="_15EUQDwkEeqdkv0-3mMESw" name="Stateful Firewall"/>
-      <roles id="_5ErUoDwkEeqdkv0-3mMESw" name="External Host"/>
-      <roles id="_7datoDwkEeqdkv0-3mMESw" name="State Table"/>
-      <roles id="_-ZHCsDwkEeqdkv0-3mMESw" name="Local Host"/>
+    <securityPatterns id="_QSJLsTwjEeqdkv0-3mMESw" name="Stateful Firewall" mitigatedPrerequisites="_3N1XEEFvEeqMXfeUGGlvXg _ioT10EF1EeqMXfeUGGlvXg _vEDk0EF1EeqMXfeUGGlvXg">
+      <roles id="_15EUQDwkEeqdkv0-3mMESw" name="Proxy" uses="_-ZHCsDwkEeqdkv0-3mMESw _5ErUoDwkEeqdkv0-3mMESw"/>
+      <roles id="_5ErUoDwkEeqdkv0-3mMESw" name="External Interface" usedBy="_15EUQDwkEeqdkv0-3mMESw"/>
+      <roles id="_-ZHCsDwkEeqdkv0-3mMESw" name="Internal Interface" usedBy="_15EUQDwkEeqdkv0-3mMESw"/>
     </securityPatterns>
-    <securityPatterns id="_zwuDgTwrEeqdkv0-3mMESw" name="Intercepting Validator">
-      <roles id="_9fRzgDwrEeqdkv0-3mMESw" name="Input Validator"/>
-      <roles id="_FUHo0DwsEeqdkv0-3mMESw" name="Validator"/>
-      <roles id="_ODB5sDwsEeqdkv0-3mMESw" name="Secure Base Action"/>
+    <securityPatterns id="_zwuDgTwrEeqdkv0-3mMESw" name="Intercepting Validator" mitigatedPrerequisites="_VpQeUHCiEeeuUeOpptM-yQ _WybeoJQJEeetdbBECRggAA _7HVqYHCXEeeuUeOpptM-yQ _XrUGAFpDEeeDStyR4vdK8Q _t-jVcYDNEeep_vGoYB1cZA _IdkgIHCiEeeuUeOpptM-yQ _HrR9AHChEeeuUeOpptM-yQ _P9jo0HHsEee3t9O1wS03ow">
+      <roles id="_9fRzgDwrEeqdkv0-3mMESw" name="Input Validator" description=" Central validation mechanism, creates and controls specific validators." uses="_FUHo0DwsEeqdkv0-3mMESw" usedBy="_ODB5sDwsEeqdkv0-3mMESw"/>
+      <roles id="_FUHo0DwsEeqdkv0-3mMESw" name="Validator" description=" Example specific validator." usedBy="_9fRzgDwrEeqdkv0-3mMESw"/>
+      <roles id="_ODB5sDwsEeqdkv0-3mMESw" name="Secure Base Action" description="Single point of entry for enforcing security and integration of security mechanisms. Receaves validation request and starts the validation process." uses="_9fRzgDwrEeqdkv0-3mMESw"/>
     </securityPatterns>
   </contains>
   <contains xsi:type="securityPrerequisites:PrerequisiteCatalog" id="_heSXwSvnEeeBFJawWlgBXg" name=" ">
@@ -138,20 +137,20 @@
     <prerequisites id="_w4tQsmfOEeat05QRYoj_vQ" name="LoginRequired" description="The user has to log in before using the system." attacks="_gEjY5T1OEeaVk-W-mW-puA"/>
     <prerequisites id="_YGJIMFpAEeeDStyR4vdK8Q" name="ClientBrowserScripting" description="Client-Browser enabled Scripting" attacks="_XL2vUj1NEeaVk-W-mW-puA _gEjY5T1OEeaVk-W-mW-puA"/>
     <prerequisites id="_yuXHgFpBEeeDStyR4vdK8Q" name="UntrustedInputEncryption" description="untrusted input is not properly censored/encrypted/escaped by the application" attacks="_yZTNgT1MEeaVk-W-mW-puA _XL2vUj1NEeaVk-W-mW-puA _gEjY5T1OEeaVk-W-mW-puA"/>
-    <prerequisites id="_XrUGAFpDEeeDStyR4vdK8Q" name="UntrustedInputInSQLQueries" description="untrusted input from users is used for sql queries without validation" attacks="_yZTNgT1MEeaVk-W-mW-puA"/>
+    <prerequisites id="_XrUGAFpDEeeDStyR4vdK8Q" name="UntrustedInputInSQLQueries" description="untrusted input from users is used for sql queries without validation" attacks="_yZTNgT1MEeaVk-W-mW-puA" securityPatterns="_zwuDgTwrEeqdkv0-3mMESw"/>
     <prerequisites id="_ZS2W0FqLEee3Y7MWUzYKLA" name="RateLimiting" description="Allocation of Ressources without limits at the webserver" attacks="_DPedQj1JEeaC77dVaP0Eeg"/>
     <prerequisites id="_hlpTcFqLEee3Y7MWUzYKLA" name="ReleaseOfResources" description="No release of ressources after effective lifetime of connection at webserver" attacks="_DPedQj1JEeaC77dVaP0Eeg"/>
-    <prerequisites id="_7HVqYHCXEeeuUeOpptM-yQ" name="UntrustedInputInHTMLOutput" description="untrusted input makes its way into the html output of the application" attacks="_XL2vUj1NEeaVk-W-mW-puA _gEjY5T1OEeaVk-W-mW-puA"/>
+    <prerequisites id="_7HVqYHCXEeeuUeOpptM-yQ" name="UntrustedInputInHTMLOutput" description="untrusted input makes its way into the html output of the application" attacks="_XL2vUj1NEeaVk-W-mW-puA _gEjY5T1OEeaVk-W-mW-puA" securityPatterns="_zwuDgTwrEeqdkv0-3mMESw"/>
     <prerequisites id="_nOF1wHCcEeeuUeOpptM-yQ" name="ParameterInURL" description="there are parameters in the url" attacks="_gEjY5T1OEeaVk-W-mW-puA"/>
     <prerequisites id="_3Qf3gHCeEeeuUeOpptM-yQ" name="ReauthenticationForActions" description="there is no unexpectable token in the url or there is no reauthentication of the user needed for performing actions" attacks="_gEjY5T1OEeaVk-W-mW-puA"/>
     <prerequisites id="_Iv2DQHCfEeeuUeOpptM-yQ" name="SessionCookieAuthenticationAndAutorisation" description="The session cookie of the user is used for authentication and autorisation" attacks="_gEjY5T1OEeaVk-W-mW-puA"/>
     <prerequisites id="_9CVoYHCgEeeuUeOpptM-yQ" name="BehaviorAtResourceLimits" description="Defined, acceptable behavior when resources reach the limit" attacks="_DPedQj1JEeaC77dVaP0Eeg"/>
-    <prerequisites id="_HrR9AHChEeeuUeOpptM-yQ" name="UntrustedInputToInterpreter" description="untrusted input makes its way to an interpreter" attacks="_yZTNgT1MEeaVk-W-mW-puA _XL2vUj1NEeaVk-W-mW-puA _gEjY5T1OEeaVk-W-mW-puA"/>
-    <prerequisites id="_IdkgIHCiEeeuUeOpptM-yQ" name="UntrustedInputParameterised" description="untrusted input is not parameterised in queries" attacks="_yZTNgT1MEeaVk-W-mW-puA"/>
-    <prerequisites id="_VpQeUHCiEeeuUeOpptM-yQ" name="UntrustedInput" description="user input is accepted by the application" attacks="_yZTNgT1MEeaVk-W-mW-puA _XL2vUj1NEeaVk-W-mW-puA _gEjY5T1OEeaVk-W-mW-puA"/>
-    <prerequisites id="_P9jo0HHsEee3t9O1wS03ow" name="UnsafeJavaScriptAPI" description="unsafe JavaScript-APIS that do not encode or validate input are used" attacks="_XL2vUj1NEeaVk-W-mW-puA _gEjY5T1OEeaVk-W-mW-puA"/>
+    <prerequisites id="_HrR9AHChEeeuUeOpptM-yQ" name="UntrustedInputToInterpreter" description="untrusted input makes its way to an interpreter" attacks="_yZTNgT1MEeaVk-W-mW-puA _XL2vUj1NEeaVk-W-mW-puA _gEjY5T1OEeaVk-W-mW-puA" securityPatterns="_zwuDgTwrEeqdkv0-3mMESw"/>
+    <prerequisites id="_IdkgIHCiEeeuUeOpptM-yQ" name="UntrustedInputParameterised" description="untrusted input is not parameterised in queries" attacks="_yZTNgT1MEeaVk-W-mW-puA" securityPatterns="_zwuDgTwrEeqdkv0-3mMESw"/>
+    <prerequisites id="_VpQeUHCiEeeuUeOpptM-yQ" name="UntrustedInput" description="user input is accepted by the application" attacks="_yZTNgT1MEeaVk-W-mW-puA _XL2vUj1NEeaVk-W-mW-puA _gEjY5T1OEeaVk-W-mW-puA" securityPatterns="_zwuDgTwrEeqdkv0-3mMESw"/>
+    <prerequisites id="_P9jo0HHsEee3t9O1wS03ow" name="UnsafeJavaScriptAPI" description="unsafe JavaScript-APIS that do not encode or validate input are used" attacks="_XL2vUj1NEeaVk-W-mW-puA _gEjY5T1OEeaVk-W-mW-puA" securityPatterns="_zwuDgTwrEeqdkv0-3mMESw"/>
     <prerequisites id="_QCwv8HJPEeeUDOga6FjiIA" name="SingleAccessPoint" description="there is only one access point to the system" securityPatterns="_IVr20C60Eeee4Ma0GzGF8w"/>
-    <prerequisites id="_Z2AysHJPEeeUDOga6FjiIB" name="LegitimacyChecked" description="Client has to prove that his access is legitimate." securityPatterns="_IVr20C60Eeee4Ma0GzGF8w"/>
+    <prerequisites id="_Z2AysHJPEeeUDOga6FjiIB" name="Legitimacy not checked" description="Client has to prove that his access is legitimate." attacks="_uEnsokFrEeqMXfeUGGlvXg" securityPatterns="_IVr20C60Eeee4Ma0GzGF8w _-2-VUDwiEeqdkv0-3mMESw"/>
     <prerequisites id="_Z2AysHJPEeeUDOga6FjiIC" name="PasswordDesign" description="passwords have to be chosen properly (length, composition, source)" securityPatterns="_IVr20C60Eeee4Ma0GzGF8w"/>
     <prerequisites id="_Z2AysHJPEeeUDOga6FjiIA" name="PasswordUse" description="usage of passwords, e.g. their lifetime and ownership" securityPatterns="_IVr20C60Eeee4Ma0GzGF8w"/>
     <prerequisites id="_HcBuMHJQEeeUDOga6FjiIA" name="PasswordProtection" description="protection of passwords, e.g. during transmission or in storage" securityPatterns="_IVr20C60Eeee4Ma0GzGF8w"/>
@@ -171,20 +170,25 @@
     <prerequisites id="_ItoMYHrJEeelLYMz0yOLCw" name="TrafficFromExternalToInternalRouter" description="there is no direct traffic between external and internal router"/>
     <prerequisites id="_YX33sHrJEeelLYMz0yOLCw" name="ReverseProxy" description="there is a reverse proxy that filters all requests"/>
     <prerequisites id="_mV-KQHrJEeelLYMz0yOLCw" name="DMZAndBackendServerSeparatedByFirewall" description="there is no direct traffic between dmz and backend servers"/>
-    <prerequisites id="_t-jVcYDNEeep_vGoYB1cZA" name="UntrustedInputInStorage" description="untrusted (user-supplied) input makes its way into the application storage" attacks="_XL2vUj1NEeaVk-W-mW-puA _gEjY5T1OEeaVk-W-mW-puA"/>
+    <prerequisites id="_t-jVcYDNEeep_vGoYB1cZA" name="UntrustedInputInStorage" description="untrusted (user-supplied) input makes its way into the application storage" attacks="_XL2vUj1NEeaVk-W-mW-puA _gEjY5T1OEeaVk-W-mW-puA" securityPatterns="_zwuDgTwrEeqdkv0-3mMESw"/>
     <prerequisites id="_CibCIYDOEeep_vGoYB1cZA" name="SoftwareUpToDate" description="used software is up to date and e.g. has all updates installed" attacks="_DPedQj1JEeaC77dVaP0Eeg _yZTNgT1MEeaVk-W-mW-puA _XL2vUj1NEeaVk-W-mW-puA _gEjY5T1OEeaVk-W-mW-puA" securityPatterns="_IVr20C60Eeee4Ma0GzGF8w"/>
     <prerequisites id="_9CkUkJGfEeeo7s_vdwbkdQ" name="UnnecessaryFeaturesInstalled" description="features not needed for the application are installed and/or activated" attacks="_DPedQj1JEeaC77dVaP0Eeg _yZTNgT1MEeaVk-W-mW-puA _XL2vUj1NEeaVk-W-mW-puA _gEjY5T1OEeaVk-W-mW-puA" securityPatterns="_IVr20C60Eeee4Ma0GzGF8w"/>
     <prerequisites id="_9YMmUJGfEeeo7s_vdwbkdQ" name="DefaultAccounts" description="default accounts and passwords are used/still enabled" attacks="_DPedQj1JEeaC77dVaP0Eeg _yZTNgT1MEeaVk-W-mW-puA _XL2vUj1NEeaVk-W-mW-puA _gEjY5T1OEeaVk-W-mW-puA" securityPatterns="_IVr20C60Eeee4Ma0GzGF8w"/>
+    <prerequisites id="_zfqRoEFuEeqMXfeUGGlvXg" name="Default Protocols" description=" Default/old protocols and mechanisms are used for the communication." attacks="_uEnsokFrEeqMXfeUGGlvXg"/>
+    <prerequisites id="_3N1XEEFvEeqMXfeUGGlvXg" name="Connection not trusted" attacks="_uEnsokFrEeqMXfeUGGlvXg" securityPatterns="_-2-VUDwiEeqdkv0-3mMESw _IVr20C60Eeee4Ma0GzGF8w _OH2CsC60Eeee4Ma0GzGF8w _QSJLsTwjEeqdkv0-3mMESw"/>
+    <prerequisites id="_ioT10EF1EeqMXfeUGGlvXg" name="Traffic not filtered" securityPatterns="_QSJLsTwjEeqdkv0-3mMESw _OH2CsC60Eeee4Ma0GzGF8w _IVr20C60Eeee4Ma0GzGF8w"/>
+    <prerequisites id="_vEDk0EF1EeqMXfeUGGlvXg" name="Not self-learning" securityPatterns="_IVr20C60Eeee4Ma0GzGF8w _K7yWYC60Eeee4Ma0GzGF8w _QSJLsTwjEeqdkv0-3mMESw"/>
     <prerequisites id="_9wt0AJGfEeeo7s_vdwbkdQ" name="InformationFromErrorMessages" description="error messages show too much information" attacks="_DPedQj1JEeaC77dVaP0Eeg _yZTNgT1MEeaVk-W-mW-puA _XL2vUj1NEeaVk-W-mW-puA _gEjY5T1OEeaVk-W-mW-puA" securityPatterns="_IVr20C60Eeee4Ma0GzGF8w"/>
     <prerequisites id="_i3-fcJItEeeXW53tAuXZPA" name="AuthenticationInfoStored" description="The authentication information is stored securely (e.g. hashed) with read-only access" attacks="_gEjY5T1OEeaVk-W-mW-puA" securityPatterns="_IVr20C60Eeee4Ma0GzGF8w"/>
-    <prerequisites id="_jM18MJItEeeXW53tAuXZPA" name="EncryptionOfConnections" description="Data for authentication is sent over unencrypted connections" attacks="_gEjY5T1OEeaVk-W-mW-puA" securityPatterns="_IVr20C60Eeee4Ma0GzGF8w"/>
+    <prerequisites id="_jM18MJItEeeXW53tAuXZPA" name="EncryptionOfConnections" description="Data for authentication is sent over unencrypted connections" attacks="_gEjY5T1OEeaVk-W-mW-puA _uEnsokFrEeqMXfeUGGlvXg" securityPatterns="_IVr20C60Eeee4Ma0GzGF8w _-2-VUDwiEeqdkv0-3mMESw"/>
     <prerequisites id="_kJhm4JItEeeXW53tAuXZPA" name="TrustInClientValues" description="server checks values from clients" attacks="_gEjY5T1OEeaVk-W-mW-puA" securityPatterns="_IVr20C60Eeee4Ma0GzGF8w"/>
     <prerequisites id="_khlhkJItEeeXW53tAuXZPA" name="SessionID" description="Use of Session-IDs" attacks="_gEjY5T1OEeaVk-W-mW-puA" securityPatterns="_IVr20C60Eeee4Ma0GzGF8w"/>
     <prerequisites id="_k4ZfEJItEeeXW53tAuXZPA" name="SessionIDInURL" description="Session-IDs shown in the URL" attacks="_gEjY5T1OEeaVk-W-mW-puA" securityPatterns="_IVr20C60Eeee4Ma0GzGF8w"/>
     <prerequisites id="_lYmpIJItEeeXW53tAuXZPA" name="SessionIDTimeout" description="there is no timeout set for Session-IDs" attacks="_gEjY5T1OEeaVk-W-mW-puA" securityPatterns="_IVr20C60Eeee4Ma0GzGF8w"/>
     <prerequisites id="_l3I_QJItEeeXW53tAuXZPA" name="SessionIDRotation" description="Rotation of Session-IDs with every login" attacks="_gEjY5T1OEeaVk-W-mW-puA" securityPatterns="_IVr20C60Eeee4Ma0GzGF8w"/>
     <prerequisites id="_nM6fYJItEeeXW53tAuXZPA" name="SessionIDSigned" description="Session-IDs are signed" attacks="_gEjY5T1OEeaVk-W-mW-puA" securityPatterns="_IVr20C60Eeee4Ma0GzGF8w"/>
-    <prerequisites id="_WybeoJQJEeetdbBECRggAA" name="UntrustedInputForCommands" description="untrusted input is used for construction of commands" attacks="_yZTNgT1MEeaVk-W-mW-puA"/>
+    <prerequisites id="_WybeoJQJEeetdbBECRggAA" name="UntrustedInputForCommands" description="untrusted input is used for construction of commands" attacks="_yZTNgT1MEeaVk-W-mW-puA" securityPatterns="_zwuDgTwrEeqdkv0-3mMESw"/>
     <prerequisites id="_biC3AAXZEeiln5uSIv6U2g" name="AnonymousAccess" securityPatterns="_IVr20C60Eeee4Ma0GzGF8w _K7yWYC60Eeee4Ma0GzGF8w"/>
+    <prerequisites id="__jRfYEFsEeqMXfeUGGlvXg" name="Lack of strong authentication" attacks="_uEnsokFrEeqMXfeUGGlvXg"/>
   </contains>
 </security:Container>

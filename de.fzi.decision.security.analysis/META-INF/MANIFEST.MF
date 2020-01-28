@@ -19,5 +19,5 @@ Require-Bundle: org.eclipse.emf.ecore,
  org.apache.log4j;bundle-version="1.2.15",
  org.palladiosimulator.mdsdprofiles.api;bundle-version="1.0.1",
  de.fzi.decision.security;bundle-version="0.1.0"
-Import-Package: org.eclipse.core.runtime
 Automatic-Module-Name: de.fzi.decision.security.analysis
+Import-Package: org.eclipse.core.runtime
