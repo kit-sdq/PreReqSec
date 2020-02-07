@@ -10,6 +10,7 @@ import org.eclipse.ui.actions.ActionDelegate
 import org.palladiosimulator.pcm.core.entity.Entity
 import security.securityThreats.Attack
 import analysis.PreReqSecSecurityAnalyzer
+import java.util.ArrayList
 
 /**
  * Controls the security analysis in the editor
@@ -23,9 +24,16 @@ class SecurityAnalysisController extends ActionDelegate implements IActionDelega
 	 */
 	override void run(IAction action) {
 		super.run(action);
-		if (selection !== null && selection instanceof EObject){
+		if (selection !== null && selection instanceof EObject) {
 			val analyzer = new PreReqSecSecurityAnalyzer()
-			var possibleAttacks = analyzer.analyze(selection)
+			/* For a better separation between structural and contextual analysis, 
+				the (negative) results of the structural analysis are saved in the list */
+			val structAnalysisResults = new ArrayList<String>()
+			var possibleAttacks = analyzer.analyze(selection, structAnalysisResults)
+			println()
+			structAnalysisResults.forEach [
+				println(it)
+			]
 			prettyPrintAttacksPossible(possibleAttacks, selection)
 		}
 	}
@@ -46,7 +54,7 @@ class SecurityAnalysisController extends ActionDelegate implements IActionDelega
 		action.setEnabled(false);
 	}
 	
-	private def prettyPrintAttacksPossible(List<Attack> attacks, EObject component) {
+	protected def prettyPrintAttacksPossible(List<Attack> attacks, EObject component) {
 		if(component === null || attacks === null) return;		
 				
 		val name = switch component {

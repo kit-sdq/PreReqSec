@@ -6,12 +6,19 @@
 			adaptable="false"
 			id="de.fzi.decision.security.ui.SecurityAnalysis"
 			objectClass="org.palladiosimulator.pcm.core.entity.Entity">
+		<action
+		   class="de.fzi.decision.security.ui.analysis.SystemSecurityAnalysisController"
+		   enablesFor="1"
+		   id="de.fzi.decision.security.ui.systemanalysis"
+		   label="PCM System Security Analysis"
+		   menubarPath="additions">
+		 </action>
 		 <action
-			   class="de.fzi.decision.security.ui.analysis.SecurityAnalysisController"
-			   enablesFor="1"
-			   id="de.fzi.decision.security.ui.analyse"
-			   label="PCM Security Analysis"
-			   menubarPath="additions">
+		   class="de.fzi.decision.security.ui.analysis.SecurityAnalysisController"
+		   enablesFor="1"
+		   id="de.fzi.decision.security.ui.componentanalysis"
+		   label="PCM Component Security Analysis"
+		   menubarPath="additions">
 		 </action>
 	  </objectContribution>
 	</extension>

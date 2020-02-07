@@ -17,7 +17,6 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.viatra.query.runtime.emf.EMFScope;
 import org.eclipse.xtext.xbase.lib.CollectionLiterals;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
-import org.eclipse.xtext.xbase.lib.InputOutput;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.modelversioning.emfprofileapplication.StereotypeApplication;
 import org.palladiosimulator.mdsdprofiles.api.StereotypeAPI;
@@ -49,9 +48,11 @@ public class PreReqSecSecurityAnalyzer {
    * and returns a List of possible Attacks
    * 
    * @param component The element on which the security analysis should be executed
+   * @param structAnalysisResults A list in which the results of the structural analysis on the given element are saved.
+   * 								One entry in the list for each annotated security pattern that is not correctly applied.
    * @return A list of possible attacks on the given element
    */
-  public List<Attack> analyze(final EObject component) {
+  public List<Attack> analyze(final EObject component, final List<String> structAnalysisResults) {
     List<Attack> _xblockexpression = null;
     {
       Resource _eResource = component.eResource();
@@ -65,10 +66,12 @@ public class PreReqSecSecurityAnalyzer {
         if (_patternCorrectlyApplied) {
           mitigatedPrerequisites.addAll(this.getMitigatedPrerequisites(it));
         } else {
-          String _name = it.getName();
-          String _plus = ("!Warning: Pattern " + _name);
-          String _plus_1 = (_plus + " is not correctly applied");
-          InputOutput.<String>println(_plus_1);
+          if ((structAnalysisResults != null)) {
+            String _name = it.getName();
+            String _plus = ("!Warning: Pattern " + _name);
+            String _plus_1 = (_plus + " is not correctly applied");
+            structAnalysisResults.add(_plus_1);
+          }
         }
       };
       this.getAnnotatedSecurityPatterns(component).forEach(_function);

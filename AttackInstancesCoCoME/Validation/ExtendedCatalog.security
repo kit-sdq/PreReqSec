@@ -91,7 +91,7 @@
       <data key="_Pld-sOAmEee5FL2WPUSVkQ" value="STEALTHY"/>
       <data key="_Wd69MAXWEeiln5uSIv6U2g" value="AUTHENTICATION"/>
     </attacks>
-    <attacks id="_uEnsokFrEeqMXfeUGGlvXg" name="Man in the Middle" prerequisites="_jM18MJItEeeXW53tAuXZPA __jRfYEFsEeqMXfeUGGlvXg _zfqRoEFuEeqMXfeUGGlvXg _3N1XEEFvEeqMXfeUGGlvXg _Z2AysHJPEeeUDOga6FjiIB"/>
+    <attacks id="_uEnsokFrEeqMXfeUGGlvXg" name="Man-in-the-Middle" prerequisites="_jM18MJItEeeXW53tAuXZPA __jRfYEFsEeqMXfeUGGlvXg _zfqRoEFuEeqMXfeUGGlvXg _3N1XEEFvEeqMXfeUGGlvXg _Z2AysHJPEeeUDOga6FjiIB"/>
   </contains>
   <contains xsi:type="securityPatterns:PatternCatalog" id="_gwSCQCvnEeeBFJawWlgBXg" name=" " description="This catalog contains a selection of security patterns.">
     <securityPatterns id="_IVr20C60Eeee4Ma0GzGF8w" name="Authenticator" description="The authenticator veryfies the identity of the user. To do so It receives provided autentication information from the user, compares it with expected authentication information and, on equality, creates and returns a proof of identity to the user." mitigatedPrerequisites="_QCwv8HJPEeeUDOga6FjiIA _Z2AysHJPEeeUDOga6FjiIB _Z2AysHJPEeeUDOga6FjiIC _Z2AysHJPEeeUDOga6FjiIA _HcBuMHJQEeeUDOga6FjiIA _kp2D0HrCEeelLYMz0yOLCw _l2BjEHrCEeelLYMz0yOLCw _CibCIYDOEeep_vGoYB1cZA _9CkUkJGfEeeo7s_vdwbkdQ _9YMmUJGfEeeo7s_vdwbkdQ _9wt0AJGfEeeo7s_vdwbkdQ _i3-fcJItEeeXW53tAuXZPA _jM18MJItEeeXW53tAuXZPA _kJhm4JItEeeXW53tAuXZPA _khlhkJItEeeXW53tAuXZPA _k4ZfEJItEeeXW53tAuXZPA _lYmpIJItEeeXW53tAuXZPA _l3I_QJItEeeXW53tAuXZPA _nM6fYJItEeeXW53tAuXZPA _biC3AAXZEeiln5uSIv6U2g _3N1XEEFvEeqMXfeUGGlvXg _ioT10EF1EeqMXfeUGGlvXg _vEDk0EF1EeqMXfeUGGlvXg">

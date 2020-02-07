@@ -1,6 +1,7 @@
 package de.fzi.decision.security.ui.analysis;
 
 import analysis.PreReqSecSecurityAnalyzer;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import org.eclipse.emf.ecore.EObject;
@@ -29,7 +30,13 @@ public class SecurityAnalysisController extends ActionDelegate implements IActio
     super.run(action);
     if (((this.selection != null) && (this.selection instanceof EObject))) {
       final PreReqSecSecurityAnalyzer analyzer = new PreReqSecSecurityAnalyzer();
-      List<Attack> possibleAttacks = analyzer.analyze(this.selection);
+      final ArrayList<String> structAnalysisResults = new ArrayList<String>();
+      List<Attack> possibleAttacks = analyzer.analyze(this.selection, structAnalysisResults);
+      InputOutput.println();
+      final Consumer<String> _function = (String it) -> {
+        InputOutput.<String>println(it);
+      };
+      structAnalysisResults.forEach(_function);
       this.prettyPrintAttacksPossible(possibleAttacks, this.selection);
     }
   }
@@ -51,7 +58,7 @@ public class SecurityAnalysisController extends ActionDelegate implements IActio
     action.setEnabled(false);
   }
   
-  private void prettyPrintAttacksPossible(final List<Attack> attacks, final EObject component) {
+  protected void prettyPrintAttacksPossible(final List<Attack> attacks, final EObject component) {
     if (((component == null) || (attacks == null))) {
       return;
     }
