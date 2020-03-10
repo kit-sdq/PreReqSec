@@ -56,9 +56,11 @@ public class ModelQueryEngine {
     {
       final AttackByPrerequisiteMatcher matcher = AttackByPrerequisiteMatcher.on(this.engine);
       final HashSet<Attack> result = new HashSet<Attack>();
-      final Consumer<Prerequisite> _function = (Prerequisite it) -> {
-        final Set<Attack> matches = matcher.getAllValuesOfattack(it);
-        result.addAll(matches);
+      final Consumer<Prerequisite> _function = new Consumer<Prerequisite>() {
+        public void accept(final Prerequisite it) {
+          final Set<Attack> matches = matcher.getAllValuesOfattack(it);
+          result.addAll(matches);
+        }
       };
       prerequisites.forEach(_function);
       _xblockexpression = IterableExtensions.<Attack>toSet(result);

@@ -11,6 +11,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.xtext.xbase.lib.InputOutput;
+import org.palladiosimulator.pcm.core.composition.AssemblyContext;
 import org.palladiosimulator.pcm.core.entity.Entity;
 import security.securityThreats.Attack;
 
@@ -43,7 +44,7 @@ public class SystemSecurityAnalysisController extends SecurityAnalysisController
       final ArrayList<String> structAnalysisResults = new ArrayList<String>();
       final HashMap<EObject, List<Attack>> possibleAttacksPerObject = new HashMap<EObject, List<Attack>>();
       final Consumer<EObject> _function = (EObject it) -> {
-        if ((it != null)) {
+        if (((it != null) && (it instanceof AssemblyContext))) {
           possibleAttacksPerObject.put(it, analyzer.analyze(it, structAnalysisResults));
         }
       };

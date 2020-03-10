@@ -61,16 +61,18 @@ public class PreReqSecSecurityAnalyzer {
       this.engine = _modelQueryEngine;
       List<Prerequisite> unmitigatedPreq = this.getAnnotatedPrerequisites(component);
       final ArrayList<Prerequisite> mitigatedPrerequisites = new ArrayList<Prerequisite>();
-      final Consumer<SecurityPattern> _function = (SecurityPattern it) -> {
-        boolean _patternCorrectlyApplied = this.patternCorrectlyApplied(it);
-        if (_patternCorrectlyApplied) {
-          mitigatedPrerequisites.addAll(this.getMitigatedPrerequisites(it));
-        } else {
-          if ((structAnalysisResults != null)) {
-            String _name = it.getName();
-            String _plus = ("!Warning: Pattern " + _name);
-            String _plus_1 = (_plus + " is not correctly applied");
-            structAnalysisResults.add(_plus_1);
+      final Consumer<SecurityPattern> _function = new Consumer<SecurityPattern>() {
+        public void accept(final SecurityPattern it) {
+          boolean _patternCorrectlyApplied = PreReqSecSecurityAnalyzer.this.patternCorrectlyApplied(it);
+          if (_patternCorrectlyApplied) {
+            mitigatedPrerequisites.addAll(PreReqSecSecurityAnalyzer.this.getMitigatedPrerequisites(it));
+          } else {
+            if ((structAnalysisResults != null)) {
+              String _name = it.getName();
+              String _plus = ("!Warning: Pattern " + _name);
+              String _plus_1 = (_plus + " is not correctly applied");
+              structAnalysisResults.add(_plus_1);
+            }
           }
         }
       };
@@ -103,9 +105,11 @@ public class PreReqSecSecurityAnalyzer {
       final Object stereotypeValues = this.getAnnotatedStereotypeValue(object, PreReqSecSecurityAnalyzer.PREREQ_NAME, PreReqSecSecurityAnalyzer.PREREQ_VALUE_NAME);
       final ArrayList<Prerequisite> prerequisites = new ArrayList<Prerequisite>();
       if ((stereotypeValues instanceof EList<?>)) {
-        final Consumer<Object> _function = (Object it) -> {
-          if ((it instanceof Prerequisite)) {
-            prerequisites.add(((Prerequisite)it));
+        final Consumer<Object> _function = new Consumer<Object>() {
+          public void accept(final Object it) {
+            if ((it instanceof Prerequisite)) {
+              prerequisites.add(((Prerequisite)it));
+            }
           }
         };
         ((EList<?>)stereotypeValues).forEach(_function);
@@ -126,9 +130,11 @@ public class PreReqSecSecurityAnalyzer {
       final Object stereotypeValues = this.getAnnotatedStereotypeValue(object, PreReqSecSecurityAnalyzer.SECURITY_PATTERN_NAME, PreReqSecSecurityAnalyzer.SECURITY_PATTERN_VALUE_NAME);
       final ArrayList<SecurityPattern> patterns = new ArrayList<SecurityPattern>();
       if ((stereotypeValues instanceof EList<?>)) {
-        final Consumer<Object> _function = (Object it) -> {
-          if ((it instanceof Role)) {
-            patterns.add(((Role)it).getSecurityPattern());
+        final Consumer<Object> _function = new Consumer<Object>() {
+          public void accept(final Object it) {
+            if ((it instanceof Role)) {
+              patterns.add(((Role)it).getSecurityPattern());
+            }
           }
         };
         ((EList<?>)stereotypeValues).forEach(_function);
@@ -180,8 +186,10 @@ public class PreReqSecSecurityAnalyzer {
    * @returns possible Attacks derived of the unmitigated prerequisites
    */
   private List<Attack> getPossibleAttacks(final Collection<Prerequisite> unmitigatedPrerequisites) {
-    final Function1<Attack, Boolean> _function = (Attack it) -> {
-      return Boolean.valueOf(unmitigatedPrerequisites.containsAll(it.getPrerequisites()));
+    final Function1<Attack, Boolean> _function = new Function1<Attack, Boolean>() {
+      public Boolean apply(final Attack it) {
+        return Boolean.valueOf(unmitigatedPrerequisites.containsAll(it.getPrerequisites()));
+      }
     };
     return IterableExtensions.<Attack>toList(IterableExtensions.<Attack>filter(IterableExtensions.<Attack>toList(this.engine.getAttacksByPrerequisites(unmitigatedPrerequisites)), _function));
   }
@@ -193,17 +201,21 @@ public class PreReqSecSecurityAnalyzer {
    * @returns true if pattern is correctly applied
    */
   private boolean patternCorrectlyApplied(final SecurityPattern pattern) {
-    final Function1<StereotypeApplication, Iterable<?>> _function = (StereotypeApplication it) -> {
-      Object _xifexpression = null;
-      if ((((it != null) && (it.getStereotype() != null)) && Objects.equal(it.getStereotype().getName(), PreReqSecSecurityAnalyzer.SECURITY_PATTERN_NAME))) {
-        return StereotypeAPI.<Iterable<?>>getTaggedValue(it.getAppliedTo(), PreReqSecSecurityAnalyzer.SECURITY_PATTERN_VALUE_NAME, PreReqSecSecurityAnalyzer.SECURITY_PATTERN_NAME);
-      } else {
-        _xifexpression = null;
+    final Function1<StereotypeApplication, Iterable<?>> _function = new Function1<StereotypeApplication, Iterable<?>>() {
+      public Iterable<?> apply(final StereotypeApplication it) {
+        Object _xifexpression = null;
+        if ((((it != null) && (it.getStereotype() != null)) && Objects.equal(it.getStereotype().getName(), PreReqSecSecurityAnalyzer.SECURITY_PATTERN_NAME))) {
+          return StereotypeAPI.<Iterable<?>>getTaggedValue(it.getAppliedTo(), PreReqSecSecurityAnalyzer.SECURITY_PATTERN_VALUE_NAME, PreReqSecSecurityAnalyzer.SECURITY_PATTERN_NAME);
+        } else {
+          _xifexpression = null;
+        }
+        return ((Iterable<?>)_xifexpression);
       }
-      return ((Iterable<?>)_xifexpression);
     };
-    final Function1<Iterable<?>, Boolean> _function_1 = (Iterable<?> it) -> {
-      return Boolean.valueOf((it != null));
+    final Function1<Iterable<?>, Boolean> _function_1 = new Function1<Iterable<?>, Boolean>() {
+      public Boolean apply(final Iterable<?> it) {
+        return Boolean.valueOf((it != null));
+      }
     };
     return IterableExtensions.<Object>toList(Iterables.<Object>concat(IterableExtensions.<Iterable<?>>filter(IterableExtensions.<StereotypeApplication, Iterable<?>>map(this.engine.getAllStereotypeApplications(), _function), _function_1))).containsAll(pattern.getRoles());
   }
