@@ -1,15 +1,11 @@
 package de.fzi.decision.security.ui.analysis
 
 import analysis.PreReqSecSecurityAnalyzer
-import java.util.ArrayList
-import java.util.HashMap
-import java.util.List
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.jface.action.IAction
-import org.palladiosimulator.pcm.core.entity.Entity
-import security.securityThreats.Attack
 import org.palladiosimulator.pcm.core.composition.AssemblyContext
+import org.palladiosimulator.pcm.core.entity.Entity
 
 /**
  * Controls the security analysis for a whole system in the editor.
@@ -31,19 +27,12 @@ class SystemSecurityAnalysisController extends SecurityAnalysisController {
 			}
 			println("\n" + "Analyzing the system " + sysName + " for security vulnerabilities:")
 			val analyzer = new PreReqSecSecurityAnalyzer()
-			val structAnalysisResults = new ArrayList<String>()
-			val possibleAttacksPerObject = new HashMap<EObject, List<Attack>>()
+//			val analysisResultsPerObject = new ArrayList<Pair<List<SecurityPattern>, List<Attack>>> 
 			rootContainer.eContents.forEach [
 				// Analyze only AssemblyContexts, other EObjects are not relevant right now for the security analysis
 				if (it !== null && it instanceof AssemblyContext) {
-					possibleAttacksPerObject.put(it, analyzer.analyze(it, structAnalysisResults))
+					prettyPrintAttacksPossible(analyzer.analyze(it), it)
 				}
-			]
-			structAnalysisResults.forEach [
-				println(it)
-			]
-			possibleAttacksPerObject.forEach [k,v|
-				prettyPrintAttacksPossible(v,k)
 			]
 		}
 	}

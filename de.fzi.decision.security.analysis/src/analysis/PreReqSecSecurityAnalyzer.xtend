@@ -13,6 +13,8 @@ import security.securityPatterns.SecurityPattern
 import security.securityPrerequisites.Prerequisite
 import security.securityThreats.Attack
 import org.eclipse.emf.common.util.EList
+import org.eclipse.collections.impl.tuple.Tuples
+import org.eclipse.collections.api.tuple.Pair
 
 /**
  * PreReqSecSecurityAnalyzer provides security analysis capabilities 
@@ -34,14 +36,13 @@ class PreReqSecSecurityAnalyzer {
 	 * and returns a List of possible Attacks
 	 *  
 	 * @param component The element on which the security analysis should be executed
-	 * @param structAnalysisResults A list in which the results of the structural analysis on the given element are saved. 
-	 * 								One entry in the list for each annotated security pattern that is not correctly applied.
 	 * @return A list of possible attacks on the given element
 	 */
-	def List<Attack> analyze(EObject component, List<String> structAnalysisResults) {
+	def Pair<ArrayList<SecurityPattern>, ArrayList<Attack>> analyze(EObject component) {
 		engine = new ModelQueryEngine(new EMFScope(component.eResource))
 
 		var unmitigatedPreq = getAnnotatedPrerequisites(component)
+		val results = Tuples.pair(new ArrayList<SecurityPattern>, new ArrayList<Attack>)
 
 		val mitigatedPrerequisites = new ArrayList<Prerequisite>()
 		getAnnotatedSecurityPatterns(component).forEach [
@@ -49,8 +50,7 @@ class PreReqSecSecurityAnalyzer {
 			if (patternCorrectlyApplied(it)) 
 				mitigatedPrerequisites.addAll(this.getMitigatedPrerequisites(it))
 			else {
-				if (structAnalysisResults !== null)
-				structAnalysisResults.add("!Warning: Pattern " + it.name + " is not correctly applied")
+				results.getOne.add(it)
 			}
 		]
 		unmitigatedPreq.removeAll(mitigatedPrerequisites)
@@ -62,7 +62,8 @@ class PreReqSecSecurityAnalyzer {
 			)
 			engine = new ModelQueryEngine(new EMFScope(scope));
 		}
-		getPossibleAttacks(unmitigatedPreq)
+		results.getTwo.addAll(getPossibleAttacks(unmitigatedPreq))
+		results
 	}
 
 	/**

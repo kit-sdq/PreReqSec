@@ -11,6 +11,9 @@ import org.palladiosimulator.pcm.core.entity.Entity
 import security.securityThreats.Attack
 import analysis.PreReqSecSecurityAnalyzer
 import java.util.ArrayList
+import security.securityPatterns.SecurityPattern
+import org.eclipse.collections.api.tuple.Pair
+
 
 /**
  * Controls the security analysis in the editor
@@ -26,14 +29,7 @@ class SecurityAnalysisController extends ActionDelegate implements IActionDelega
 		super.run(action);
 		if (selection !== null && selection instanceof EObject) {
 			val analyzer = new PreReqSecSecurityAnalyzer()
-			/* For a better separation between structural and contextual analysis, 
-				the (negative) results of the structural analysis are saved in the list */
-			val structAnalysisResults = new ArrayList<String>()
-			var possibleAttacks = analyzer.analyze(selection, structAnalysisResults)
-			println()
-			structAnalysisResults.forEach [
-				println(it)
-			]
+			var possibleAttacks = analyzer.analyze(selection)
 			prettyPrintAttacksPossible(possibleAttacks, selection)
 		}
 	}
@@ -54,19 +50,23 @@ class SecurityAnalysisController extends ActionDelegate implements IActionDelega
 		action.setEnabled(false);
 	}
 	
-	protected def prettyPrintAttacksPossible(List<Attack> attacks, EObject component) {
-		if(component === null || attacks === null) return;		
+	protected def prettyPrintAttacksPossible(Pair<ArrayList<SecurityPattern>, ArrayList<Attack>> analysisResults, EObject component) {
+		if(component === null || analysisResults === null) return;		
 				
 		val name = switch component {
 //			NamedElement : component.name
 			Entity : component.entityName
 			default : component.toString
 		}
-		if(attacks.size == 0){
+		println("\n" + "Analyzing Element " + name + ":")
+		analysisResults.getOne.forEach[
+			println('''!Warning: Pattern «it.name» is not correctly applied''')
+		]
+		if(analysisResults.getTwo.size == 0) {
 			println('''No attacks possible on element «name»''')
 		} else {		
-			println('''«attacks.size» « if(attacks.size>1) "attacks" else "attack" » possible:''')
-			attacks.forEach[
+			println('''«analysisResults.getTwo.size» « if(analysisResults.getTwo.size>1) "attacks" else "attack" » possible:''')
+			analysisResults.getTwo.forEach[
 				println('''Attack «it.name» possible on Element «name»!''')
 			]		
 		}

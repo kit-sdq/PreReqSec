@@ -10,6 +10,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
+import org.eclipse.collections.api.tuple.Pair;
+import org.eclipse.collections.impl.tuple.Tuples;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -48,32 +50,26 @@ public class PreReqSecSecurityAnalyzer {
    * and returns a List of possible Attacks
    * 
    * @param component The element on which the security analysis should be executed
-   * @param structAnalysisResults A list in which the results of the structural analysis on the given element are saved.
-   * 								One entry in the list for each annotated security pattern that is not correctly applied.
    * @return A list of possible attacks on the given element
    */
-  public List<Attack> analyze(final EObject component, final List<String> structAnalysisResults) {
-    List<Attack> _xblockexpression = null;
+  public Pair<ArrayList<SecurityPattern>, ArrayList<Attack>> analyze(final EObject component) {
+    Pair<ArrayList<SecurityPattern>, ArrayList<Attack>> _xblockexpression = null;
     {
       Resource _eResource = component.eResource();
       EMFScope _eMFScope = new EMFScope(_eResource);
       ModelQueryEngine _modelQueryEngine = new ModelQueryEngine(_eMFScope);
       this.engine = _modelQueryEngine;
       List<Prerequisite> unmitigatedPreq = this.getAnnotatedPrerequisites(component);
+      ArrayList<SecurityPattern> _arrayList = new ArrayList<SecurityPattern>();
+      ArrayList<Attack> _arrayList_1 = new ArrayList<Attack>();
+      final Pair<ArrayList<SecurityPattern>, ArrayList<Attack>> results = Tuples.<ArrayList<SecurityPattern>, ArrayList<Attack>>pair(_arrayList, _arrayList_1);
       final ArrayList<Prerequisite> mitigatedPrerequisites = new ArrayList<Prerequisite>();
-      final Consumer<SecurityPattern> _function = new Consumer<SecurityPattern>() {
-        public void accept(final SecurityPattern it) {
-          boolean _patternCorrectlyApplied = PreReqSecSecurityAnalyzer.this.patternCorrectlyApplied(it);
-          if (_patternCorrectlyApplied) {
-            mitigatedPrerequisites.addAll(PreReqSecSecurityAnalyzer.this.getMitigatedPrerequisites(it));
-          } else {
-            if ((structAnalysisResults != null)) {
-              String _name = it.getName();
-              String _plus = ("!Warning: Pattern " + _name);
-              String _plus_1 = (_plus + " is not correctly applied");
-              structAnalysisResults.add(_plus_1);
-            }
-          }
+      final Consumer<SecurityPattern> _function = (SecurityPattern it) -> {
+        boolean _patternCorrectlyApplied = this.patternCorrectlyApplied(it);
+        if (_patternCorrectlyApplied) {
+          mitigatedPrerequisites.addAll(this.getMitigatedPrerequisites(it));
+        } else {
+          results.getOne().add(it);
         }
       };
       this.getAnnotatedSecurityPatterns(component).forEach(_function);
@@ -89,7 +85,8 @@ public class PreReqSecSecurityAnalyzer {
         ModelQueryEngine _modelQueryEngine_1 = new ModelQueryEngine(_eMFScope_1);
         this.engine = _modelQueryEngine_1;
       }
-      _xblockexpression = this.getPossibleAttacks(unmitigatedPreq);
+      results.getTwo().addAll(this.getPossibleAttacks(unmitigatedPreq));
+      _xblockexpression = results;
     }
     return _xblockexpression;
   }
@@ -105,11 +102,9 @@ public class PreReqSecSecurityAnalyzer {
       final Object stereotypeValues = this.getAnnotatedStereotypeValue(object, PreReqSecSecurityAnalyzer.PREREQ_NAME, PreReqSecSecurityAnalyzer.PREREQ_VALUE_NAME);
       final ArrayList<Prerequisite> prerequisites = new ArrayList<Prerequisite>();
       if ((stereotypeValues instanceof EList<?>)) {
-        final Consumer<Object> _function = new Consumer<Object>() {
-          public void accept(final Object it) {
-            if ((it instanceof Prerequisite)) {
-              prerequisites.add(((Prerequisite)it));
-            }
+        final Consumer<Object> _function = (Object it) -> {
+          if ((it instanceof Prerequisite)) {
+            prerequisites.add(((Prerequisite)it));
           }
         };
         ((EList<?>)stereotypeValues).forEach(_function);
@@ -130,11 +125,9 @@ public class PreReqSecSecurityAnalyzer {
       final Object stereotypeValues = this.getAnnotatedStereotypeValue(object, PreReqSecSecurityAnalyzer.SECURITY_PATTERN_NAME, PreReqSecSecurityAnalyzer.SECURITY_PATTERN_VALUE_NAME);
       final ArrayList<SecurityPattern> patterns = new ArrayList<SecurityPattern>();
       if ((stereotypeValues instanceof EList<?>)) {
-        final Consumer<Object> _function = new Consumer<Object>() {
-          public void accept(final Object it) {
-            if ((it instanceof Role)) {
-              patterns.add(((Role)it).getSecurityPattern());
-            }
+        final Consumer<Object> _function = (Object it) -> {
+          if ((it instanceof Role)) {
+            patterns.add(((Role)it).getSecurityPattern());
           }
         };
         ((EList<?>)stereotypeValues).forEach(_function);
@@ -186,10 +179,8 @@ public class PreReqSecSecurityAnalyzer {
    * @returns possible Attacks derived of the unmitigated prerequisites
    */
   private List<Attack> getPossibleAttacks(final Collection<Prerequisite> unmitigatedPrerequisites) {
-    final Function1<Attack, Boolean> _function = new Function1<Attack, Boolean>() {
-      public Boolean apply(final Attack it) {
-        return Boolean.valueOf(unmitigatedPrerequisites.containsAll(it.getPrerequisites()));
-      }
+    final Function1<Attack, Boolean> _function = (Attack it) -> {
+      return Boolean.valueOf(unmitigatedPrerequisites.containsAll(it.getPrerequisites()));
     };
     return IterableExtensions.<Attack>toList(IterableExtensions.<Attack>filter(IterableExtensions.<Attack>toList(this.engine.getAttacksByPrerequisites(unmitigatedPrerequisites)), _function));
   }
@@ -201,21 +192,17 @@ public class PreReqSecSecurityAnalyzer {
    * @returns true if pattern is correctly applied
    */
   private boolean patternCorrectlyApplied(final SecurityPattern pattern) {
-    final Function1<StereotypeApplication, Iterable<?>> _function = new Function1<StereotypeApplication, Iterable<?>>() {
-      public Iterable<?> apply(final StereotypeApplication it) {
-        Object _xifexpression = null;
-        if ((((it != null) && (it.getStereotype() != null)) && Objects.equal(it.getStereotype().getName(), PreReqSecSecurityAnalyzer.SECURITY_PATTERN_NAME))) {
-          return StereotypeAPI.<Iterable<?>>getTaggedValue(it.getAppliedTo(), PreReqSecSecurityAnalyzer.SECURITY_PATTERN_VALUE_NAME, PreReqSecSecurityAnalyzer.SECURITY_PATTERN_NAME);
-        } else {
-          _xifexpression = null;
-        }
-        return ((Iterable<?>)_xifexpression);
+    final Function1<StereotypeApplication, Iterable<?>> _function = (StereotypeApplication it) -> {
+      Object _xifexpression = null;
+      if ((((it != null) && (it.getStereotype() != null)) && Objects.equal(it.getStereotype().getName(), PreReqSecSecurityAnalyzer.SECURITY_PATTERN_NAME))) {
+        return StereotypeAPI.<Iterable<?>>getTaggedValue(it.getAppliedTo(), PreReqSecSecurityAnalyzer.SECURITY_PATTERN_VALUE_NAME, PreReqSecSecurityAnalyzer.SECURITY_PATTERN_NAME);
+      } else {
+        _xifexpression = null;
       }
+      return ((Iterable<?>)_xifexpression);
     };
-    final Function1<Iterable<?>, Boolean> _function_1 = new Function1<Iterable<?>, Boolean>() {
-      public Boolean apply(final Iterable<?> it) {
-        return Boolean.valueOf((it != null));
-      }
+    final Function1<Iterable<?>, Boolean> _function_1 = (Iterable<?> it) -> {
+      return Boolean.valueOf((it != null));
     };
     return IterableExtensions.<Object>toList(Iterables.<Object>concat(IterableExtensions.<Iterable<?>>filter(IterableExtensions.<StereotypeApplication, Iterable<?>>map(this.engine.getAllStereotypeApplications(), _function), _function_1))).containsAll(pattern.getRoles());
   }

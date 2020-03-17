@@ -20,6 +20,13 @@
 		   label="PCM Component Security Analysis"
 		   menubarPath="additions">
 		 </action>
+		 <action
+		   class="de.fzi.decision.security.ui.analysis.window.Main"
+		   enablesFor="*"
+		   id="de.fzi.decision.security.ui.analysiswindow"
+		   label="PCM Security Analysis Window"
+		   menubarPath="additions">
+		 </action>
 	  </objectContribution>
 	</extension>
 

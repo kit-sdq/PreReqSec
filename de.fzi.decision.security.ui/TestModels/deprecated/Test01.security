@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<security:Container xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:security="http://www.fzi.de/pcm/security" xmlns:securityPatterns="http://www.fzi.de/pcm/security/securityPatterns" xmlns:securityPrerequisites="http://www.fzi.de/pcm/security/securityPrerequisites" xmlns:securityThreats="http://www.fzi.de/pcm/security/securityThreats" id="_sUlqoG-NEee1hKPyVwV7cQ" name="Testmodel 01" description="">
+  <contains xsi:type="securityPatterns:PatternCatalog" id="_subG8G-NEee1hKPyVwV7cQ">
+    <securityPatterns id="_txwMMG-NEee1hKPyVwV7cQ" name="Pattern 12" prerequisites="_-jkCMJovEeelKvBhCpU6Dg _NVB-AJuGEeeQOKddp2CzCg"/>
+    <securityPatterns id="_825FAZovEeelKvBhCpU6Dg" name="Pattern 2" prerequisites="_0qEu4G-NEee1hKPyVwV7cQ"/>
+    <securityPatterns id="_9KHjAZovEeelKvBhCpU6Dg" name="Pattern 3" prerequisites="_zDGxEG-NEee1hKPyVwV7cQ"/>
+    <securityPatterns id="_9kMP4ZovEeelKvBhCpU6Dg" name="Pattern 4" prerequisites="_-02mgJovEeelKvBhCpU6Dg"/>
+    <securityPatterns id="_9zQmoZovEeelKvBhCpU6Dg" name="Pattern 5" prerequisites="_zDGxEG-NEee1hKPyVwV7cQ __dG5UJovEeelKvBhCpU6Dg"/>
+  </contains>
+  <contains xsi:type="securityPrerequisites:PrerequisiteCatalog" id="_tN8UgW-NEee1hKPyVwV7cQ">
+    <prerequisites id="_zDGxEG-NEee1hKPyVwV7cQ" name="Prerequisite (P35 / A2)" securityPatterns="_9KHjAZovEeelKvBhCpU6Dg _9zQmoZovEeelKvBhCpU6Dg" attacks="_75bRgW-NEee1hKPyVwV7cQ"/>
+    <prerequisites id="_0qEu4G-NEee1hKPyVwV7cQ" name="Prerequisite (P2 / A5)" securityPatterns="_825FAZovEeelKvBhCpU6Dg" attacks="_EUKu4ZowEeelKvBhCpU6Dg"/>
+    <prerequisites id="_-02mgJovEeelKvBhCpU6Dg" name="Prerequisite (P4 / A14)" securityPatterns="_9kMP4ZovEeelKvBhCpU6Dg" attacks="_3YD_IW-NEee1hKPyVwV7cQ _ECV_EZowEeelKvBhCpU6Dg"/>
+    <prerequisites id="__dG5UJovEeelKvBhCpU6Dg" name="Prerequisite (P5 / -)" securityPatterns="_9zQmoZovEeelKvBhCpU6Dg"/>
+    <prerequisites id="_-jkCMJovEeelKvBhCpU6Dg" name="Prerequisite 1 (P1 / A3)" securityPatterns="_txwMMG-NEee1hKPyVwV7cQ" attacks="_-r7OUW-NEee1hKPyVwV7cQ _-r7OUW-NEee1hKPyVwV7cQ"/>
+    <prerequisites id="_NVB-AJuGEeeQOKddp2CzCg" name="Prerequisite 2 (P1 / A3)" description="" securityPatterns="_txwMMG-NEee1hKPyVwV7cQ" attacks="_-r7OUW-NEee1hKPyVwV7cQ"/>
+    <prerequisites id="_UliXMJuGEeeQOKddp2CzCg" name="Prerequisite (- / A5)" attacks="_EUKu4ZowEeelKvBhCpU6Dg"/>
+  </contains>
+  <contains xsi:type="securityThreats:ThreatCatalog" id="_tfsy4m-NEee1hKPyVwV7cQ">
+    <attackers id="_1eXSkG-NEee1hKPyVwV7cQ" name="Attacker Class 1" attackCapabilities="_3YD_IW-NEee1hKPyVwV7cQ"/>
+    <attackers id="_2poL0G-NEee1hKPyVwV7cQ" name="Attacker Class 2" attackCapabilities="_75bRgW-NEee1hKPyVwV7cQ _-r7OUW-NEee1hKPyVwV7cQ"/>
+    <attackTypes id="_3YD_IW-NEee1hKPyVwV7cQ" name="Attack 1" attacker="_1eXSkG-NEee1hKPyVwV7cQ" prerequisites="_-02mgJovEeelKvBhCpU6Dg"/>
+    <attackTypes id="_75bRgW-NEee1hKPyVwV7cQ" name="Attack 2" attacker="_2poL0G-NEee1hKPyVwV7cQ" prerequisites="_zDGxEG-NEee1hKPyVwV7cQ"/>
+    <attackTypes id="_-r7OUW-NEee1hKPyVwV7cQ" name="Attack 3" attacker="_2poL0G-NEee1hKPyVwV7cQ" prerequisites="_-jkCMJovEeelKvBhCpU6Dg _-jkCMJovEeelKvBhCpU6Dg _NVB-AJuGEeeQOKddp2CzCg"/>
+    <attackTypes id="_ECV_EZowEeelKvBhCpU6Dg" name="Attack 4" prerequisites="_-02mgJovEeelKvBhCpU6Dg"/>
+    <attackTypes id="_EUKu4ZowEeelKvBhCpU6Dg" name="Attack 5" prerequisites="_0qEu4G-NEee1hKPyVwV7cQ _UliXMJuGEeeQOKddp2CzCg"/>
+  </contains>
+</security:Container>

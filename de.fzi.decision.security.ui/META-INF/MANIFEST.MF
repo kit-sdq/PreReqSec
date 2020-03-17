@@ -4,12 +4,21 @@ Bundle-Name: SecurityUI
 Bundle-SymbolicName: de.fzi.decision.security.ui;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Require-Bundle: org.eclipse.ui,
+Require-Bundle: org.eclipse.core.runtime, 
+ org.eclipse.ui,
+ org.eclipse.swt,
+ org.eclipse.core.resources,
  com.google.guava,
  org.eclipse.xtext.xbase.lib,
  org.eclipse.xtend.lib,
  org.eclipse.xtend.lib.macro,
+ org.palladiosimulator.pcm;bundle-version="4.2.0",
  de.fzi.decision.security.analysis;bundle-version="0.0.1",
- de.fzi.decision.security;bundle-version="0.1.0"
+ de.fzi.decision.security;bundle-version="0.1.0",
+ org.eclipse.collections;bundle-version="9.1.0"
 Automatic-Module-Name: de.fzi.decision.security.ui
-Export-Package: de.fzi.decision.security.ui.analysis
+Export-Package: de.fzi.decision.security.ui.analysis,
+ de.fzi.decision.security.ui.analysis.window,
+ org.eclipse.wb.swt
+Bundle-ClassPath: .,
+ swing2swt.jar
