@@ -3,6 +3,7 @@ package analysis
 import java.util.ArrayList
 import java.util.Collection
 import java.util.HashSet
+import java.util.HashMap
 import java.util.List
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.resource.ResourceSet
@@ -15,6 +16,8 @@ import security.securityThreats.Attack
 import org.eclipse.emf.common.util.EList
 import org.eclipse.collections.impl.tuple.Tuples
 import org.eclipse.collections.api.tuple.Pair
+import java.util.Map
+import org.palladiosimulator.pcm.core.entity.Entity
 
 /**
  * PreReqSecSecurityAnalyzer provides security analysis capabilities 
@@ -30,6 +33,7 @@ class PreReqSecSecurityAnalyzer {
 	private static String PREREQ_VALUE_NAME = "prerequisites"
 
 	private ModelQueryEngine engine
+	
 
 	/**
 	 * Analyzes the attack surface of given element according to the PreReqSec methodology
@@ -63,6 +67,48 @@ class PreReqSecSecurityAnalyzer {
 			engine = new ModelQueryEngine(new EMFScope(scope));
 		}
 		results.getTwo.addAll(getPossibleAttacks(unmitigatedPreq))
+		results
+	}
+	
+	def Pair<HashMap<SecurityPattern, List<Role>>, ArrayList<Attack>> analyzeExtended(EObject component) {
+		engine = new ModelQueryEngine(new EMFScope(component.eResource))
+		var unmitigatedPreq = getAnnotatedPrerequisites(component)
+		val results = Tuples.pair(new HashMap<SecurityPattern, List<Role>>, new ArrayList<Attack>)
+
+		val mitigatedPrerequisites = new ArrayList<Prerequisite>()
+		getAnnotatedSecurityPatterns(component).forEach [
+			if (it == null) {
+				println("nullll")
+				return
+			} else {
+				println("correct pattern!")
+			}
+			if (patternCorrectlyApplied(it)) 
+				mitigatedPrerequisites.addAll(this.getMitigatedPrerequisites(it))
+			else {
+				val unappliedRoles = getUnappliedRoles(it)
+				results.getOne.put(it, unappliedRoles)
+			}
+			
+			// check if all roles of the pattern are applied anywhere in the model
+//			val unappliedRoles = getUnappliedRoles(it)
+//			if (unappliedRoles.empty) {
+//				mitigatedPrerequisites.addAll(this.getMitigatedPrerequisites(it))
+//			} else {
+//				results.getOne.put(it, unappliedRoles)
+//			}
+		]
+		unmitigatedPreq.removeAll(mitigatedPrerequisites)
+
+		if (!unmitigatedPreq.empty) {
+			// Add security catalog to scope
+			val scope = new HashSet<ResourceSet>(
+				#[unmitigatedPreq.get(0).eResource.resourceSet, component.eResource.resourceSet]
+			)
+			engine = new ModelQueryEngine(new EMFScope(scope));
+		}
+		results.getTwo.addAll(getPossibleAttacks(unmitigatedPreq))
+//		results.getTwo.putAll(getPossibleAttacksExtended(unmitigatedPreq))
 		results
 	}
 
@@ -143,6 +189,16 @@ class PreReqSecSecurityAnalyzer {
 		].toList
 	}
 	
+//	private def getPossibleAttacksExtended(Collection<Prerequisite> unmitigatedPrerequisites) {
+//		val unmitigatedPreqPerAttack = new HashMap<Attack, List<Prerequisite>>
+//		engine.getAttacksByPrerequisites(unmitigatedPrerequisites).toList.forEach [
+//			 if (unmitigatedPrerequisites.containsAll(it.prerequisites)) {
+//			 	unmitigatedPreqPerAttack.put(it, it.prerequisites)
+//			 }
+//		]
+//		unmitigatedPreqPerAttack
+//	}
+	
 	/**
 	 * Evaluates if the given pattern is correctly applied by querying all applied PatternRole stereotypes of the instance.
 	 * A pattern is deemed correctly applied if each role is assigned at least once!
@@ -158,5 +214,35 @@ class PreReqSecSecurityAnalyzer {
 		].filter[
 			it !== null
 		].flatten.toList.containsAll(pattern.roles)
+	}
+	
+	private def List<Role> getUnappliedRoles(SecurityPattern pattern) {
+		val allARoles = engine.allStereotypeApplications.map[
+			if (it !== null && it.stereotype !== null && it.stereotype.name == SECURITY_PATTERN_NAME)
+				return StereotypeAPI.getTaggedValue(it.appliedTo, SECURITY_PATTERN_VALUE_NAME, SECURITY_PATTERN_NAME)
+			else
+				null
+		].filter[
+			it !== null
+		].flatten.toList
+		var tmp = new ArrayList<Role>()
+		for (Role r : pattern.roles) {
+			if (!allARoles.contains(r)) {
+				tmp.add(r)
+				println(r.name)
+			}
+		}
+		tmp
+		
+		
+//		tmp.roles.removeAll(engine.allStereotypeApplications.map[
+//			if (it !== null && it.stereotype !== null && it.stereotype.name == SECURITY_PATTERN_NAME)
+//				return StereotypeAPI.getTaggedValue(it.appliedTo, SECURITY_PATTERN_VALUE_NAME, SECURITY_PATTERN_NAME)
+//			else
+//				null
+//		].filter[
+//			it !== null
+//		].flatten.toList)
+//		tmp.roles   
 	}
 }

@@ -18,6 +18,7 @@ import org.palladiosimulator.pcm.core.entity.Entity;
 import org.palladiosimulator.pcm.system.util.SystemResourceFactoryImpl;
 
 import analysis.PreReqSecSecurityAnalyzer;
+import security.securityPatterns.Role;
 import security.securityPatterns.SecurityPattern;
 import security.securityThreats.Attack;
 
@@ -35,6 +36,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.common.util.URI;
@@ -93,7 +95,7 @@ public class SecurityAnalysisWindow extends ApplicationWindow {
 		createActions();
 //		addToolBar(SWT.FLAT | SWT.WRAP);
 		addMenuBar();
-		addStatusLine();
+//		addStatusLine();
 	}
 
 	/**
@@ -215,34 +217,28 @@ public class SecurityAnalysisWindow extends ApplicationWindow {
 		MenuManager analysisMenu = new MenuManager("&Security Analysis", "Id02");
 		analysisMenu.add(new Action("Structural Analysis") {
 			public void run() {
+//				((CCTabItem)curTabItem).clearResults();
 				PreReqSecSecurityAnalyzer analyzer = new PreReqSecSecurityAnalyzer();
-				List<SecurityPattern> resultList = new ArrayList<>();
+				Map<SecurityPattern, List<Role>> result1 = new HashMap();
 				String output = "";
 				for (Object o : ((CCTabItem)curTabItem).viewer.getCheckedElements()) {
-					resultList.addAll(analyzer.analyze((EObject)o).getOne());
+					System.out.println(((Entity)o).getEntityName());
+					result1.putAll(analyzer.analyzeExtended((EObject)o).getOne());
+//					spList.addAll(analyzer.analyze((EObject)o).getOne());
 				}
-				for(SecurityPattern sp : resultList ) {
-					output = output + "\n" + sp.getName();
-					
-				}
-				((CCTabItem)curTabItem).lblNewLabel.setText(output);
-				((CCTabItem)curTabItem).lblNewLabel.getParent().layout();
-				((CCTabItem)curTabItem).lblNewLabel2.setText("");
-				((CCTabItem)curTabItem).lblNewLabel3.setText("");
-//				val rootContainer = EcoreUtil.getRootContainer(selection)
-//						val sysName = switch rootContainer {
-//						Entity : rootContainer.entityName
-//						default : rootContainer.toString
-//						}
-//						println("\n" + "Analyzing the system " + sysName + " for security vulnerabilities:")
-//						val analyzer = new PreReqSecSecurityAnalyzer()
-////						val analysisResultsPerObject = new ArrayList<Pair<List<SecurityPattern>, List<Attack>>> 
-//						rootContainer.eContents.forEach [
-//							// Analyze only AssemblyContexts, other EObjects are not relevant right now for the security analysis
-//							if (it !== null && it instanceof AssemblyContext) {
-//								prettyPrintAttacksPossible(analyzer.analyze(it), it)
-//							}
-//						]
+				((CCTabItem)curTabItem).resultStrucAnalysis = result1;
+				((CCTabItem)curTabItem).refresh();
+				
+//				for(SecurityPattern sp : spList ) {
+//					output = output + "\n" + sp.getName();
+//					
+//				}
+				System.out.println("All results cleared!");
+//				((CCTabItem)curTabItem).lblNewLabel.setText(output);
+//				((CCTabItem)curTabItem).lblNewLabel.getParent().layout();
+//				((CCTabItem)curTabItem).lblNewLabel2.setText("");
+//				((CCTabItem)curTabItem).lblNewLabel3.setText("");
+				
 			}
 		});
 		analysisMenu.add(new Action("Contextual Analysis") {
@@ -253,41 +249,66 @@ public class SecurityAnalysisWindow extends ApplicationWindow {
 				}
 				System.out.println();
 				PreReqSecSecurityAnalyzer analyzer = new PreReqSecSecurityAnalyzer();
-				Map<Entity, ArrayList<Attack>> resultMap = new HashMap<>();
-				List<SecurityPattern> resultList = new ArrayList<>();
-				String output = "";
+				
+				List<Label> spLabels = new ArrayList();
+				List<Label> vulLabels = new ArrayList();
+				String secMsg = "No unmitigated Prerequesite";
+//				Label secLabel = new Label(grpVulnerableElements, SWT.NONE);
+////				lblNewLabel.setBounds(0, 0, 56, 16);
+//				secLabel.setText("No unmitigated");
+//				lblNewLabel2.setLocation(20, 20);
+//				lblNewLabel2.pack();
+				
+				Map<SecurityPattern, List<Role>> result1 = new HashMap();
 				for (Object o : ((CCTabItem)curTabItem).viewer.getCheckedElements()) {
-					resultList.addAll(analyzer.analyze((EObject)o).getOne());
+					System.out.println(((Entity)o).getEntityName());
+					result1.putAll(analyzer.analyzeExtended((EObject)o).getOne());
 				}
-				for(SecurityPattern sp : resultList ) {
-					output = output + "\n" + sp.getName();
+				((CCTabItem)curTabItem).resultStrucAnalysis = result1;
+				
+				Map<Entity, List<Attack>> attackMap = new HashMap<>();
+				
+				
+
+				for (Object o : ((CCTabItem)curTabItem).viewer.getCheckedElements()) {
+					attackMap.put((Entity)o, analyzer.analyzeExtended((EObject)o).getTwo());
 					
 				}
-				for (Object o : ((CCTabItem)curTabItem).viewer.getCheckedElements()) {
-					resultMap.put((Entity)o, analyzer.analyze((EObject)o).getTwo());
-					
-				}
+				
+				List<Entity> safeE = new ArrayList();
 				String safe = "";
 				String vulnerable = "";
-				for (Map.Entry<Entity, ArrayList<Attack>> entry : resultMap.entrySet()) {
+				for (Entry<Entity, List<Attack>> entry : attackMap.entrySet()) {
 					if (entry.getValue().size() == 0) {
 						safe = safe + "\n" + entry.getKey().getEntityName();
-					} else {
-						vulnerable = vulnerable + "\n" + entry.getKey().getEntityName() + ":\n";
-						for (Attack a : entry.getValue()) {
-							vulnerable = vulnerable + "Attack " + a.getName() + " possible\n";
-						}
-					}
+						safeE.add(entry.getKey());
+					} 
+//					else {
+//						vulnerable = vulnerable + "\n" + entry.getKey().getEntityName() + ":\n";
+//						for (Attack a : entry.getValue()) {
+//							vulnerable = vulnerable + "Attack " + a.getName() + " possible\n";
+//						}
+//					}
 				}
-				((CCTabItem)curTabItem).lblNewLabel.setText(output);
-				((CCTabItem)curTabItem).lblNewLabel.getParent().layout();
-				((CCTabItem)curTabItem).lblNewLabel2.setText(vulnerable);
-				((CCTabItem)curTabItem).lblNewLabel2.getParent().layout();
-				((CCTabItem)curTabItem).lblNewLabel3.setText(safe);
-				((CCTabItem)curTabItem).lblNewLabel3.getParent().layout();
-				curTabItem.getParent().layout();
+				for (Entity e : safeE) {
+					attackMap.remove(e);
+				}
+				((CCTabItem)curTabItem).vulnElements = attackMap;
+				((CCTabItem)curTabItem).secureElements = safeE;
 				
-				System.out.println(output + "\n" + vulnerable + "\n" + safe);
+//				((CCTabItem)curTabItem).lblNewLabel.setText(output);
+//				((CCTabItem)curTabItem).lblNewLabel.getParent().layout();
+//				((CCTabItem)curTabItem).lblNewLabel2.setText(vulnerable);
+//				((CCTabItem)curTabItem).lblNewLabel2.getParent().layout();
+				
+				((CCTabItem)curTabItem).refresh();
+
+				
+//				((CCTabItem)curTabItem).lblNewLabel3.setText(safe);
+//				((CCTabItem)curTabItem).lblNewLabel3.getParent().requestLayout();
+				curTabItem.getParent().requestLayout();
+				
+//				System.out.println(output + "\n" + vulnerable + "\n" + safe);
 				
 			}
 		});

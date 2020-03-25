@@ -6,6 +6,7 @@ import com.google.common.collect.Iterables;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,6 +20,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.viatra.query.runtime.emf.EMFScope;
 import org.eclipse.xtext.xbase.lib.CollectionLiterals;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
+import org.eclipse.xtext.xbase.lib.InputOutput;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.modelversioning.emfprofileapplication.StereotypeApplication;
 import org.palladiosimulator.mdsdprofiles.api.StereotypeAPI;
@@ -70,6 +72,53 @@ public class PreReqSecSecurityAnalyzer {
           mitigatedPrerequisites.addAll(this.getMitigatedPrerequisites(it));
         } else {
           results.getOne().add(it);
+        }
+      };
+      this.getAnnotatedSecurityPatterns(component).forEach(_function);
+      unmitigatedPreq.removeAll(mitigatedPrerequisites);
+      boolean _isEmpty = unmitigatedPreq.isEmpty();
+      boolean _not = (!_isEmpty);
+      if (_not) {
+        ResourceSet _resourceSet = unmitigatedPreq.get(0).eResource().getResourceSet();
+        ResourceSet _resourceSet_1 = component.eResource().getResourceSet();
+        final HashSet<ResourceSet> scope = new HashSet<ResourceSet>(
+          Collections.<ResourceSet>unmodifiableList(CollectionLiterals.<ResourceSet>newArrayList(_resourceSet, _resourceSet_1)));
+        EMFScope _eMFScope_1 = new EMFScope(scope);
+        ModelQueryEngine _modelQueryEngine_1 = new ModelQueryEngine(_eMFScope_1);
+        this.engine = _modelQueryEngine_1;
+      }
+      results.getTwo().addAll(this.getPossibleAttacks(unmitigatedPreq));
+      _xblockexpression = results;
+    }
+    return _xblockexpression;
+  }
+  
+  public Pair<HashMap<SecurityPattern, List<Role>>, ArrayList<Attack>> analyzeExtended(final EObject component) {
+    Pair<HashMap<SecurityPattern, List<Role>>, ArrayList<Attack>> _xblockexpression = null;
+    {
+      Resource _eResource = component.eResource();
+      EMFScope _eMFScope = new EMFScope(_eResource);
+      ModelQueryEngine _modelQueryEngine = new ModelQueryEngine(_eMFScope);
+      this.engine = _modelQueryEngine;
+      List<Prerequisite> unmitigatedPreq = this.getAnnotatedPrerequisites(component);
+      HashMap<SecurityPattern, List<Role>> _hashMap = new HashMap<SecurityPattern, List<Role>>();
+      ArrayList<Attack> _arrayList = new ArrayList<Attack>();
+      final Pair<HashMap<SecurityPattern, List<Role>>, ArrayList<Attack>> results = Tuples.<HashMap<SecurityPattern, List<Role>>, ArrayList<Attack>>pair(_hashMap, _arrayList);
+      final ArrayList<Prerequisite> mitigatedPrerequisites = new ArrayList<Prerequisite>();
+      final Consumer<SecurityPattern> _function = (SecurityPattern it) -> {
+        boolean _equals = Objects.equal(it, null);
+        if (_equals) {
+          InputOutput.<String>println("nullll");
+          return;
+        } else {
+          InputOutput.<String>println("correct pattern!");
+        }
+        boolean _patternCorrectlyApplied = this.patternCorrectlyApplied(it);
+        if (_patternCorrectlyApplied) {
+          mitigatedPrerequisites.addAll(this.getMitigatedPrerequisites(it));
+        } else {
+          final List<Role> unappliedRoles = this.getUnappliedRoles(it);
+          results.getOne().put(it, unappliedRoles);
         }
       };
       this.getAnnotatedSecurityPatterns(component).forEach(_function);
@@ -205,5 +254,36 @@ public class PreReqSecSecurityAnalyzer {
       return Boolean.valueOf((it != null));
     };
     return IterableExtensions.<Object>toList(Iterables.<Object>concat(IterableExtensions.<Iterable<?>>filter(IterableExtensions.<StereotypeApplication, Iterable<?>>map(this.engine.getAllStereotypeApplications(), _function), _function_1))).containsAll(pattern.getRoles());
+  }
+  
+  private List<Role> getUnappliedRoles(final SecurityPattern pattern) {
+    ArrayList<Role> _xblockexpression = null;
+    {
+      final Function1<StereotypeApplication, Iterable<?>> _function = (StereotypeApplication it) -> {
+        Object _xifexpression = null;
+        if ((((it != null) && (it.getStereotype() != null)) && Objects.equal(it.getStereotype().getName(), PreReqSecSecurityAnalyzer.SECURITY_PATTERN_NAME))) {
+          return StereotypeAPI.<Iterable<?>>getTaggedValue(it.getAppliedTo(), PreReqSecSecurityAnalyzer.SECURITY_PATTERN_VALUE_NAME, PreReqSecSecurityAnalyzer.SECURITY_PATTERN_NAME);
+        } else {
+          _xifexpression = null;
+        }
+        return ((Iterable<?>)_xifexpression);
+      };
+      final Function1<Iterable<?>, Boolean> _function_1 = (Iterable<?> it) -> {
+        return Boolean.valueOf((it != null));
+      };
+      final List<Object> allARoles = IterableExtensions.<Object>toList(Iterables.<Object>concat(IterableExtensions.<Iterable<?>>filter(IterableExtensions.<StereotypeApplication, Iterable<?>>map(this.engine.getAllStereotypeApplications(), _function), _function_1)));
+      ArrayList<Role> tmp = new ArrayList<Role>();
+      EList<Role> _roles = pattern.getRoles();
+      for (final Role r : _roles) {
+        boolean _contains = allARoles.contains(r);
+        boolean _not = (!_contains);
+        if (_not) {
+          tmp.add(r);
+          InputOutput.<String>println(r.getName());
+        }
+      }
+      _xblockexpression = tmp;
+    }
+    return _xblockexpression;
   }
 }

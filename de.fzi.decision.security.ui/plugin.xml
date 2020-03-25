@@ -24,7 +24,7 @@
 		   class="de.fzi.decision.security.ui.analysis.window.Main"
 		   enablesFor="*"
 		   id="de.fzi.decision.security.ui.analysiswindow"
-		   label="PCM Security Analysis Window"
+		   label="PreReqSec Dialog"
 		   menubarPath="additions">
 		 </action>
 	  </objectContribution>
