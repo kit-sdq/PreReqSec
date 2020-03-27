@@ -1,4 +1,4 @@
-package de.fzi.decision.security.ui.analysis.window;
+package de.fzi.decision.security.ui.analysis.dialog;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.swt.widgets.Display;

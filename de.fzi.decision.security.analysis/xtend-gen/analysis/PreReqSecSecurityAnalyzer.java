@@ -106,19 +106,11 @@ public class PreReqSecSecurityAnalyzer {
       final Pair<HashMap<SecurityPattern, List<Role>>, ArrayList<Attack>> results = Tuples.<HashMap<SecurityPattern, List<Role>>, ArrayList<Attack>>pair(_hashMap, _arrayList);
       final ArrayList<Prerequisite> mitigatedPrerequisites = new ArrayList<Prerequisite>();
       final Consumer<SecurityPattern> _function = (SecurityPattern it) -> {
-        boolean _equals = Objects.equal(it, null);
-        if (_equals) {
-          InputOutput.<String>println("nullll");
-          return;
-        } else {
-          InputOutput.<String>println("correct pattern!");
-        }
         boolean _patternCorrectlyApplied = this.patternCorrectlyApplied(it);
         if (_patternCorrectlyApplied) {
           mitigatedPrerequisites.addAll(this.getMitigatedPrerequisites(it));
         } else {
-          final List<Role> unappliedRoles = this.getUnappliedRoles(it);
-          results.getOne().put(it, unappliedRoles);
+          results.getOne().put(it, this.getUnappliedRoles(it));
         }
       };
       this.getAnnotatedSecurityPatterns(component).forEach(_function);

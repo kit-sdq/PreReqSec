@@ -1,4 +1,4 @@
-package de.fzi.decision.security.ui.analysis.window;
+package de.fzi.decision.security.ui.analysis.dialog;
 
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.StatusLineManager;
@@ -296,20 +296,9 @@ public class SecurityAnalysisWindow extends ApplicationWindow {
 				((CCTabItem)curTabItem).vulnElements = attackMap;
 				((CCTabItem)curTabItem).secureElements = safeE;
 				
-//				((CCTabItem)curTabItem).lblNewLabel.setText(output);
-//				((CCTabItem)curTabItem).lblNewLabel.getParent().layout();
-//				((CCTabItem)curTabItem).lblNewLabel2.setText(vulnerable);
-//				((CCTabItem)curTabItem).lblNewLabel2.getParent().layout();
-				
 				((CCTabItem)curTabItem).refresh();
 
-				
-//				((CCTabItem)curTabItem).lblNewLabel3.setText(safe);
-//				((CCTabItem)curTabItem).lblNewLabel3.getParent().requestLayout();
-				curTabItem.getParent().requestLayout();
-				
-//				System.out.println(output + "\n" + vulnerable + "\n" + safe);
-				
+				curTabItem.getParent().requestLayout();				
 			}
 		});
 		return analysisMenu;

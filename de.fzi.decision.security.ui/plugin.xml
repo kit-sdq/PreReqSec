@@ -21,7 +21,7 @@
 		   menubarPath="additions">
 		 </action>
 		 <action
-		   class="de.fzi.decision.security.ui.analysis.window.Main"
+		   class="de.fzi.decision.security.ui.analysis.dialog.Main"
 		   enablesFor="*"
 		   id="de.fzi.decision.security.ui.analysiswindow"
 		   label="PreReqSec Dialog"

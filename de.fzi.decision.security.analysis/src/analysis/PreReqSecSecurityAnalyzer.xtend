@@ -2,9 +2,12 @@ package analysis
 
 import java.util.ArrayList
 import java.util.Collection
-import java.util.HashSet
 import java.util.HashMap
+import java.util.HashSet
 import java.util.List
+import org.eclipse.collections.api.tuple.Pair
+import org.eclipse.collections.impl.tuple.Tuples
+import org.eclipse.emf.common.util.EList
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.viatra.query.runtime.emf.EMFScope
@@ -13,11 +16,6 @@ import security.securityPatterns.Role
 import security.securityPatterns.SecurityPattern
 import security.securityPrerequisites.Prerequisite
 import security.securityThreats.Attack
-import org.eclipse.emf.common.util.EList
-import org.eclipse.collections.impl.tuple.Tuples
-import org.eclipse.collections.api.tuple.Pair
-import java.util.Map
-import org.palladiosimulator.pcm.core.entity.Entity
 
 /**
  * PreReqSecSecurityAnalyzer provides security analysis capabilities 
@@ -77,26 +75,11 @@ class PreReqSecSecurityAnalyzer {
 
 		val mitigatedPrerequisites = new ArrayList<Prerequisite>()
 		getAnnotatedSecurityPatterns(component).forEach [
-			if (it == null) {
-				println("nullll")
-				return
-			} else {
-				println("correct pattern!")
-			}
 			if (patternCorrectlyApplied(it)) 
 				mitigatedPrerequisites.addAll(this.getMitigatedPrerequisites(it))
 			else {
-				val unappliedRoles = getUnappliedRoles(it)
-				results.getOne.put(it, unappliedRoles)
+				results.getOne.put(it, getUnappliedRoles(it))
 			}
-			
-			// check if all roles of the pattern are applied anywhere in the model
-//			val unappliedRoles = getUnappliedRoles(it)
-//			if (unappliedRoles.empty) {
-//				mitigatedPrerequisites.addAll(this.getMitigatedPrerequisites(it))
-//			} else {
-//				results.getOne.put(it, unappliedRoles)
-//			}
 		]
 		unmitigatedPreq.removeAll(mitigatedPrerequisites)
 
@@ -108,7 +91,6 @@ class PreReqSecSecurityAnalyzer {
 			engine = new ModelQueryEngine(new EMFScope(scope));
 		}
 		results.getTwo.addAll(getPossibleAttacks(unmitigatedPreq))
-//		results.getTwo.putAll(getPossibleAttacksExtended(unmitigatedPreq))
 		results
 	}
 
@@ -233,16 +215,5 @@ class PreReqSecSecurityAnalyzer {
 			}
 		}
 		tmp
-		
-		
-//		tmp.roles.removeAll(engine.allStereotypeApplications.map[
-//			if (it !== null && it.stereotype !== null && it.stereotype.name == SECURITY_PATTERN_NAME)
-//				return StereotypeAPI.getTaggedValue(it.appliedTo, SECURITY_PATTERN_VALUE_NAME, SECURITY_PATTERN_NAME)
-//			else
-//				null
-//		].filter[
-//			it !== null
-//		].flatten.toList)
-//		tmp.roles   
 	}
 }

@@ -18,7 +18,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.collections;bundle-version="9.1.0"
 Automatic-Module-Name: de.fzi.decision.security.ui
 Export-Package: de.fzi.decision.security.ui.analysis,
- de.fzi.decision.security.ui.analysis.window,
+ de.fzi.decision.security.ui.analysis.dialog,
  org.eclipse.wb.swt
 Bundle-ClassPath: .,
  swing2swt.jar
