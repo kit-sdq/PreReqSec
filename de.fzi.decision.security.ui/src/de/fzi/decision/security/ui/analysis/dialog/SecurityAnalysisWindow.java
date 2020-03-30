@@ -157,7 +157,7 @@ public class SecurityAnalysisWindow extends ApplicationWindow {
 
 	protected MenuManager createFileMenu() {
 		MenuManager fileMenu = new MenuManager("&File", "Id01");
-		fileMenu.add(new Action("&Open\tCtrl+O") {
+		fileMenu.add(new Action("&Open") {
 
 			public void run() {
 				FileDialog fd = new FileDialog(getShell(), SWT.OPEN);
@@ -184,7 +184,7 @@ public class SecurityAnalysisWindow extends ApplicationWindow {
 				
 			}
 		});
-		fileMenu.add(new Action("&Save\tCtrl+S") {
+		fileMenu.add(new Action("&Save") {
 
 			public void run() {
 				FileDialog fd = new FileDialog(getShell(), SWT.SAVE);
@@ -193,15 +193,10 @@ public class SecurityAnalysisWindow extends ApplicationWindow {
 				String[] filterExt = { "*.txt", "*.*" };
 				fd.setFilterExtensions(filterExt);
 				String selected = fd.open();
-//				try {
-//					PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(selected, true)));
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//					new FileWriter()
-//				}
 				try {
 				    final Path path = Paths.get(selected);
-				    Files.write(path, Arrays.asList("New line to append"), StandardCharsets.UTF_8,
+				    String[] results = ((CCTabItem)curTabItem).saveResults().split("\\r?\\n", -1);
+				    Files.write(path, Arrays.asList(results), StandardCharsets.UTF_8,
 				        Files.exists(path) ? StandardOpenOption.APPEND : StandardOpenOption.CREATE);
 				} catch (final IOException e) {
 					e.printStackTrace();
@@ -226,7 +221,7 @@ public class SecurityAnalysisWindow extends ApplicationWindow {
 					result1.putAll(analyzer.analyzeExtended((EObject)o).getOne());
 //					spList.addAll(analyzer.analyze((EObject)o).getOne());
 				}
-				((CCTabItem)curTabItem).resultStrucAnalysis = result1;
+				((CCTabItem)curTabItem).incorrectlyAppliedPatterns = result1;
 				((CCTabItem)curTabItem).refresh();
 				
 //				for(SecurityPattern sp : spList ) {
@@ -264,7 +259,7 @@ public class SecurityAnalysisWindow extends ApplicationWindow {
 					System.out.println(((Entity)o).getEntityName());
 					result1.putAll(analyzer.analyzeExtended((EObject)o).getOne());
 				}
-				((CCTabItem)curTabItem).resultStrucAnalysis = result1;
+				((CCTabItem)curTabItem).incorrectlyAppliedPatterns = result1;
 				
 				Map<Entity, List<Attack>> attackMap = new HashMap<>();
 				
@@ -324,18 +319,6 @@ public class SecurityAnalysisWindow extends ApplicationWindow {
 		StatusLineManager statusLineManager = new StatusLineManager();
 		return statusLineManager;
 	}
-
-//	/**
-//	 * Launch the application.
-//	 * @param args
-//	 */
-//	public static void main(String args[]) {
-//		try {
-//			Test window = new Test();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
 
 	/**
 	 * Configure the shell.

@@ -12,7 +12,7 @@ import org.eclipse.ui.actions.ActionDelegate;
 public class Main extends ActionDelegate implements IActionDelegate {
 
 	/**
-	 * Executed once the context menu item is clicked. Just calls the main ApplicationWIndow of the UI.
+	 * Executed once the context menu item is clicked. Just calls the main ApplicationWindow of the UI.
 	 * This class is the entry point of the whole UI window.
 	 */
 	public void run(IAction action) {
@@ -26,7 +26,6 @@ public class Main extends ActionDelegate implements IActionDelegate {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		new SecurityAnalysisWindow();
 	}
 
 }
