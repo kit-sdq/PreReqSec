@@ -24,7 +24,7 @@
 		   class="de.fzi.decision.security.ui.analysis.dialog.Main"
 		   enablesFor="*"
 		   id="de.fzi.decision.security.ui.analysiswindow"
-		   label="PreReqSec Dialog"
+		   label="PReqSec Dialog"
 		   menubarPath="additions">
 		 </action>
 	  </objectContribution>
