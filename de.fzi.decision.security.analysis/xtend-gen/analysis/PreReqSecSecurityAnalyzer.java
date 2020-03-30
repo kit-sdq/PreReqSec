@@ -20,7 +20,6 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.viatra.query.runtime.emf.EMFScope;
 import org.eclipse.xtext.xbase.lib.CollectionLiterals;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
-import org.eclipse.xtext.xbase.lib.InputOutput;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.modelversioning.emfprofileapplication.StereotypeApplication;
 import org.palladiosimulator.mdsdprofiles.api.StereotypeAPI;
@@ -49,10 +48,11 @@ public class PreReqSecSecurityAnalyzer {
   
   /**
    * Analyzes the attack surface of given element according to the PreReqSec methodology
-   * and returns a List of possible Attacks
+   * and returns a List of possible Attacks as well as map  with incorrectly applied security pattern.
    * 
    * @param component The element on which the security analysis should be executed
-   * @return A list of possible attacks on the given element
+   * @return A pair that consists of a list of incorrectly applied security pattern as well as a
+   * 			 list of possible attacks on the given element
    */
   public Pair<ArrayList<SecurityPattern>, ArrayList<Attack>> analyze(final EObject component) {
     Pair<ArrayList<SecurityPattern>, ArrayList<Attack>> _xblockexpression = null;
@@ -93,6 +93,16 @@ public class PreReqSecSecurityAnalyzer {
     return _xblockexpression;
   }
   
+  /**
+   * Analyzes the attack surface of given element according to the PreReqSec methodology
+   * and returns a List of possible Attacks as well as map  with incorrectly applied security pattern
+   * and specific unapplied roles.
+   * 
+   * @param component The element on which the security analysis should be executed
+   * @return A pair that consists of a map of incorrectly applied security pattern
+   * 			with the specific unapplied roles
+   * 		 		as well as a list of possible attacks on the given element
+   */
   public Pair<HashMap<SecurityPattern, List<Role>>, ArrayList<Attack>> analyzeExtended(final EObject component) {
     Pair<HashMap<SecurityPattern, List<Role>>, ArrayList<Attack>> _xblockexpression = null;
     {
@@ -248,6 +258,9 @@ public class PreReqSecSecurityAnalyzer {
     return IterableExtensions.<Object>toList(Iterables.<Object>concat(IterableExtensions.<Iterable<?>>filter(IterableExtensions.<StereotypeApplication, Iterable<?>>map(this.engine.getAllStereotypeApplications(), _function), _function_1))).containsAll(pattern.getRoles());
   }
   
+  /**
+   * Similar to method patternCorrectlyApplied() but returns instead the incorrectly applied roles.
+   */
   private List<Role> getUnappliedRoles(final SecurityPattern pattern) {
     ArrayList<Role> _xblockexpression = null;
     {
@@ -271,7 +284,6 @@ public class PreReqSecSecurityAnalyzer {
         boolean _not = (!_contains);
         if (_not) {
           tmp.add(r);
-          InputOutput.<String>println(r.getName());
         }
       }
       _xblockexpression = tmp;

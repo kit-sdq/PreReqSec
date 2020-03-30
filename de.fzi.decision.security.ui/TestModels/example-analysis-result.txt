@@ -1,0 +1,41 @@
+Results of the security analysis for the current system: CoCoME-Cloud
+
+Results of the structural analysis: 
+
+	Security pattern: Authenticator is not correctly applied!
+		Role: Authentication Information is not correctly applied!
+		Role: Proof of Identity is not correctly applied!
+
+Results of the contextual analysis: 
+
+	The element: Assembly_org.cocome.cloud.web <org.cocome.cloud.web> is vulnerable!
+		The attack: TCPSYNFlooding is possible!
+			The prerequisite: WebApplication is unmitigated!
+			The prerequisite: TCPUsage is unmitigated!
+
+	The element: Assembly_org.cocome.tradingsystem.inventory <org.cocome.tradingsystem.inventory> is vulnerable!
+		The attack: SQLInjection is possible!
+			The prerequisite: Interpreter is unmitigated!
+			The prerequisite: SQLDatabase is unmitigated!
+			The prerequisite: UntrustedInputEncryption is unmitigated!
+			The prerequisite: UntrustedInputInSQLQueries is unmitigated!
+			The prerequisite: UntrustedInputToInterpreter is unmitigated!
+			The prerequisite: UntrustedInputParameterised is unmitigated!
+			The prerequisite: UntrustedInput is unmitigated!
+			The prerequisite: SoftwareUpToDate is unmitigated!
+			The prerequisite: UnnecessaryFeaturesInstalled is unmitigated!
+			The prerequisite: DefaultAccounts is unmitigated!
+			The prerequisite: InformationFromErrorMessages is unmitigated!
+			The prerequisite: UntrustedInputForCommands is unmitigated!
+
+	The element: Assembly_org.cocome.cloud.logic.webservice.cashdeskline.cashdeskservice <org.cocome.cloud.logic.webservice.cashdeskline.cashdeskservice> is vulnerable!
+		The attack: Man-in-the-Middle is possible!
+			The prerequisite: EncryptionOfConnections is unmitigated!
+			The prerequisite: Lack of strong authentication is unmitigated!
+			The prerequisite: Default Protocols is unmitigated!
+			The prerequisite: Connection not trusted is unmitigated!
+			The prerequisite: Legitimacy not checked is unmitigated!
+
+	The element: Assembly_org.cocome.tradingsystem.external.Bank <org.cocome.tradingsystem.external.Bank> is secure!
+	The element: Assembly_org.cocome.cloud.webservice.inventory <org.cocome.cloud.webservice.inventory> is secure!
+	The element: Assembly_org.cocome.tradingsystem.cashdeskline <org.cocome.tradingsystem.cashdeskline> is secure!

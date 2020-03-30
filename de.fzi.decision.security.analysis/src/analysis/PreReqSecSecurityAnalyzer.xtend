@@ -31,14 +31,14 @@ class PreReqSecSecurityAnalyzer {
 	private static String PREREQ_VALUE_NAME = "prerequisites"
 
 	private ModelQueryEngine engine
-	
 
 	/**
 	 * Analyzes the attack surface of given element according to the PreReqSec methodology
-	 * and returns a List of possible Attacks
+	 * and returns a List of possible Attacks as well as map  with incorrectly applied security pattern.
 	 *  
 	 * @param component The element on which the security analysis should be executed
-	 * @return A list of possible attacks on the given element
+	 * @return A pair that consists of a list of incorrectly applied security pattern as well as a
+	 * 			 list of possible attacks on the given element
 	 */
 	def Pair<ArrayList<SecurityPattern>, ArrayList<Attack>> analyze(EObject component) {
 		engine = new ModelQueryEngine(new EMFScope(component.eResource))
@@ -49,7 +49,7 @@ class PreReqSecSecurityAnalyzer {
 		val mitigatedPrerequisites = new ArrayList<Prerequisite>()
 		getAnnotatedSecurityPatterns(component).forEach [
 			// check if all roles of the pattern are applied anywhere in the model
-			if (patternCorrectlyApplied(it)) 
+			if (patternCorrectlyApplied(it))
 				mitigatedPrerequisites.addAll(this.getMitigatedPrerequisites(it))
 			else {
 				results.getOne.add(it)
@@ -67,7 +67,17 @@ class PreReqSecSecurityAnalyzer {
 		results.getTwo.addAll(getPossibleAttacks(unmitigatedPreq))
 		results
 	}
-	
+
+	/**
+	 * Analyzes the attack surface of given element according to the PreReqSec methodology
+	 * and returns a List of possible Attacks as well as map  with incorrectly applied security pattern 
+	 * and specific unapplied roles.
+	 *  
+	 * @param component The element on which the security analysis should be executed
+	 * @return A pair that consists of a map of incorrectly applied security pattern 
+	 * 			with the specific unapplied roles
+	 * 		 		as well as a list of possible attacks on the given element
+	 */
 	def Pair<HashMap<SecurityPattern, List<Role>>, ArrayList<Attack>> analyzeExtended(EObject component) {
 		engine = new ModelQueryEngine(new EMFScope(component.eResource))
 		var unmitigatedPreq = getAnnotatedPrerequisites(component)
@@ -75,7 +85,7 @@ class PreReqSecSecurityAnalyzer {
 
 		val mitigatedPrerequisites = new ArrayList<Prerequisite>()
 		getAnnotatedSecurityPatterns(component).forEach [
-			if (patternCorrectlyApplied(it)) 
+			if (patternCorrectlyApplied(it))
 				mitigatedPrerequisites.addAll(this.getMitigatedPrerequisites(it))
 			else {
 				results.getOne.put(it, getUnappliedRoles(it))
@@ -158,7 +168,7 @@ class PreReqSecSecurityAnalyzer {
 		else
 			#[]
 	}
-	
+
 	/**
 	 * Finds all Attacks whose required Prerequisites are a subset of the unmitigated Prerequisites.
 	 * @param unmitigatedPrerequisites All Prerequisites that are satisfied in the current context
@@ -170,7 +180,7 @@ class PreReqSecSecurityAnalyzer {
 			unmitigatedPrerequisites.containsAll(it.prerequisites)
 		].toList
 	}
-	
+
 //	private def getPossibleAttacksExtended(Collection<Prerequisite> unmitigatedPrerequisites) {
 //		val unmitigatedPreqPerAttack = new HashMap<Attack, List<Prerequisite>>
 //		engine.getAttacksByPrerequisites(unmitigatedPrerequisites).toList.forEach [
@@ -180,7 +190,6 @@ class PreReqSecSecurityAnalyzer {
 //		]
 //		unmitigatedPreqPerAttack
 //	}
-	
 	/**
 	 * Evaluates if the given pattern is correctly applied by querying all applied PatternRole stereotypes of the instance.
 	 * A pattern is deemed correctly applied if each role is assigned at least once!
@@ -188,32 +197,35 @@ class PreReqSecSecurityAnalyzer {
 	 * @returns true if pattern is correctly applied
 	 */
 	private def boolean patternCorrectlyApplied(SecurityPattern pattern) {
-		engine.allStereotypeApplications.map[
+		engine.allStereotypeApplications.map [
 			if (it !== null && it.stereotype !== null && it.stereotype.name == SECURITY_PATTERN_NAME)
 				return StereotypeAPI.getTaggedValue(it.appliedTo, SECURITY_PATTERN_VALUE_NAME, SECURITY_PATTERN_NAME)
 			else
 				null
-		].filter[
+		].filter [
 			it !== null
 		].flatten.toList.containsAll(pattern.roles)
 	}
-	
+
+	/**
+ 	 *  Similar to method patternCorrectlyApplied() but returns instead the incorrectly applied roles.
+	 */
 	private def List<Role> getUnappliedRoles(SecurityPattern pattern) {
-		val allARoles = engine.allStereotypeApplications.map[
+		val allARoles = engine.allStereotypeApplications.map [
 			if (it !== null && it.stereotype !== null && it.stereotype.name == SECURITY_PATTERN_NAME)
 				return StereotypeAPI.getTaggedValue(it.appliedTo, SECURITY_PATTERN_VALUE_NAME, SECURITY_PATTERN_NAME)
 			else
 				null
-		].filter[
+		].filter [
 			it !== null
 		].flatten.toList
 		var tmp = new ArrayList<Role>()
 		for (Role r : pattern.roles) {
 			if (!allARoles.contains(r)) {
 				tmp.add(r)
-				println(r.name)
 			}
 		}
 		tmp
 	}
+
 }

@@ -1,6 +1,8 @@
 package de.fzi.decision.security.ui.analysis
 
-import java.util.List
+import analysis.PreReqSecSecurityAnalyzer
+import java.util.ArrayList
+import org.eclipse.collections.api.tuple.Pair
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.jface.action.IAction
 import org.eclipse.jface.viewers.ISelection
@@ -8,12 +10,8 @@ import org.eclipse.jface.viewers.IStructuredSelection
 import org.eclipse.ui.IActionDelegate
 import org.eclipse.ui.actions.ActionDelegate
 import org.palladiosimulator.pcm.core.entity.Entity
-import security.securityThreats.Attack
-import analysis.PreReqSecSecurityAnalyzer
-import java.util.ArrayList
 import security.securityPatterns.SecurityPattern
-import org.eclipse.collections.api.tuple.Pair
-
+import security.securityThreats.Attack
 
 /**
  * Controls the security analysis in the editor
